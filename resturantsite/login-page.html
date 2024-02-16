@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+  <form action="https://snakeladder1.azurewebsites.net/login" method="get" onsubmit="handleLogin(event)">
+      <label for="email">Email:</label>
+      <input type="text" name="email" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" name="password" required>
+      <br>
+      <button type="submit">Login</button>
+  </form>
+  <script>
+      function handleLogin(event) {
+          event.preventDefault();
+
+          const email = document.querySelector('input[name="email"]').value;
+          const password = document.querySelector('input[name="password"]').value;
+
+          fetch(`https://snakeladder1.azurewebsites.net/login?email=${email}&password=${password}`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+          })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      // Store login status locally
+                      localStorage.setItem('isLoggedIn', 'true');
+                      window.location.href = 'index.html';
+                  } else {
+                      console.log("Login failed:", data.message);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+      }
+  </script>
+</body>
+
+</html>
