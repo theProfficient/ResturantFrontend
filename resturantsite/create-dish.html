@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <!--=============== basic  ===============-->
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>WantEat - Responsive Restaurant / Cafe / Pub Template</title>
+    <!--=============== css  ===============-->    
+    <link type="text/css" rel="stylesheet" href="css/plugins.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <!--=============== favicons ===============-->
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .add-dish-form {
+            max-width: 400px;
+            margin: 200px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+        .add-dish-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .add-dish-form input[type="text"],
+        .add-dish-form input[type="number"],
+        .add-dish-form textarea,
+        .add-dish-form input[type="file"],
+        .add-dish-form button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .add-dish-form input[type="file"] {
+            margin-top: 10px; /* Separate file input from radio buttons */
+        }
+        .add-dish-form .radio-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .add-dish-form .radio-buttons label {
+            margin-right: 10px;
+        }
+        .add-dish-form .radio-buttons input[type="file"] {
+            flex: 1; /* Allow file input to take remaining space */
+            margin-left: 10px; /* Add space between radio buttons and file input */
+        }
+        .add-dish-form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .add-dish-form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .menu-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-dropdown input[name="menuName"] {
+    width: calc(100% - 20px); /* Adjust according to your design */
+    padding-right: 40px; /* Adjust according to your design */
+}
+
+.dropdown-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px; /* Adjust according to your design */
+    height: 100%;
+    background-color: #f4f4f4; /* Adjust according to your design */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.menu-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    display: none;
+}
+
+.menu-options.active {
+    display: block;
+}
+
+.menu-options ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-options li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.menu-options li:hover {
+    background-color: #f4f4f4;
+}
+
+    </style>
+</head>
+<body>
+    <!--loader-->
+    <div class="main-loader">
+        <div class="loader-wrap">
+            <span class="loader"></span>
+        </div>
+    </div>
+    <!--loader end-->
+    <!--  main   -->
+    <div id="main">
+        <a href="index.html" class="logo-holder"><img src="images/logo.png" alt=""></a>
+        <!--  header  -->
+        <header class="header_half">
+            <div class="header-inner">
+                <div class="header-top_contacts"><a href="#"><span>Call now:</span> +489756412322</a><a href="#"><span>Write :</span> yourmail@domain.com</a></div>
+                <div class="share-btn show-share isShare"></div>
+                <div class="cart-btn sc_btn"><strong> Your Cart</strong><i class="fa-thin fa-basket-shopping-simple"></i><span class="cart-btn_counter">0</span></div>
+                <div class="nav-button_wrap isvis_hid_menu">
+                    <div class="nav-button"><span></span></div>
+                </div>
+                <!-- share-wrapper-->  
+                <div class="share-wrapper share-wrapper_half">
+                    <div class="share-inner">
+                        <div class="share-container"></div>
+                    </div>
+                </div>
+                <!-- share-wrapper end -->                                   
+            </div>
+        </header>
+        <!--  header end  -->
+        <!--  header end  -->
+        <!--  navigation -->
+        <div class="hidden_menu-container">
+            <div class="nav-wrapper isvis_menu hiddenmenu">
+                <div class="nav-separator"><span></span></div>
+                <div class="nav-wrap">
+                    <div class="fl-wrap">
+                        <div class="nav_dec"><span></span></div>
+                    </div>
+                    <div class="nav-container fl-wrap">
+                        <!-- nav -->
+                        <nav class="nav-inner" id="menu_init">
+                            <ul>
+                                <li>
+                                    <a href="index4.html" class="act-link">Home </a>
+                                </li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="menu.html">  Menu</a></li>
+                                <li><a href="contacts.html">Contacts</a></li>
+                                <li><a href="blog.html">Blog</a></li>
+                            </ul>
+                        </nav>
+                        <!-- nav end-->
+                    </div>
+                    <div class="fl-wrap">
+                        <div class="nav_dec nd_bottom"><span></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="body-ovelay  fs-wrapper"></div>
+        </div>
+
+         <!-- Add dish form -->
+         <div class="add-dish-form">
+            <h2>Add a New Dish</h2>
+            <form id="addDishForm">
+                <div class="menu-dropdown">
+                    <input type="text" name="menuName" placeholder="Select Category " required readonly>
+                    <div class="dropdown-icon">
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                    <div class="menu-options">
+                        <!-- Options will be dynamically populated here -->
+                    </div>
+                </div>
+                <br>
+                <input type="text" name="name" placeholder="Dish Name" required><br>
+                <input type="number" name="price" placeholder="Price" required><br>
+                <textarea name="desc" placeholder="Description"></textarea><br>
+                <div class="radio-buttons">
+                    <label><input type="radio" name="veg" value="true"> Veg</label>
+                    <label><input type="radio" name="veg" value="false"> Non-Veg</label>
+                    <input type="file" name="dishImage" accept="image/*" required>
+                </div>
+                <button type="submit">Add Dish</button>
+            </form>
+        </div>        
+        </div>
+        <!--  navigation  end-->                                
+       
+        <!-- Main end -->
+        <!--=============== scripts  ===============-->   
+        <script  src="js/jquery.min.js"></script>
+        <script  src="js/plugins.js"></script>
+        <script  src="js/scripts.js"></script>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+    const dropdownIcon = document.querySelector('.dropdown-icon');
+    const menuOptions = document.querySelector('.menu-options');
+
+    // Fetch menu options from the backend API
+    fetch("http://localhost:4000/api/v1/getMenu")
+        .then(response => response.json())
+        .then(data => {
+            const optionsHTML = data.data.map(menu => `<li>${menu.menuType}</li>`).join('');
+            menuOptions.innerHTML = `<ul>${optionsHTML}</ul>`;
+        })
+        .catch(error => {
+            console.error('Error fetching menu options:', error);
+        });
+
+    // Toggle menu options visibility when dropdown icon is clicked
+    dropdownIcon.addEventListener('click', function() {
+        menuOptions.classList.toggle('active');
+    });
+
+    // Handle menu option selection
+    menuOptions.addEventListener('click', function(event) {
+        if (event.target.tagName === 'LI') {
+            const selectedMenu = event.target.textContent;
+            document.querySelector('input[name="menuName"]').value = selectedMenu;
+            menuOptions.classList.remove('active');
+        }
+    });
+
+    // Close menu options if user clicks outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.menu-dropdown')) {
+            menuOptions.classList.remove('active');
+        }
+    });
+});
+
+        </script>
+        
+        <script>
+            $(document).ready(function() {
+                // Handle form submission
+                $('#addDishForm').submit(function(event) {
+                    event.preventDefault();
+                    var formData = new FormData($(this)[0]);
+                    $.ajax({
+                        url: 'http://localhost:4000/api/v1/createDish',
+                        type: 'POST',
+                        data: formData,
+                        async: false,
+                        success: function (response) {
+                            console.log(response);
+                            $('#addDishForm')[0].reset(); //reset input field
+                            // Handle success response
+                            window.alert("New Dish Introduced Successfully")
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(xhr.responseText);
+                            // Handle error response
+                            alert("Error: " + xhr.responseText); // Show error message
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false
+                    });
+                    return false;
+                });
+            });
+        </script>
+        
+    </body>
+</html>
