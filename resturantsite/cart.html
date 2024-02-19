@@ -108,7 +108,8 @@
                                     <div class="col-md-5">
                                         <div class="total-box">
                                             <span class="total-item" id="total-price">Total:  $0</span>
-                                            <a href="checkout.html" class="sb-det_btn">Proceed to Checkout</a>    
+                                            <!-- <a href="checkout.html" class="sb-det_btn">Proceed to Checkout</a>     -->
+                                            <a href="checkout.html" class="sb-det_btn">Order</a> 
                                         </div>
                                     </div>
                                 </div>
@@ -243,10 +244,19 @@
                     cartItems.push(itemsArray);
                 }
             }
+            updateCartUI(cartItems.length);
+        
+            // Update cart icon and count
+            function updateCartUI(itemQuantity) {
+                const cartItemCount = document.getElementById('cart-item-count');
+                cartItemCount.textContent = itemQuantity ;
+            }
         
             // Flatten the cartItems array if necessary
             const flattenedCartItems = cartItems.flat();
-        
+        //total amount 
+
+        let totalAmout ;
             // Function to dynamically generate table rows for cart items
             function generateCartRows(cartItems) {
                 const tableBody = document.querySelector('.checkout-table tbody');
@@ -269,7 +279,7 @@
                 tableBody.appendChild(headerRow);
         
                 // Loop through cart items and generate table rows
-                cartItems.forEach(item => {
+                cartItems.forEach((item, index) => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="hidden-xs">
@@ -292,7 +302,7 @@
                             <h5 class="order-money">$${item.price * item.quantity}</h5>
                         </td>
                         <td class="pr-remove">
-                            <a href="#" title="Remove"><i class="fas fa-times"></i></a>
+                            <a href="#" title="Remove" data-index="${index}"><i class="fas fa-times"></i></a>
                         </td>
                     `;
         
@@ -303,13 +313,7 @@
                     tableBody.appendChild(row);
                 });
         
-                // Add event listeners for count increment and decrement
-                const countInputs = document.querySelectorAll('.order-count');
-                countInputs.forEach(input => {
-                    input.addEventListener('change', updateTotalPrice);
-                });
-        
-                function updateTotalPrice() {
+                totalAmout = function updateTotalPrice() {
                     totalPrice = 0;
                     countInputs.forEach((input, index) => {
                         const itemTotal = input.value * flattenedCartItems[index].price;
@@ -318,6 +322,14 @@
                     });
                     totalPriceElement.textContent = `Total: $${totalPrice}`;
                 }
+
+                // Add event listeners for count increment and decrement
+                const countInputs = document.querySelectorAll('.order-count');
+                countInputs.forEach(input => {
+                    input.addEventListener('change', totalAmout);
+                });
+        
+              
         
                 // Add event listeners for increment and decrement buttons
                 const decrementBtns = document.querySelectorAll('.count-btn.decrement');
@@ -327,7 +339,7 @@
                     btn.addEventListener('click', () => {
                         if (countInputs[index].value > 1) {
                             countInputs[index].value--;
-                            updateTotalPrice();
+                            totalAmout();
                         }
                     });
                 });
@@ -335,15 +347,59 @@
                 incrementBtns.forEach((btn, index) => {
                     btn.addEventListener('click', () => {
                         countInputs[index].value++;
-                        updateTotalPrice();
+                        totalAmout();
                     });
                 });
             }
         
             // Generate table rows for cart items
             generateCartRows(flattenedCartItems); // Pass the flattened array here
+        
+            // Function to remove an item from the cart and update the UI
+            function removeCartItem(itemIndex) {
+                // Remove the item from the flattenedCartItems array
+                const removedItem = flattenedCartItems.splice(itemIndex, 1)[0];
+                console.log("removedItem====>", removedItem);
+        
+                // Update the URL query parameters to reflect the changes
+                updateURLParams(flattenedCartItems);
+        
+                // Regenerate table rows
+                generateCartRows(flattenedCartItems);
+        
+                // Update cart item count
+                updateCartUI(flattenedCartItems.length);
+
+                //update total amount 
+                totalAmout();
+        
+                // Reattach event listeners for remove buttons
+                attachRemoveButtonListeners();
+            }
+        
+            // Function to attach event listeners for remove buttons
+            function attachRemoveButtonListeners() {
+                const removeButtons = document.querySelectorAll('.pr-remove a');
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const itemIndex = parseInt(button.dataset.index); // Get the index of the clicked remove button from data-index attribute
+                        removeCartItem(itemIndex);
+                    });
+                });
+            }
+        
+            // Attach initial event listeners for remove buttons
+            attachRemoveButtonListeners();
+        
+            // Function to update the URL query parameters
+            function updateURLParams(cartItems) {
+                const newParams = cartItems.map(item => `items=${encodeURIComponent(JSON.stringify(item))}`).join('&');
+                const newURL = window.location.pathname + '?' + newParams;
+                window.history.replaceState({}, '', newURL);
+            }
         </script>
-               
+        
         
         
     </body>
