@@ -229,104 +229,27 @@
         <script  src="js/plugins.js"></script>
         <script  src="js/scripts.js"></script>
         <script>
-            // document.addEventListener("DOMContentLoaded", function() {
-    // Other JavaScript code
-    
-    // Function to place the order
-    function placeOrder(flattenedCartItems,generateCartRows,updateCartUI,updateURLParams) {
-    console.log("order======>", flattenedCartItems);
-    const orderDetails = flattenedCartItems.map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        imageLink: item.image
-    }));
-    const tableNumber = 2; // You can set the table number dynamically if needed
-
-    // Create the request body
-    const requestBody = {
-        tableNumber,
-        orderDetails
-    };
-
-    // Make an AJAX request to place the order
-    fetch('http://localhost:4000/api/v1/placeOrder', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to place order');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Handle successful response
-            console.log(data.data);
-           //alert a message 
-           alert("Successfully order placed ");
-            // Clear the cart UI
-            flattenedCartItems.length = 0; // Reset flattenedCartItems to an empty array
-
-            // Regenerate the cart UI
-            generateCartRows(flattenedCartItems);
-
-            // Update the cart item count UI
-            updateCartUI(0);
-           //update stored data 
-           updateURLParams(flattenedCartItems);
-            // Navigate to the order page
-            window.location.href = 'checkout.html';
-        })
-        .catch(error => {
-            // Handle errors
-            console.error('Error placing order:', error);
-            // Optionally, you can show an error message to the user
-        });
-}
-
-    
-   
-
-
-        </script>
-
-        <script>
             document.addEventListener("DOMContentLoaded", function() {
-                // Your JavaScript code here
-                // Parse the query parameters from the URL
-                const queryString = window.location.search;
-                const urlParams = new URLSearchParams(queryString);
-        
-                // Initialize an empty array to store cart items
-                const cartItems = [];
-        
-                // Loop through each parameter in the URL
-                for (const [key, value] of urlParams.entries()) {
-                    if (key === 'items') {
-                        // Parse the 'items' parameter as JSON and push it to the cartItems array
-                        const itemsArray = JSON.parse(decodeURIComponent(value));
-                        cartItems.push(itemsArray);
+                fetch("http://localhost:4000/api/v1/getOrder?tableNumber=1")
+                .then((response) => response.json())
+                .then((cartItems) => {
+                    if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
+                        throw new Error("Invalid menu data format");
                     }
-                }
-                updateCartUI(cartItems.length);
+                    console.log("cartItems========>", cartItems);
         
-                // Update cart icon and count
-                function updateCartUI(itemQuantity) {
-                    const cartItemCount = document.getElementById('cart-item-count');
-                    cartItemCount.textContent = itemQuantity ;
-                }
+                    // Extract order details from the API response
+                    const orderDetails = cartItems.orderData.orderDetails;
         
-                // Flatten the cartItems array if necessary
-                const flattenedCartItems = cartItems.flat();
-                //total amount 
+                    // Generate table rows for cart items
+                    generateCartRows(orderDetails);
+                })
+                .catch((error) => {
+                    console.error("Error fetching order data:", error);
+                }); 
         
-                let totalAmout ;
                 // Function to dynamically generate table rows for cart items
-                function generateCartRows(cartItems) {
+                function generateCartRows(orderDetails) {
                     const tableBody = document.querySelector('.checkout-table tbody');
                     const totalPriceElement = document.getElementById('total-price');
                     let totalPrice = 0;
@@ -347,11 +270,11 @@
                     tableBody.appendChild(headerRow);
         
                     // Loop through cart items and generate table rows
-                    cartItems.forEach((item, index) => {
+                    orderDetails.forEach((item, index) => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td class="hidden-xs">
-                                <a href="#"><img src="${item.image}" alt="" class="respimg"></a>
+                                <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
                             </td>
                             <td>
                                 <h5 class="product-name"> <a href="#">${item.name}</a></h5>
@@ -380,102 +303,10 @@
         
                         tableBody.appendChild(row);
                     });
-        
-                    totalAmout = function updateTotalPrice() {
-                        totalPrice = 0;
-                        countInputs.forEach((input, index) => {
-                            const itemTotal = input.value * flattenedCartItems[index].price;
-                            totalPrice += itemTotal;
-                            document.querySelectorAll('.total-price h5')[index].textContent = `$${itemTotal}`;
-                        });
-                        totalPriceElement.textContent = `Total: $${totalPrice}`;
-                    }
-        
-                    // Add event listeners for count increment and decrement
-                    const countInputs = document.querySelectorAll('.order-count');
-                    countInputs.forEach(input => {
-                        input.addEventListener('change', totalAmout);
-                    });
-        
-                    // Add event listeners for increment and decrement buttons
-                    const decrementBtns = document.querySelectorAll('.count-btn.decrement');
-                    const incrementBtns = document.querySelectorAll('.count-btn.increment');
-        
-                    decrementBtns.forEach((btn, index) => {
-                        btn.addEventListener('click', () => {
-                            if (countInputs[index].value > 1) {
-                                countInputs[index].value--;
-                                totalAmout();
-                            }
-                        });
-                    });
-        
-                    incrementBtns.forEach((btn, index) => {
-                        btn.addEventListener('click', () => {
-                            countInputs[index].value++;
-                            totalAmout();
-                        });
-                    });
                 }
-        
-                // Generate table rows for cart items
-                generateCartRows(flattenedCartItems); // Pass the flattened array here
-        
-                // Function to remove an item from the cart and update the UI
-                function removeCartItem(itemIndex) {
-                    // Remove the item from the flattenedCartItems array
-                    const removedItem = flattenedCartItems.splice(itemIndex, 1)[0];
-                    console.log("removedItem====>", removedItem);
-        
-                    // Update the URL query parameters to reflect the changes
-                    updateURLParams(flattenedCartItems);
-        
-                    // Regenerate table rows
-                    generateCartRows(flattenedCartItems);
-        
-                    // Update cart item count
-                    updateCartUI(flattenedCartItems.length);
-        
-                    //update total amount 
-                    totalAmout();
-        
-                    // Reattach event listeners for remove buttons
-                    attachRemoveButtonListeners();
-                }
-        
-                // Function to attach event listeners for remove buttons
-                function attachRemoveButtonListeners() {
-                    const removeButtons = document.querySelectorAll('.pr-remove a');
-                    removeButtons.forEach(button => {
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const itemIndex = parseInt(button.dataset.index); // Get the index of the clicked remove button from data-index attribute
-                            removeCartItem(itemIndex);
-                        });
-                    });
-                }
-        
-                // Attach initial event listeners for remove buttons
-                attachRemoveButtonListeners();
-        
-                // Function to update the URL query parameters
-                function updateURLParams(cartItems) {
-                    const newParams = cartItems.map(item => `items=${encodeURIComponent(JSON.stringify(item))}`).join('&');
-                    const newURL = window.location.pathname + '?' + newParams;
-                    window.history.replaceState({}, '', newURL);
-                }
-        // Add event listener to the "Place Order" button
-const placeOrderButton = document.querySelector('.sb-det_btn');
-placeOrderButton.addEventListener('click', function() {
-    placeOrder(flattenedCartItems,generateCartRows,updateCartUI,updateURLParams); // Call placeOrder function when the button is clicked
-});
-
-
-
-                
-       });
-            // });
+            });
         </script>
+        
         
     </body>
 
