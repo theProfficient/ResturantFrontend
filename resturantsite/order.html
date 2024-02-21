@@ -60,7 +60,7 @@
                                     <li>
                                         <a href="index4.html">Home </a>
                                     </li>
-                                    <li><a href="menu.html" class="act-link">  Menu</a></li>
+                                    <li><a href="menu.html" class="act-link"> Menu</a></li>
                                 </ul>
                             </nav>
                             <!-- nav end-->
@@ -76,7 +76,7 @@
             <!--column-image-->
             <div class="column-image mob-hidden">
                 <div class="border-bg">
-                    <div class="bg"  data-bg="images/bg/long/1.jpg"></div>
+                    <div class="bg"  data-bg="images/bg/long/6.jpg"></div>
                     <div class="overlay"></div>
                 </div>
             </div>
@@ -87,8 +87,8 @@
                 <div class="content-section column-wrap-section   white-bg" data-scrollax-parent="true" id="sec2">
                     <div class="container small-container">
                         <div class="section-title">
-                            <h4>Your wish list</h4>
-                            <h2>Your Cart</h2>
+                            <h4>Your Ordered list</h4>
+                            <h2>Your Order</h2>
                             <div class="section-title-separator_wrap">
                                 <div class="section-title-separator"><span></span></div>
                             </div>
@@ -108,8 +108,6 @@
                                     <div class="col-md-5">
                                         <div class="total-box">
                                             <span class="total-item" id="total-price">Total:  $0</span>
-                                            <!-- <a href="checkout.html" class="sb-det_btn">Proceed to Checkout</a>     -->
-                                            <a class="sb-det_btn" onclick="placeOrder()"> Place Order</a> 
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +228,7 @@
         <script  src="js/scripts.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                fetch("http://localhost:4000/api/v1/getOrder?tableNumber=1")
+                fetch("http://localhost:4000/api/v1/getOrder?tableNumber=2")
                 .then((response) => response.json())
                 .then((cartItems) => {
                     if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
@@ -241,8 +239,14 @@
                     // Extract order details from the API response
                     const orderDetails = cartItems.orderData.orderDetails;
         
+                    // Extract totalAmount from the API response
+                    const totalAmount = cartItems.orderData.totalAmount;
+        
                     // Generate table rows for cart items
                     generateCartRows(orderDetails);
+        
+                    // Update total price in the UI
+                    updateTotalPrice(totalAmount);
                 })
                 .catch((error) => {
                     console.error("Error fetching order data:", error);
@@ -251,7 +255,6 @@
                 // Function to dynamically generate table rows for cart items
                 function generateCartRows(orderDetails) {
                     const tableBody = document.querySelector('.checkout-table tbody');
-                    const totalPriceElement = document.getElementById('total-price');
                     let totalPrice = 0;
         
                     // Clear existing table rows
@@ -262,10 +265,8 @@
                     headerRow.innerHTML = `
                         <th class="hidden-xs">Item</th>
                         <th>Description</th>
+                        <th>Quantity</th>
                         <th class="hidden-xs">Price</th>
-                        <th>Count</th>
-                        <th>Total Price</th>
-                        <th></th>
                     `;
                     tableBody.appendChild(headerRow);
         
@@ -279,33 +280,29 @@
                             <td>
                                 <h5 class="product-name"> <a href="#">${item.name}</a></h5>
                             </td>
+                            
+                            <td>
+                                <h5 class="product-quantity"> ${item.quantity}</h5>
+                            </td>
                             <td class="hidden-xs">
                                 <h5 class="order-money">$${item.price}</h5>
-                            </td>
-                            <td>
-                                <div class="count-control">
-                                    <button class="count-btn decrement">-</button>
-                                    <input type="number" name="cartin" value="${item.quantity}" max="50" min="1" class="order-count">
-                                    <button class="count-btn increment">+</button>
-                                </div>
-                            </td>
-                            <td class="total-price">
-                                <h5 class="order-money">$${item.price * item.quantity}</h5>
-                            </td>
-                            <td class="pr-remove">
-                                <a href="#" title="Remove" data-index="${index}"><i class="fas fa-times"></i></a>
                             </td>
                         `;
         
                         // Update total price
                         totalPrice += item.price * item.quantity;
-                        totalPriceElement.textContent = `Total: $${totalPrice}`;
-        
                         tableBody.appendChild(row);
                     });
                 }
+        
+                // Function to update total price in the UI
+                function updateTotalPrice(totalAmount) {
+                    const totalPriceElement = document.getElementById('total-price');
+                    totalPriceElement.textContent = `Total: $${totalAmount}`;
+                }
             });
         </script>
+        
         
         
     </body>
