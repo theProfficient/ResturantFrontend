@@ -1,0 +1,9 @@
+/* Hide everything except the invoice content when printing */
+body * {
+    display: none;
+}
+
+/* Display the invoice content and its children */
+#printable-content, #invoice-content, #invoice-content * {
+    display: block !important;
+}

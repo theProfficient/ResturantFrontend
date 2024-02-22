@@ -1,311 +1,466 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-    
-<!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
-<head>
-        <!--=============== basic  ===============-->
-        <meta charset="UTF-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>WantEat - Responsive Restaurant / Cafe / Pub Template</title>
-        <!--=============== css  ===============-->	
-        <link type="text/css" rel="stylesheet" href="css/plugins.css">
-        <link type="text/css" rel="stylesheet" href="css/style.css">
-        <!--=============== favicons ===============-->
-        <link rel="shortcut icon" href="images/favicon.ico">
-    </head>
-    <body>
-        <!--loader-->
-        <div class="main-loader">
-            <div class="loader-wrap">
-                <span class="loader"></span>
+  <!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
+  <head>
+    <!--=============== basic  ===============-->
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>WantEat - Responsive Restaurant / Cafe / Pub Template</title>
+    <!--=============== css  ===============-->
+    <link type="text/css" rel="stylesheet" href="css/plugins.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <!-- <link type="text/css" rel="stylesheet"  href="css/print.css" media="print"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="print.css"> -->
+    <!--=============== favicons ===============-->
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <style>
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .invoice-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+  </head>
+  <body>
+    <!--loader-->
+    <div class="main-loader">
+      <div class="loader-wrap">
+        <span class="loader"></span>
+      </div>
+    </div>
+    <!--loader end-->
+    <!--  main   -->
+    <div id="main">
+      <a href="index.html" class="logo-holder"
+        ><img src="images/logo.png" alt=""
+      /></a>
+      <!--  header  -->
+      <header class="header_half">
+        <div class="header-inner">
+          <div class="header-top_contacts">
+            <a href="#"><span>Call now:</span> +489756412322</a
+            ><a href="#"><span>Write :</span> yourmail@domain.com</a>
+          </div>
+          <div class="share-btn show-share isShare"></div>
+          <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
+          <div class="cart-btn sc_btn">
+            <strong> Your Cart</strong
+            ><i class="fa-thin fa-basket-shopping-simple"></i
+            ><span id="cart-item-count" class="cart-btn_counter">0</span>
+          </div>
+          <div class="nav-button_wrap isvis_hid_menu">
+            <div class="nav-button"><span></span></div>
+          </div>
+          <!-- share-wrapper-->
+          <div class="share-wrapper share-wrapper_half">
+            <div class="share-inner">
+              <div class="share-container"></div>
             </div>
+          </div>
+          <!-- share-wrapper end -->
         </div>
-        <!--loader end-->
-        <!--  main   -->
-        <div id="main">
-            <a href="index.html" class="logo-holder"><img src="images/logo.png" alt=""></a>
-            <!--  header  -->
-            <header class="header_half">
-                <div class="header-inner">
-                    <div class="header-top_contacts"><a href="#"><span>Call now:</span> +489756412322</a><a href="#"><span>Write :</span> yourmail@domain.com</a></div>
-                    <div class="share-btn show-share isShare"></div>
-                    <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
-                    <div class="cart-btn sc_btn"><strong> Your Cart</strong><i class="fa-thin fa-basket-shopping-simple"></i><span id="cart-item-count" class="cart-btn_counter">0</span></div>
-                    <div class="nav-button_wrap isvis_hid_menu">
-                        <div class="nav-button"><span></span></div>
-                    </div>
-                    <!-- share-wrapper-->  
-                    <div class="share-wrapper share-wrapper_half">
-                        <div class="share-inner">
-                            <div class="share-container"></div>
-                        </div>
-                    </div>
-                    <!-- share-wrapper end -->									
-                </div>
-            </header>
-            <!--  header end  -->
-            <!--  header end  -->
-            <!--  navigation -->
-            <div class="hidden_menu-container">
-                <div class="nav-wrapper isvis_menu hiddenmenu">
-                    <div class="nav-separator"><span></span></div>
-                    <div class="nav-wrap">
-                        <div class="fl-wrap">
-                            <div class="nav_dec"><span></span></div>
-                        </div>
-                        <div class="nav-container fl-wrap">
-                            <!-- nav -->
-                            <nav class="nav-inner" id="menu_init">
-                                <ul>
-                                    <li>
-                                        <a href="index4.html">Home </a>
-                                    </li>
-                                    <li><a href="menu.html" class="act-link"> Menu</a></li>
-                                </ul>
-                            </nav>
-                            <!-- nav end-->
-                        </div>
-                        <div class="fl-wrap">
-                            <div class="nav_dec nd_bottom"><span></span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="body-ovelay  fs-wrapper"></div>
+      </header>
+      <!--  header end  -->
+      <!--  header end  -->
+      <!--  navigation -->
+      <div class="hidden_menu-container">
+        <div class="nav-wrapper isvis_menu hiddenmenu">
+          <div class="nav-separator"><span></span></div>
+          <div class="nav-wrap">
+            <div class="fl-wrap">
+              <div class="nav_dec"><span></span></div>
             </div>
-            <!--  navigation  end-->
-            <!--column-image-->
-            <div class="column-image mob-hidden">
-                <div class="border-bg">
-                    <div class="bg"  data-bg="images/bg/long/6.jpg"></div>
-                    <div class="overlay"></div>
-                </div>
+            <div class="nav-container fl-wrap">
+              <!-- nav -->
+              <nav class="nav-inner" id="menu_init">
+                <ul>
+                  <li>
+                    <a href="index4.html">Home </a>
+                  </li>
+                  <li><a href="menu.html" class="act-link"> Menu</a></li>
+                </ul>
+              </nav>
+              <!-- nav end-->
             </div>
-            <!--column-image end-->			
-            <!--column-wrap-->
-            <div class="column-wrap single_colimn-wrap">
-                <!--section-->
-                <div class="content-section column-wrap-section   white-bg" data-scrollax-parent="true" id="sec2">
-                    <div class="container small-container">
-                        <div class="section-title">
-                            <h4>Your Ordered list</h4>
-                            <h2>Your Order</h2>
-                            <div class="section-title-separator_wrap">
-                                <div class="section-title-separator"><span></span></div>
-                            </div>
-                        </div>
-                        <!-- CHECKOUT TABLE -->
-                        <div class="checkout-table-container">
-                            <table class="table table-border checkout-table">
-                                <tbody id="cart-items-body">
-                                    <!-- Table rows will be dynamically generated here -->
-                                </tbody>
-                            </table>
-                            <!-- COUPON -->
-                            <div class="coupon-holder-wrap fl-wrap">
-                                <div class="row">
-                                    <div class="col-md-7">
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="total-box">
-                                            <span class="total-item" id="total-price">Total:  $0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /COUPON -->
-                        </div>
-                        
-                        <!-- /CHECKOUT TABLE -->
-                    </div>
-                    <div class="parallax-element" style="right: 20px; bottom: -50px"  data-scrollax="properties: { translateY: '-150px' }"><img src="images/bg/dec/3.png" alt=""></div>
-                    <div class="parallax-element" style="left: 10%; top:20px" data-scrollax="properties: { translateY: '150px' }"><img src="images/bg/dec/4.png" alt=""></div>
-                </div>
-                <!--section end-->
+            <div class="fl-wrap">
+              <div class="nav_dec nd_bottom"><span></span></div>
             </div>
-            <!--column-wrap end-->
-            <!--footer  -->
-            <div class="height-emulator fl-wrap"></div>
-            <footer class="main-footer column_footer">
-                <div class="main-footer_content fl-wrap">
-                    <div class="container small-container">
-                        <div class="footer-top">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="footer-social">
-                                        <div class="footer-social-title">Follow us:</div>
-                                        <ul>
-                                            <li><a href="#" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                            <li><a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer-inner">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <div class="footer-widget">
-                                        <div class="footer-widget-title">About Us</div>
-                                        <div class="footer-widget-content">
-                                            <div class="footer-box">
-                                                <p> Numerous commentators have also referred to the supposed restaurant owner's eccentric habit of touting for custom outside his establishment, dressed in aristocratic fashion and brandishing a sword.  </p>
-                                            </div>
-                                            <!-- <a href="about.html" class="footer-widget-content-link">Read more</a>                                                    	 -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--footer social links-->
-                                <!--subscribe form-->
-                                <div class="col-md-4">
-                                    <div class="footer-widget">
-                                        <div class="footer-widget-title">Contact Info  </div>
-                                        <div class="footer-widget-content">
-                                            <div class="footer-contacts footer-box">
-                                                <ul>
-                                                    <li><span>Call :</span><a href="#">+489756412322</a> , <a href="#">+56897456123</a></li>
-                                                    <li><span>Write  :</span><a href="#">yourmail@domain.com</a></li>
-                                                    <li><span>Find us : </span><a href="#"> 27TH Brooklyn NY</a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- <a href="contacts.html" class="footer-widget-content-link">Get in Touch</a>                                                    	 -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="footer-widget">
-                                        <div class="footer-widget-title">Opening Hours</div>
-                                        <div class="footer-widget-content">
-                                            <div class="footer-work-time_widget footer-box">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <h6>Monday to Thurseday</h6>
-                                                        <div class="footer-work-time">
-                                                            10:00 AM<br>
-                                                            10:00 PM
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h6>Friday to Sunday</h6>
-                                                        <div class="footer-work-time">
-                                                            10:00 AM<br>
-                                                            11:00 PM
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- <a href="#" class="footer-widget-content-link show-rb">Reserve Table</a>                                                    	 -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- subbfooter -->
-                        <div class="subbfooter">
-                            <div class="policy-box">
-                                <span> &#169; Wanteat Restaurant 2024 </span>  /  All rights reserved.  
-                            </div>
-                            <div class="pay_list">
-                                <ul>
-                                    <li><i class="fa-brands fa-cc-visa"></i></li>
-                                    <li><i class="fa-brands fa-cc-mastercard"></i></li>
-                                    <li><i class="fa-brands fa-cc-paypal"></i></li>
-                                </ul>
-                            </div>
-                            <div class="to-top-btn to-top"><i class="fa-solid fa-chevrons-up"></i></div>
-                        </div>
-                        <!-- subbfooter end -->					
-                    </div>
-                    <div class="footer-bg"></div>
-                </div>
-            </footer>
-            <!--footer end-->
-           
+          </div>
         </div>
-        <!-- Main end -->
-        <!--=============== scripts  ===============-->   
-        <script  src="js/jquery.min.js"></script>
-        <script  src="js/plugins.js"></script>
-        <script  src="js/scripts.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                fetch("http://localhost:4000/api/v1/getOrder?tableNumber=2")
+        <div class="body-ovelay fs-wrapper"></div>
+      </div>
+      <!--  navigation  end-->
+      <!--column-image-->
+      <div class="column-image mob-hidden">
+        <div class="border-bg">
+          <div class="bg" data-bg="images/bg/long/6.jpg"></div>
+          <div class="overlay"></div>
+        </div>
+      </div>
+      <!--column-image end-->
+      <!--column-wrap-->
+      <div class="column-wrap single_colimn-wrap">
+        <!--section-->
+        <div
+          class="content-section column-wrap-section white-bg"
+          data-scrollax-parent="true"
+          id="sec2"
+        >
+          <div class="container small-container">
+            <div class="section-title">
+              <h4>Your Ordered list</h4>
+              <h2>Your Order</h2>
+              <div class="section-title-separator_wrap">
+                <div class="section-title-separator"><span></span></div>
+              </div>
+            </div>
+            <!-- CHECKOUT TABLE -->
+            <div class="checkout-table-container">
+              <table class="table table-border checkout-table">
+                <tbody id="cart-items-body">
+                  <!-- Table rows will be dynamically generated here -->
+                </tbody>
+              </table>
+              <!-- COUPON -->
+              <div class="coupon-holder-wrap fl-wrap">
+                <div class="row">
+                  <div class="col-md-7"></div>
+                  <div class="col-md-5">
+                    <div class="total-box">
+                      <span class="total-item" id="total-price">Total: $0</span>
+                    </div>
+                    <div id="invoice-content">
+                        <button class="sb-det_btn" id="generate-invoice-btn">Generate Invoice</button>
+                        <div id="invoice-content" style="display: none;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /COUPON -->
+            </div>
+
+            <!-- /CHECKOUT TABLE -->
+          </div>
+          <div
+            class="parallax-element"
+            style="right: 20px; bottom: -50px"
+            data-scrollax="properties: { translateY: '-150px' }"
+          >
+            <img src="images/bg/dec/3.png" alt="" />
+          </div>
+          <div
+            class="parallax-element"
+            style="left: 10%; top: 20px"
+            data-scrollax="properties: { translateY: '150px' }"
+          >
+            <img src="images/bg/dec/4.png" alt="" />
+          </div>
+        </div>
+        <!--section end-->
+      </div>
+      <!--column-wrap end-->
+      <!--footer  -->
+      <div class="height-emulator fl-wrap"></div>
+      <footer class="main-footer column_footer">
+        <div class="main-footer_content fl-wrap">
+          <div class="container small-container">
+            <div class="footer-top">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="footer-social">
+                    <div class="footer-social-title">Follow us:</div>
+                    <ul>
+                      <li>
+                        <a href="#" target="_blank"
+                          ><i class="fa-brands fa-facebook-f"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" target="_blank"
+                          ><i class="fa-brands fa-instagram"></i
+                        ></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="footer-inner">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="footer-widget">
+                    <div class="footer-widget-title">About Us</div>
+                    <div class="footer-widget-content">
+                      <div class="footer-box">
+                        <p>
+                          Numerous commentators have also referred to the
+                          supposed restaurant owner's eccentric habit of touting
+                          for custom outside his establishment, dressed in
+                          aristocratic fashion and brandishing a sword.
+                        </p>
+                      </div>
+                      <!-- <a href="about.html" class="footer-widget-content-link">Read more</a>                                                    	 -->
+                    </div>
+                  </div>
+                </div>
+                <!--footer social links-->
+                <!--subscribe form-->
+                <div class="col-md-4">
+                  <div class="footer-widget">
+                    <div class="footer-widget-title">Contact Info</div>
+                    <div class="footer-widget-content">
+                      <div class="footer-contacts footer-box">
+                        <ul>
+                          <li>
+                            <span>Call :</span><a href="#">+489756412322</a> ,
+                            <a href="#">+56897456123</a>
+                          </li>
+                          <li>
+                            <span>Write :</span
+                            ><a href="#">yourmail@domain.com</a>
+                          </li>
+                          <li>
+                            <span>Find us : </span
+                            ><a href="#"> 27TH Brooklyn NY</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <!-- <a href="contacts.html" class="footer-widget-content-link">Get in Touch</a>                                                    	 -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="footer-widget">
+                    <div class="footer-widget-title">Opening Hours</div>
+                    <div class="footer-widget-content">
+                      <div class="footer-work-time_widget footer-box">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <h6>Monday to Thurseday</h6>
+                            <div class="footer-work-time">
+                              10:00 AM<br />
+                              10:00 PM
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <h6>Friday to Sunday</h6>
+                            <div class="footer-work-time">
+                              10:00 AM<br />
+                              11:00 PM
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <a href="#" class="footer-widget-content-link show-rb">Reserve Table</a>                                                    	 -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- subbfooter -->
+            <div class="subbfooter">
+              <div class="policy-box">
+                <span> &#169; Wanteat Restaurant 2024 </span> / All rights
+                reserved.
+              </div>
+              <div class="pay_list">
+                <ul>
+                  <li><i class="fa-brands fa-cc-visa"></i></li>
+                  <li><i class="fa-brands fa-cc-mastercard"></i></li>
+                  <li><i class="fa-brands fa-cc-paypal"></i></li>
+                </ul>
+              </div>
+              <div class="to-top-btn to-top">
+                <i class="fa-solid fa-chevrons-up"></i>
+              </div>
+            </div>
+            <!-- subbfooter end -->
+          </div>
+          <div class="footer-bg"></div>
+        </div>
+      </footer>
+      <!--footer end-->
+    </div>
+    <!-- Main end -->
+    <!--=============== scripts  ===============-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+      function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
+        // Make a POST request to the backend endpoint to generate the invoice
+        fetch("http://localhost:4000/api/v1/generate-invoice", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                orderId:orderId,
+                // orderDetails,
+                tableNumber:tableNumber,
+                totalAmount:totalAmountOfOrder
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.invoiceData,"==========invoiceData");
+            // Open a new window for the invoice
+            const invoiceWindow = window.open('', '_blank');
+            invoiceWindow.document.write('<html><head><title>Invoice</title></head><body>');
+
+            // Create table element
+            const table = invoiceWindow.document.createElement("table");
+            table.classList.add("invoice-table");
+
+            // Create header row
+            const headerRow = table.insertRow();
+            const billOfTableNumberHeader = invoiceWindow.document.createElement("th");
+            billOfTableNumberHeader.textContent = `Bill of Table Number: ${tableNumber}`;
+            billOfTableNumberHeader.setAttribute("colspan", "3");
+            headerRow.appendChild(billOfTableNumberHeader);
+
+            // Create table header
+            const headerRow2 = table.insertRow();
+            const headerCell1 = headerRow2.insertCell(0);
+            headerCell1.textContent = "Item";
+            const headerCell2 = headerRow2.insertCell(1);
+            headerCell2.textContent = "Quantity";
+            const headerCell3 = headerRow2.insertCell(2);
+            headerCell3.textContent = "Price";
+
+            // Loop through order details to populate the table
+            data.invoiceData.orderDetails.forEach((item) => {
+                const row = table.insertRow();
+                const cell1 = row.insertCell(0);
+                cell1.textContent = item.name;
+                const cell2 = row.insertCell(1);
+                cell2.textContent = item.quantity;
+                const cell3 = row.insertCell(2);
+                cell3.textContent = `${item.price} /-`;
+            });
+
+            // Add total row
+            const totalRow = table.insertRow();
+            const totalCell = totalRow.insertCell(0);
+            totalCell.colSpan = 2;
+            totalCell.textContent = "Total Amount:";
+            const totalAmountCell = totalRow.insertCell(1);
+            totalAmountCell.textContent = `${data.invoiceData.totalAmountOfOrder} /-`;
+
+            // Append the table to the invoice content
+            invoiceWindow.document.body.appendChild(table);
+
+            // Delay for a short time to ensure content is fully loaded
+            setTimeout(() => {
+                // Print the invoice
+                invoiceWindow.print();
+                // Close the invoice window after printing
+                invoiceWindow.close();
+                // Redirect back to order.html
+                window.location.href = "order.html";
+            }, 1000); // Adjust the delay as needed
+        })
+        .catch(error => {
+            console.error("Error generating invoice:", error);
+        });
+    }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("http://localhost:4000/api/v1/getOrder?tableNumber=2")
                 .then((response) => response.json())
                 .then((cartItems) => {
                     if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
                         throw new Error("Invalid menu data format");
                     }
-                    console.log("cartItems========>", cartItems);
-        
+    
                     // Extract order details from the API response
                     const orderDetails = cartItems.orderData.orderDetails;
-        
-                    // Extract totalAmount from the API response
-                    const totalAmount = cartItems.orderData.totalAmount;
-        
+                    console.log("orderDetails=========>",cartItems.orderData);
+                    // Extract total amount from the API response
+                    const totalAmountOfOrder = cartItems.orderData.totalAmount;
+                    //extract order id
+                    const orderId = cartItems.orderData._id
+                    // Extract table number from the API response
+                    const tableNumber = cartItems.orderData.tableNumber;
+    
                     // Generate table rows for cart items
                     generateCartRows(orderDetails);
-        
+    
                     // Update total price in the UI
-                    updateTotalPrice(totalAmount);
+                    updateTotalPrice(totalAmountOfOrder);
+    
+                    // Add event listener to the "Generate Invoice" button
+                    const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+                    generateInvoiceBtn.addEventListener("click", function () {
+                        // Generate and print the invoice
+                        generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
+                    });
                 })
                 .catch((error) => {
                     console.error("Error fetching order data:", error);
-                }); 
-        
-                // Function to dynamically generate table rows for cart items
-                function generateCartRows(orderDetails) {
-                    const tableBody = document.querySelector('.checkout-table tbody');
-                    let totalPrice = 0;
-        
-                    // Clear existing table rows
-                    tableBody.innerHTML = '';
-        
-                    // Create header row
-                    const headerRow = document.createElement('tr');
-                    headerRow.innerHTML = `
-                        <th class="hidden-xs">Item</th>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th class="hidden-xs">Price</th>
+                });
+    
+            // Function to dynamically generate table rows for cart items
+            function generateCartRows(orderDetails) {
+                const tableBody = document.querySelector(".checkout-table tbody");
+                let totalPrice = 0;
+    
+                // Clear existing table rows
+                tableBody.innerHTML = "";
+    
+                // Create header row
+                const headerRow = document.createElement("tr");
+                headerRow.innerHTML = `
+                    <th class="hidden-xs">Item</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th class="hidden-xs">Price</th>
+                `;
+                tableBody.appendChild(headerRow);
+    
+                // Loop through cart items and generate table rows
+                orderDetails.forEach((item, index) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td class="hidden-xs">
+                            <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
+                        </td>
+                        <td>
+                            <h5 class="product-name"> <a href="#">${item.name}</a></h5>
+                        </td>
+                        <td>
+                            <h5 class="product-quantity"> ${item.quantity}</h5>
+                        </td>
+                        <td class="hidden-xs">
+                            <h5 class="order-money">${item.price} /-</h5>
+                        </td>
                     `;
-                    tableBody.appendChild(headerRow);
-        
-                    // Loop through cart items and generate table rows
-                    orderDetails.forEach((item, index) => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td class="hidden-xs">
-                                <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
-                            </td>
-                            <td>
-                                <h5 class="product-name"> <a href="#">${item.name}</a></h5>
-                            </td>
-                            
-                            <td>
-                                <h5 class="product-quantity"> ${item.quantity}</h5>
-                            </td>
-                            <td class="hidden-xs">
-                                <h5 class="order-money">$${item.price}</h5>
-                            </td>
-                        `;
-        
-                        // Update total price
-                        totalPrice += item.price * item.quantity;
-                        tableBody.appendChild(row);
-                    });
-                }
-        
-                // Function to update total price in the UI
-                function updateTotalPrice(totalAmount) {
-                    const totalPriceElement = document.getElementById('total-price');
-                    totalPriceElement.textContent = `Total: $${totalAmount}`;
-                }
-            });
-        </script>
-        
-        
-        
-    </body>
+    
+                    // Update total price
+                    totalPrice += item.price * item.quantity;
+                    tableBody.appendChild(row);
+                });
+            }
+    
+            // Function to update total price in the UI
+            function updateTotalPrice(totalAmount) {
+                const totalPriceElement = document.getElementById("total-price");
+                totalPriceElement.textContent = `Total: ${totalAmount} /-`;
+            }
+        });
+    </script>
+    
+    
+  </body>
 
-<!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
+  <!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
 </html>

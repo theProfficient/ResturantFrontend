@@ -241,7 +241,9 @@
         price: item.price,
         imageLink: item.image
     }));
-    const tableNumber = 2; // You can set the table number dynamically if needed
+    // const tableNumber = 2; // You can set the table number dynamically if needed
+    const tableNumber = flattenedCartItems[0].tableNumber ;
+    console.log("tableNumber===========>",tableNumber);
 
     // Create the request body
     const requestBody = {
@@ -285,13 +287,9 @@
             // Handle errors
             console.error('Error placing order:', error);
             // Optionally, you can show an error message to the user
+            alert(error.message);
         });
 }
-
-    
-   
-
-
         </script>
 
         <script>
@@ -313,7 +311,7 @@
                     }
                 }
                 updateCartUI(cartItems.length);
-        
+                console.log("cartItems====>",cartItems);
                 // Update cart icon and count
                 function updateCartUI(itemQuantity) {
                     const cartItemCount = document.getElementById('cart-item-count');
