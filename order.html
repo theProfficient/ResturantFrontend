@@ -28,6 +28,34 @@
         .invoice-table th {
             background-color: #f2f2f2;
         }
+        .payment-dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+.payment-dialog p {
+    margin: 0 0 10px;
+}
+
+.payment-dialog button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.payment-dialog button:last-child {
+    margin-right: 0;
+}
+
     </style>
   </head>
   <body>
@@ -140,7 +168,13 @@
                     </div>
                     <div id="invoice-content">
                         <button class="sb-det_btn" id="generate-invoice-btn">Generate Invoice</button>
+                        <button class="sb-det_btn" id="make-payment-btn">Make Payment</button>
                         <div id="invoice-content" style="display: none;"></div>
+                        <div id="payment-dialog" class="payment-dialog">
+                          <p>Choose payment method:</p>
+                          <button id="cash-btn">Cash</button>
+                          <button id="online-btn">Online</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -374,8 +408,67 @@
         });
     }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("http://localhost:4000/api/v1/getOrder?tableNumber=2")
+       
+    //payment button___________________________________
+
+    function paymentForOrder(orderId, onlinePayment) {
+    // Make a POST request to the backend endpoint to generate the invoice
+    fetch("http://localhost:4000/api/v1/payBill", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            orderId: orderId,
+            onlinePayment: onlinePayment
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Payment response: ", data.message);
+        alert(data.message);
+        //refresh the page 
+        window.location.reload();
+    }) 
+    .catch(error => {
+        console.error("Error making payment:", error);
+        alert(error.message);
+    });
+}
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      // Function to get the tableNumber parameter from the URL
+    function getTableNumberFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('tableNumber');
+    }
+
+    // Get the tableNumber from the URL
+    const tableNumber = getTableNumberFromURL();
+
+    // Now you can use the tableNumber as needed in your code
+    console.log("=============Table Number:", tableNumber);
+      // Function to get the user's role
+    //   function getUserRole() {
+    //     return 'Admin'; 
+    // }
+
+    // Get the user's role
+    // const userRole = getUserRole();
+    const userRole = "Admin";
+   
+    const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+    const makePaymentBtn = document.getElementById("make-payment-btn");
+    if(userRole === "Admin"){
+      generateInvoiceBtn.style.display = "block";   
+      makePaymentBtn.style.display = "block";
+    }else{
+      generateInvoiceBtn.style.display = 'none';   
+      makePaymentBtn.style.display = 'none';
+
+    }
+    
+            fetch(`http://localhost:4000/api/v1/getOrder?tableNumber=${tableNumber}`)
                 .then((response) => response.json())
                 .then((cartItems) => {
                     if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
@@ -404,6 +497,27 @@
                         // Generate and print the invoice
                         generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
                     });
+
+                    function showPaymentDialog() {
+    const paymentDialog = document.getElementById("payment-dialog");
+    paymentDialog.style.display = "block";
+
+    const cashBtn = document.getElementById("cash-btn");
+    cashBtn.addEventListener("click", function () {
+        paymentDialog.style.display = "none";
+        paymentForOrder(orderId, false); // Payment with cash
+    });
+
+    const onlineBtn = document.getElementById("online-btn");
+    onlineBtn.addEventListener("click", function () {
+        paymentDialog.style.display = "none";
+        paymentForOrder(orderId, true); // Payment online
+    });
+}
+
+const payBillBtn = document.getElementById("make-payment-btn");
+payBillBtn.addEventListener("click", showPaymentDialog);
+
                 })
                 .catch((error) => {
                     console.error("Error fetching order data:", error);
@@ -455,7 +569,8 @@
             function updateTotalPrice(totalAmount) {
                 const totalPriceElement = document.getElementById("total-price");
                 totalPriceElement.textContent = `Total: ${totalAmount} /-`;
-            }
+            };
+
         });
     </script>
     

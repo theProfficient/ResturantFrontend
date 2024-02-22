@@ -280,8 +280,10 @@
             updateCartUI(0);
            //update stored data 
            updateURLParams(flattenedCartItems);
-            // Navigate to the order page
-            window.location.href = 'checkout.html';
+            // Construct the URL with the tableNumber parameter
+        var orderPageUrl = 'order.html?tableNumber=' + tableNumber;
+        // Redirect to the order.html page with the tableNumber parameter
+        window.location.href = orderPageUrl;
         })
         .catch(error => {
             // Handle errors
