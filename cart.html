@@ -280,8 +280,9 @@
             updateCartUI(0);
            //update stored data 
            updateURLParams(flattenedCartItems);
-            // Construct the URL with the tableNumber parameter
-        var orderPageUrl = 'order.html?tableNumber=' + tableNumber;
+         // Construct the URL with both tableNumber and orderId parameters
+         var orderPageUrl = 'order.html?tableNumber=' + tableNumber + '&orderId=' + data.data._id;
+
         // Redirect to the order.html page with the tableNumber parameter
         window.location.href = orderPageUrl;
         })

@@ -220,9 +220,20 @@
         <script  src="js/plugins.js"></script>
         <script  src="js/scripts.js"></script>
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                //check if the user is logged in 
+                 const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+                 if(!isLoggedIn){
+                    //if not redirect to login page
+                    window.location.href = 'login-page.html'
+                 }
+            })
+        </script>
+        <script>
           document.addEventListener('DOMContentLoaded', function() {
-    const dropdownIcon = document.querySelector('.dropdown-icon');
-    const menuOptions = document.querySelector('.menu-options');
+          const dropdownIcon = document.querySelector('.dropdown-icon');
+          const menuOptions = document.querySelector('.menu-options');
 
     // Fetch menu options from the backend API
     fetch("http://localhost:4000/api/v1/getMenu")

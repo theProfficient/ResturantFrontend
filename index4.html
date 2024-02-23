@@ -789,20 +789,31 @@
         <script  src="js/jquery.min.js"></script>
         <script  src="js/plugins.js"></script>
         <script  src="js/scripts.js"></script>
+        <!----------------------login validation-------------->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                //check if the user is logged in 
+                 const isLoggedIn = localStorage.getItem('isLoggedIn');
+                console.log("isLoggedIn====>",isLoggedIn);
+                 if(!isLoggedIn || isLoggedIn == null){
+                    //if not redirect to login page
+                    window.location.href = 'login-page.html'
+                 }
+            })
+        </script>
         <script>
              document.addEventListener("DOMContentLoaded", function () {
+              // Retrieve user role from localStorage
+              const userRole = localStorage.getItem('userRole');
+              console.log("userRole========>",userRole);
+             // const userRole = "User"; //testing perpose
+            const introduceNewDishBtn = document.getElementById("create_new_dish");
+           if(userRole === "Admin"){
+                introduceNewDishBtn.style.display = "block";   
+            }else{
+                 introduceNewDishBtn.style.display = 'none';   
 
-                 //validation for introduce new dish
-        const userRole = "Admin";
-        // const userRole = "User"; //testing perpose
-   
-    const introduceNewDishBtn = document.getElementById("create_new_dish");
-    if(userRole === "Admin"){
-        introduceNewDishBtn.style.display = "block";   
-    }else{
-        introduceNewDishBtn.style.display = 'none';   
-
-    }
+            }
 
              });
         </script>

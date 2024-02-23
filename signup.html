@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <!--=============== basic  ===============-->
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Sign Up</title>
+        <!--=============== css  ===============-->	
+        <link rel="stylesheet" href="css/signup.css">
+        <!--=============== favicons ===============-->
+        <link rel="shortcut icon" href="images/favicon.ico">
+</head>
+<body>
+    <div class="reserv_modal-container">
+        <div class="reserv_modal-inner">
+            <div class="reserv_modal-inner-box fl-wrap">
+                <div class="close-reservation-modal close-rf radius_btn"><i class="fa-light fa-xmark"></i></div>
+                <div class="reserv_modal-wrapper">
+                    <div class="reservation-content">
+                        <div class="reserv-modal-title">
+                            <h4>Sign Up</h4>
+                        </div>
+                        <form class="custom-form" id="signup-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" name="firstName" placeholder="First Name *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="lastName" placeholder="Last Name *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" name="email" placeholder="Email Address *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="password" name="password" placeholder="Password *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="tel" name="contactNumber" placeholder="Contact Number *" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <select name="role" class="chosen-select no-search-select" required>
+                                        <option value="">Select Role *</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Cheif">Chef</option>
+                                        <option value="Captein">Captain</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="reservation_btn radius_btn">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="reserv_modal_overlay fs-wrapper close-rf"></div>
+    </div>
+
+    <script >
+        document.getElementById("signup-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+    // Collect form data
+    const formData = new FormData(event.target);
+    const userData = Object.fromEntries(formData.entries());
+    console.log("=============>",userData);
+    // Send the user data to your backend
+    // Example using fetch API
+    fetch("http://localhost:4000/api/v1/signup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data); // Handle successful response from backend
+        alert("Signup successfully");
+
+         // Reset form fields
+         event.target.reset();
+
+        //redirect to login page
+        window.location.href ='login-page.html';
+    })
+    .catch(error => {
+         // Reset form fields
+         event.target.reset();
+
+        console.error("There was a problem with your fetch operation:", error);
+    });
+});
+
+    </script>
+</body>
+</html>

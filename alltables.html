@@ -229,9 +229,20 @@
         <script  src="js/plugins.js"></script>
         <script  src="js/scripts.js"></script>
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                //check if the user is logged in 
+                 const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-        //validation for introduce new dish
-        const userRole = "Admin";
+                 if(!isLoggedIn){
+                    //if not redirect to login page
+                    window.location.href = 'login-page.html'
+                 }
+            })
+        </script>
+        <script>
+
+           // Retrieve user role from localStorage
+            const userRole = localStorage.getItem('userRole');
         // const userRole = "User"; //testing perpose
    
     const introduceNewDishBtn = document.getElementById("create_new_dish");

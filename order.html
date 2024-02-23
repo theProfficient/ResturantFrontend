@@ -333,20 +333,20 @@
       function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
         // Make a POST request to the backend endpoint to generate the invoice
         fetch("http://localhost:4000/api/v1/generate-invoice", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                orderId:orderId,
-                // orderDetails,
-                tableNumber:tableNumber,
-                totalAmount:totalAmountOfOrder
-            })
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            // orderDetails,
+            tableNumber: tableNumber,
+            totalAmount: totalAmountOfOrder
+          })
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.invoiceData,"==========invoiceData");
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.invoiceData, "==========invoiceData");
             // Open a new window for the invoice
             const invoiceWindow = window.open('', '_blank');
             invoiceWindow.document.write('<html><head><title>Invoice</title></head><body>');
@@ -373,13 +373,13 @@
 
             // Loop through order details to populate the table
             data.invoiceData.orderDetails.forEach((item) => {
-                const row = table.insertRow();
-                const cell1 = row.insertCell(0);
-                cell1.textContent = item.name;
-                const cell2 = row.insertCell(1);
-                cell2.textContent = item.quantity;
-                const cell3 = row.insertCell(2);
-                cell3.textContent = `${item.price} /-`;
+              const row = table.insertRow();
+              const cell1 = row.insertCell(0);
+              cell1.textContent = item.name;
+              const cell2 = row.insertCell(1);
+              cell2.textContent = item.quantity;
+              const cell3 = row.insertCell(2);
+              cell3.textContent = `${item.price} /-`;
             });
 
             // Add total row
@@ -395,183 +395,212 @@
 
             // Delay for a short time to ensure content is fully loaded
             setTimeout(() => {
-                // Print the invoice
-                invoiceWindow.print();
-                // Close the invoice window after printing
-                invoiceWindow.close();
-                // Redirect back to order.html
-                window.location.href = "order.html";
+              // Print the invoice
+              invoiceWindow.print();
+              // Close the invoice window after printing
+              invoiceWindow.close();
+              // Redirect back to order.html with tableNumber and order id
+             var refetchUrl = 'order.html?tableNumber=' + data.invoiceData.tableNumber + '&orderId=' + data.invoiceData.orderId;
+             window.location.href = refetchUrl;
+            // Redirect back to order.html with tableNumber and orderId
+            // window.location.href = `order.html?tableNumber=${tableNumber}&orderId=${orderId}`;
+
             }, 1000); // Adjust the delay as needed
-        })
-        .catch(error => {
+          })
+          .catch(error => {
             console.error("Error generating invoice:", error);
-        });
-    }
+          });
+      }
 
-       
-    //payment button___________________________________
 
-    function paymentForOrder(orderId, onlinePayment) {
-    // Make a POST request to the backend endpoint to generate the invoice
-    fetch("http://localhost:4000/api/v1/payBill", {
-        method: "POST",
-        headers: {
+      //payment button___________________________________
+
+      function paymentForOrder(orderId, onlinePayment) {
+        // Make a POST request to the backend endpoint to generate the invoice
+        fetch("http://localhost:4000/api/v1/payBill", {
+          method: "POST",
+          headers: {
             "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
+          },
+          body: JSON.stringify({
             orderId: orderId,
             onlinePayment: onlinePayment
+          })
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Payment response: ", data.message);
-        alert(data.message);
-        //refresh the page 
-        window.location.reload();
-    }) 
-    .catch(error => {
-        console.error("Error making payment:", error);
-        alert(error.message);
-    });
-}
-    
-    document.addEventListener("DOMContentLoaded", function () {
-      // Function to get the tableNumber parameter from the URL
+          .then(response => response.json())
+          .then(data => {
+            console.log("Payment response: ", data.message);
+            alert(data.message);
+            //refresh the page 
+            window.location.reload();
+          })
+          .catch(error => {
+            console.error("Error making payment:", error);
+            alert(error.message);
+          });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+       // Function to get the tableNumber parameter from the URL
     function getTableNumberFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('tableNumber');
-    }
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('tableNumber');
+        }
 
-    // Get the tableNumber from the URL
-    const tableNumber = getTableNumberFromURL();
-
-    // Now you can use the tableNumber as needed in your code
-    console.log("=============Table Number:", tableNumber);
-      // Function to get the user's role
-    //   function getUserRole() {
-    //     return 'Admin'; 
-    // }
-
-    // Get the user's role
-    // const userRole = getUserRole();
-    const userRole = "Admin";
-   
-    const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
-    const makePaymentBtn = document.getElementById("make-payment-btn");
-    if(userRole === "Admin"){
-      generateInvoiceBtn.style.display = "block";   
-      makePaymentBtn.style.display = "block";
-    }else{
-      generateInvoiceBtn.style.display = 'none';   
-      makePaymentBtn.style.display = 'none';
-
-    }
-    
-            fetch(`http://localhost:4000/api/v1/getOrder?tableNumber=${tableNumber}`)
-                .then((response) => response.json())
-                .then((cartItems) => {
-                    if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
-                        throw new Error("Invalid menu data format");
-                    }
-    
-                    // Extract order details from the API response
-                    const orderDetails = cartItems.orderData.orderDetails;
-                    console.log("orderDetails=========>",cartItems.orderData);
-                    // Extract total amount from the API response
-                    const totalAmountOfOrder = cartItems.orderData.totalAmount;
-                    //extract order id
-                    const orderId = cartItems.orderData._id
-                    // Extract table number from the API response
-                    const tableNumber = cartItems.orderData.tableNumber;
-    
-                    // Generate table rows for cart items
-                    generateCartRows(orderDetails);
-    
-                    // Update total price in the UI
-                    updateTotalPrice(totalAmountOfOrder);
-    
-                    // Add event listener to the "Generate Invoice" button
-                    const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
-                    generateInvoiceBtn.addEventListener("click", function () {
-                        // Generate and print the invoice
-                        generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
-                    });
-
-                    function showPaymentDialog() {
-    const paymentDialog = document.getElementById("payment-dialog");
-    paymentDialog.style.display = "block";
-
-    const cashBtn = document.getElementById("cash-btn");
-    cashBtn.addEventListener("click", function () {
-        paymentDialog.style.display = "none";
-        paymentForOrder(orderId, false); // Payment with cash
-    });
-
-    const onlineBtn = document.getElementById("online-btn");
-    onlineBtn.addEventListener("click", function () {
-        paymentDialog.style.display = "none";
-        paymentForOrder(orderId, true); // Payment online
-    });
+// Function to get the orderId parameter from the URL
+function getOrderIdFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('orderId');
 }
 
-const payBillBtn = document.getElementById("make-payment-btn");
-payBillBtn.addEventListener("click", showPaymentDialog);
+// Get the tableNumber and orderId from the URL
+const tableNumber = getTableNumberFromURL();
+const orderIdFromUrl = getOrderIdFromURL();
 
-                })
-                .catch((error) => {
-                    console.error("Error fetching order data:", error);
-                });
-    
-            // Function to dynamically generate table rows for cart items
-            function generateCartRows(orderDetails) {
-                const tableBody = document.querySelector(".checkout-table tbody");
-                let totalPrice = 0;
-    
-                // Clear existing table rows
-                tableBody.innerHTML = "";
-    
-                // Create header row
-                const headerRow = document.createElement("tr");
-                headerRow.innerHTML = `
-                    <th class="hidden-xs">Item</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th class="hidden-xs">Price</th>
-                `;
-                tableBody.appendChild(headerRow);
-    
-                // Loop through cart items and generate table rows
-                orderDetails.forEach((item, index) => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                        <td class="hidden-xs">
-                            <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
-                        </td>
-                        <td>
-                            <h5 class="product-name"> <a href="#">${item.name}</a></h5>
-                        </td>
-                        <td>
-                            <h5 class="product-quantity"> ${item.quantity}</h5>
-                        </td>
-                        <td class="hidden-xs">
-                            <h5 class="order-money">${item.price} /-</h5>
-                        </td>
-                    `;
-    
-                    // Update total price
-                    totalPrice += item.price * item.quantity;
-                    tableBody.appendChild(row);
-                });
+// Now you can use the tableNumber and orderId as needed in your code
+console.log("=============Table Number:", tableNumber);
+console.log("=============Order ID:", orderIdFromUrl);
+
+        // Retrieve user role from localStorage
+        const userRole = localStorage.getItem('userRole');
+
+        const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+        const makePaymentBtn = document.getElementById("make-payment-btn");
+        if (userRole === "Admin") {
+          generateInvoiceBtn.style.display = "block";
+          makePaymentBtn.style.display = "block";
+        } else {
+          generateInvoiceBtn.style.display = 'none';
+          makePaymentBtn.style.display = 'none';
+
+        }
+
+        fetch(`http://localhost:4000/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
+    .then((response) => response.json())
+    .then((cartItems) => {
+      console.log("order items======>",cartItems);
+        // Retrieve user role from localStorage
+        const userRoleInApi = localStorage.getItem('userRole');
+         console.log("userRoleInApi====>",userRoleInApi);
+        if (cartItems.message === "Bill already paid") {
+            if (["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
+                window.location.href = 'alltables.html';
+            } else {
+                // Function to close the current window
+                function closeWindow() {
+                    window.close();
+                }
+
+                // Set a timeout to close the window after 5 minutes
+                setTimeout(closeWindow, 1 * 60 * 1000);
             }
-    
-            // Function to update total price in the UI
-            function updateTotalPrice(totalAmount) {
-                const totalPriceElement = document.getElementById("total-price");
-                totalPriceElement.textContent = `Total: ${totalAmount} /-`;
-            };
+        }
 
-        });
+        if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
+            // Hide buttons if any of the conditions are met
+            const generateInvoiceBtnInApi = document.getElementById("generate-invoice-btn");
+            const makePaymentBtnInApi = document.getElementById("make-payment-btn");
+            generateInvoiceBtnInApi.style.display = 'none';
+            makePaymentBtnInApi.style.display = 'none';
+            throw new Error("Invalid menu data format");
+        }
+            // Extract order details from the API response
+            const orderDetails = cartItems.orderData.orderDetails;
+            console.log("orderDetails=========>", cartItems.orderData);
+            // Extract total amount from the API response
+            const totalAmountOfOrder = cartItems.orderData.totalAmount;
+            //extract order id
+            const orderId = cartItems.orderData._id
+            // Extract table number from the API response
+            const tableNumber = cartItems.orderData.tableNumber;
+
+            // Generate table rows for cart items
+            generateCartRows(orderDetails);
+
+            // Update total price in the UI
+            updateTotalPrice(totalAmountOfOrder);
+
+            // Add event listener to the "Generate Invoice" button
+            const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+            generateInvoiceBtn.addEventListener("click", function () {
+              // Generate and print the invoice
+              generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
+            });
+
+            function showPaymentDialog() {
+              const paymentDialog = document.getElementById("payment-dialog");
+              paymentDialog.style.display = "block";
+
+              const cashBtn = document.getElementById("cash-btn");
+              cashBtn.addEventListener("click", function () {
+                paymentDialog.style.display = "none";
+                paymentForOrder(orderId, false); // Payment with cash
+              });
+
+              const onlineBtn = document.getElementById("online-btn");
+              onlineBtn.addEventListener("click", function () {
+                paymentDialog.style.display = "none";
+                paymentForOrder(orderId, true); // Payment online
+              });
+            }
+
+            const payBillBtn = document.getElementById("make-payment-btn");
+            payBillBtn.addEventListener("click", showPaymentDialog);
+
+          })
+          .catch((error) => {
+            console.error("Error fetching order data:", error);
+          });
+
+        // Function to dynamically generate table rows for cart items
+        function generateCartRows(orderDetails) {
+          const tableBody = document.querySelector(".checkout-table tbody");
+          let totalPrice = 0;
+
+          // Clear existing table rows
+          tableBody.innerHTML = "";
+
+          // Create header row
+          const headerRow = document.createElement("tr");
+          headerRow.innerHTML = `
+                        <th class="hidden-xs">Item</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th class="hidden-xs">Price</th>
+                    `;
+          tableBody.appendChild(headerRow);
+
+          // Loop through cart items and generate table rows
+          orderDetails.forEach((item, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                            <td class="hidden-xs">
+                                <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
+                            </td>
+                            <td>
+                                <h5 class="product-name"> <a href="#">${item.name}</a></h5>
+                            </td>
+                            <td>
+                                <h5 class="product-quantity"> ${item.quantity}</h5>
+                            </td>
+                            <td class="hidden-xs">
+                                <h5 class="order-money">${item.price} /-</h5>
+                            </td>
+                        `;
+
+            // Update total price
+            totalPrice += item.price * item.quantity;
+            tableBody.appendChild(row);
+          });
+        }
+
+        // Function to update total price in the UI
+        function updateTotalPrice(totalAmount) {
+          const totalPriceElement = document.getElementById("total-price");
+          totalPriceElement.textContent = `Total: ${totalAmount} /-`;
+        };
+
+      });
     </script>
     
     
