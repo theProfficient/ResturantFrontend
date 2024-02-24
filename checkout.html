@@ -450,6 +450,17 @@
         <script  src="js/jquery.min.js"></script>
         <script  src="js/plugins.js"></script>
         <script  src="js/scripts.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                //check if the user is logged in 
+                 const isLoggedIn = localStorage.getItem('isLoggedIn');
+                console.log("isLoggedIn====>",isLoggedIn);
+                 if(!isLoggedIn || isLoggedIn == null){
+                    //if not redirect to login page
+                    window.location.href = 'login-page.html'
+                 }
+            })
+        </script>
     </body>
 
 <!-- Mirrored from wanteat.kwst.net/site/checkout.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
