@@ -236,7 +236,7 @@
           const menuOptions = document.querySelector('.menu-options');
 
     // Fetch menu options from the backend API
-    fetch("http://localhost:4000/api/v1/getMenu")
+    fetch("https://resturantapp.azurewebsites.net/api/v1/getMenu")
         .then(response => response.json())
         .then(data => {
             const optionsHTML = data.data.map(menu => `<li>${menu.menuType}</li>`).join('');
@@ -277,7 +277,7 @@
                     event.preventDefault();
                     var formData = new FormData($(this)[0]);
                     $.ajax({
-                        url: 'http://localhost:4000/api/v1/createDish',
+                        url: 'https://resturantapp.azurewebsites.net/api/v1/createDish',
                         type: 'POST',
                         data: formData,
                         async: false,

@@ -254,7 +254,7 @@
     }
             function fetchTableData() {
                 $.ajax({
-                    url: 'http://localhost:4000/api/v1/getAllTableData',
+                    url: 'https://resturantapp.azurewebsites.net/api/v1/getAllTableData',
                     method: 'GET',
                     success: function(response) {
                         if (response.success) {

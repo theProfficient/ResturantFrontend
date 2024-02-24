@@ -332,7 +332,7 @@
     <script>
       function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
         // Make a POST request to the backend endpoint to generate the invoice
-        fetch("http://localhost:4000/api/v1/generate-invoice", {
+        fetch("https://resturantapp.azurewebsites.net/api/v1/generate-invoice", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -417,7 +417,7 @@
 
       function paymentForOrder(orderId, onlinePayment) {
         // Make a POST request to the backend endpoint to generate the invoice
-        fetch("http://localhost:4000/api/v1/payBill", {
+        fetch("https://resturantapp.azurewebsites.net/api/v1/payBill", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -475,7 +475,7 @@ console.log("=============Order ID:", orderIdFromUrl);
 
         }
 
-        fetch(`http://localhost:4000/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
+        fetch(`https://resturantapp.azurewebsites.net/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
     .then((response) => response.json())
     .then((cartItems) => {
       console.log("order items======>",cartItems);

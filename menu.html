@@ -293,8 +293,8 @@
           }
 
           // Get the tableNumber from the URL query parameter
-          // const tableNumber = getParameterByName('tableNumber');
-          const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
+          const tableNumber = getParameterByName('tableNumber');
+          // const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
           console.log("tableNumber=====>", tableNumber);
 
             // Update the DOM to display the table number
@@ -302,7 +302,7 @@
              tableNumberElement.textContent = "Table Number : " + tableNumber;
 
 
-        fetch("http://localhost:4000/api/v1/getAllDishes")
+        fetch("https://resturantapp.azurewebsites.net/api/v1/getAllDishes")
             .then((response) => response.json())
             .then((menuData) => {
                 if (!menuData || !menuData.success || !menuData.data) {
