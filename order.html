@@ -68,7 +68,7 @@
     <!--loader end-->
     <!--  main   -->
     <div id="main">
-      <a href="index4.html" class="logo-holder"
+      <a href="index.html" class="logo-holder"
         ><img src="images/logo.png" alt=""
       /></a>
       <!--  header  -->
@@ -112,7 +112,7 @@
               <nav class="nav-inner" id="menu_init">
                 <ul>
                   <li>
-                    <a href="index4.html">Home </a>
+                    <a href="index.html">Home </a>
                   </li>
                   <li><a href="menu.html" class="act-link"> Menu</a></li>
                 </ul>
@@ -476,25 +476,25 @@ console.log("=============Order ID:", orderIdFromUrl);
         }
 
         fetch(`https://resturantapp.azurewebsites.net/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
-    .then((response) => response.json())
-    .then((cartItems) => {
-      console.log("order items======>",cartItems);
+        .then((response) => response.json())
+        .then((cartItems) => {
+      console.log("order items for paid or not ======>",cartItems);
         // Retrieve user role from localStorage
         const userRoleInApi = localStorage.getItem('userRole');
          console.log("userRoleInApi====>",userRoleInApi);
-        if (cartItems.message === "Bill already paid") {
-            if (["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
-                window.location.href = 'alltables.html';
-            } else {
-                // Function to close the current window
+         if (cartItems.message === "Bill already paid" && ["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
+         window.location.href = 'alltables.html';
+               } else if (cartItems.message === "Bill already paid") {
+                window.alert("Thank you for visit !")
+            // Function to close the current window
                 function closeWindow() {
                     window.close();
-                }
+              }
 
-                // Set a timeout to close the window after 5 minutes
-                setTimeout(closeWindow, 1 * 60 * 1000);
-            }
-        }
+    // Set a timeout to close the window after 5 minutes
+    setTimeout(closeWindow, 1 * 60 * 1000);
+}
+
 
         if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
             // Hide buttons if any of the conditions are met
