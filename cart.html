@@ -280,6 +280,9 @@
             updateCartUI(0);
            //update stored data 
            updateURLParams(flattenedCartItems);
+           
+            // Clear the cart items from localStorage
+           localStorage.removeItem('cartItems');
          // Construct the URL with both tableNumber and orderId parameters
          var orderPageUrl = 'order.html?tableNumber=' + tableNumber + '&orderId=' + data.data._id;
 

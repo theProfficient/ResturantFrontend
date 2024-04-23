@@ -1,579 +1,562 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
-  <head>
-    <!--=============== basic  ===============-->
-    <meta charset="UTF-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>WantEat - Responsive Restaurant / Cafe / Pub Template</title>
-    <!--=============== css  ===============-->
-    <link type="text/css" rel="stylesheet" href="css/plugins.css" />
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
-    <!-- <link type="text/css" rel="stylesheet"  href="css/print.css" media="print"> -->
-    <!-- <link rel="stylesheet" type="text/css" href="print.css"> -->
-    <!--=============== favicons ===============-->
-    <link rel="shortcut icon" href="images/favicon.ico" />
-    <style>
-        .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .invoice-table th, .invoice-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        
-        .invoice-table th {
-            background-color: #f2f2f2;
-        }
-        .payment-dialog {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
-}
+<!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
 
-.payment-dialog p {
-    margin: 0 0 10px;
-}
+<head>
+  <!--=============== basic  ===============-->
+  <meta charset="UTF-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>WantEat - Responsive Restaurant / Cafe / Pub Template</title>
+  <!--=============== css  ===============-->
+  <link type="text/css" rel="stylesheet" href="css/plugins.css" />
+  <link type="text/css" rel="stylesheet" href="css/style.css" />
+  <!-- <link type="text/css" rel="stylesheet"  href="css/print.css" media="print"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="print.css"> -->
+  <!--=============== favicons ===============-->
+  <link rel="shortcut icon" href="images/favicon.ico" />
+  <style>
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-.payment-dialog button {
-    margin-right: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-}
+    .invoice-table th,
+    .invoice-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
 
-.payment-dialog button:last-child {
-    margin-right: 0;
-}
+    .invoice-table th {
+      background-color: #f2f2f2;
+    }
 
-    </style>
-  </head>
-  <body>
-    <!--loader-->
-    <div class="main-loader">
-      <div class="loader-wrap">
-        <span class="loader"></span>
+    .payment-dialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 9999;
+    }
+
+    .payment-dialog p {
+      margin: 0 0 10px;
+    }
+
+    .payment-dialog button {
+      margin-right: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .payment-dialog button:last-child {
+      margin-right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!--loader-->
+  <div class="main-loader">
+    <div class="loader-wrap">
+      <span class="loader"></span>
+    </div>
+  </div>
+  <!--loader end-->
+  <!--  main   -->
+  <div id="main">
+    <a href="index.html" class="logo-holder"><img src="images/logo.png" alt="" /></a>
+    <!--  header  -->
+    <header class="header_half">
+      <div class="header-inner">
+        <div class="header-top_contacts">
+          <a href="#"><span>Call now:</span> +489756412322</a><a href="#"><span>Write :</span> yourmail@domain.com</a>
+        </div>
+        <div class="share-btn show-share isShare"></div>
+        <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
+        <div class="cart-btn sc_btn">
+          <strong> Your Cart</strong><i class="fa-thin fa-basket-shopping-simple"></i><span id="cart-item-count"
+            class="cart-btn_counter">0</span>
+        </div>
+        <div class="nav-button_wrap isvis_hid_menu">
+          <div class="nav-button"><span></span></div>
+        </div>
+        <!-- share-wrapper-->
+        <div class="share-wrapper share-wrapper_half">
+          <div class="share-inner">
+            <div class="share-container"></div>
+          </div>
+        </div>
+        <!-- share-wrapper end -->
+      </div>
+    </header>
+    <!--  header end  -->
+    <!--  header end  -->
+    <!--  navigation -->
+    <div class="hidden_menu-container">
+      <div class="nav-wrapper isvis_menu hiddenmenu">
+        <div class="nav-separator"><span></span></div>
+        <div class="nav-wrap">
+          <div class="fl-wrap">
+            <div class="nav_dec"><span></span></div>
+          </div>
+          <div class="nav-container fl-wrap">
+            <!-- nav -->
+            <nav class="nav-inner" id="menu_init">
+              <ul>
+                <li>
+                  <a href="index.html">Home </a>
+                </li>
+                <li><a href="menu.html" class="act-link"> Menu</a></li>
+              </ul>
+            </nav>
+            <!-- nav end-->
+          </div>
+          <div class="fl-wrap">
+            <div class="nav_dec nd_bottom"><span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="body-ovelay fs-wrapper"></div>
+    </div>
+    <!--  navigation  end-->
+    <!--column-image-->
+    <div class="column-image mob-hidden">
+      <div class="border-bg">
+        <div class="bg" data-bg="images/bg/long/6.jpg"></div>
+        <div class="overlay"></div>
       </div>
     </div>
-    <!--loader end-->
-    <!--  main   -->
-    <div id="main">
-      <a href="index.html" class="logo-holder"
-        ><img src="images/logo.png" alt=""
-      /></a>
-      <!--  header  -->
-      <header class="header_half">
-        <div class="header-inner">
-          <div class="header-top_contacts">
-            <a href="#"><span>Call now:</span> +489756412322</a
-            ><a href="#"><span>Write :</span> yourmail@domain.com</a>
-          </div>
-          <div class="share-btn show-share isShare"></div>
-          <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
-          <div class="cart-btn sc_btn">
-            <strong> Your Cart</strong
-            ><i class="fa-thin fa-basket-shopping-simple"></i
-            ><span id="cart-item-count" class="cart-btn_counter">0</span>
-          </div>
-          <div class="nav-button_wrap isvis_hid_menu">
-            <div class="nav-button"><span></span></div>
-          </div>
-          <!-- share-wrapper-->
-          <div class="share-wrapper share-wrapper_half">
-            <div class="share-inner">
-              <div class="share-container"></div>
+    <!--column-image end-->
+    <!--column-wrap-->
+    <div class="column-wrap single_colimn-wrap">
+      <!--section-->
+      <div class="content-section column-wrap-section white-bg" data-scrollax-parent="true" id="sec2">
+        <div class="container small-container">
+          <div class="section-title">
+            <h4>Your Ordered list</h4>
+            <h2>Your Order</h2>
+            <div class="section-title-separator_wrap">
+              <div class="section-title-separator"><span></span></div>
             </div>
           </div>
-          <!-- share-wrapper end -->
-        </div>
-      </header>
-      <!--  header end  -->
-      <!--  header end  -->
-      <!--  navigation -->
-      <div class="hidden_menu-container">
-        <div class="nav-wrapper isvis_menu hiddenmenu">
-          <div class="nav-separator"><span></span></div>
-          <div class="nav-wrap">
-            <div class="fl-wrap">
-              <div class="nav_dec"><span></span></div>
-            </div>
-            <div class="nav-container fl-wrap">
-              <!-- nav -->
-              <nav class="nav-inner" id="menu_init">
-                <ul>
-                  <li>
-                    <a href="index.html">Home </a>
-                  </li>
-                  <li><a href="menu.html" class="act-link"> Menu</a></li>
-                </ul>
-              </nav>
-              <!-- nav end-->
-            </div>
-            <div class="fl-wrap">
-              <div class="nav_dec nd_bottom"><span></span></div>
-            </div>
-          </div>
-        </div>
-        <div class="body-ovelay fs-wrapper"></div>
-      </div>
-      <!--  navigation  end-->
-      <!--column-image-->
-      <div class="column-image mob-hidden">
-        <div class="border-bg">
-          <div class="bg" data-bg="images/bg/long/6.jpg"></div>
-          <div class="overlay"></div>
-        </div>
-      </div>
-      <!--column-image end-->
-      <!--column-wrap-->
-      <div class="column-wrap single_colimn-wrap">
-        <!--section-->
-        <div
-          class="content-section column-wrap-section white-bg"
-          data-scrollax-parent="true"
-          id="sec2"
-        >
-          <div class="container small-container">
-            <div class="section-title">
-              <h4>Your Ordered list</h4>
-              <h2>Your Order</h2>
-              <div class="section-title-separator_wrap">
-                <div class="section-title-separator"><span></span></div>
-              </div>
-            </div>
-            <!-- CHECKOUT TABLE -->
-            <div class="checkout-table-container">
-              <table class="table table-border checkout-table">
-                <tbody id="cart-items-body">
-                  <!-- Table rows will be dynamically generated here -->
-                </tbody>
-              </table>
-              <!-- COUPON -->
-              <div class="coupon-holder-wrap fl-wrap">
-                <div class="row">
-                  <div class="col-md-7"></div>
-                  <div class="col-md-5">
-                    <div class="total-box">
-                      <span class="total-item" id="total-price">Total: $0</span>
-                    </div>
-                    <div id="invoice-content">
-                        <button class="sb-det_btn" id="generate-invoice-btn">Generate Invoice</button>
-                        <button class="sb-det_btn" id="make-payment-btn">Make Payment</button>
-                        <div id="invoice-content" style="display: none;"></div>
-                        <div id="payment-dialog" class="payment-dialog">
-                          <p>Choose payment method:</p>
-                          <button id="cash-btn">Cash</button>
-                          <button id="online-btn">Online</button>
-                      </div>
+          <!-- CHECKOUT TABLE -->
+          <div class="checkout-table-container">
+            <table class="table table-border checkout-table">
+              <tbody id="cart-items-body">
+                <!-- Table rows will be dynamically generated here -->
+              </tbody>
+            </table>
+            <!-- COUPON -->
+            <div class="coupon-holder-wrap fl-wrap">
+              <div class="row">
+                <div class="col-md-7"></div>
+                <div class="col-md-5">
+                  <div class="total-box">
+                    <span class="total-item" id="total-price">Total: $0</span>
+                  </div>
+                  <div id="invoice-content">
+                    <button class="sb-det_btn" id="generate-invoice-btn">Generate Invoice</button>
+                    <button class="sb-det_btn" id="make-payment-btn">Make Payment</button>
+                    <div id="invoice-content" style="display: none;"></div>
+                    <div id="payment-dialog" class="payment-dialog">
+                      <p>Choose payment method:</p>
+                      <button id="cash-btn">Cash</button>
+                      <button id="online-btn">Online</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- /COUPON -->
             </div>
+            <!-- /COUPON -->
+          </div>
 
-            <!-- /CHECKOUT TABLE -->
-          </div>
-          <div
-            class="parallax-element"
-            style="right: 20px; bottom: -50px"
-            data-scrollax="properties: { translateY: '-150px' }"
-          >
-            <img src="images/bg/dec/3.png" alt="" />
-          </div>
-          <div
-            class="parallax-element"
-            style="left: 10%; top: 20px"
-            data-scrollax="properties: { translateY: '150px' }"
-          >
-            <img src="images/bg/dec/4.png" alt="" />
-          </div>
+          <!-- /CHECKOUT TABLE -->
         </div>
-        <!--section end-->
+        <div class="parallax-element" style="right: 20px; bottom: -50px"
+          data-scrollax="properties: { translateY: '-150px' }">
+          <img src="images/bg/dec/3.png" alt="" />
+        </div>
+        <div class="parallax-element" style="left: 10%; top: 20px" data-scrollax="properties: { translateY: '150px' }">
+          <img src="images/bg/dec/4.png" alt="" />
+        </div>
       </div>
-      <!--column-wrap end-->
-      <!--footer  -->
-      <div class="height-emulator fl-wrap"></div>
-      <footer class="main-footer column_footer">
-        <div class="main-footer_content fl-wrap">
-          <div class="container small-container">
-            <div class="footer-top">
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="footer-social">
-                    <div class="footer-social-title">Follow us:</div>
-                    <ul>
-                      <li>
-                        <a href="#" target="_blank"
-                          ><i class="fa-brands fa-facebook-f"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a href="#" target="_blank"
-                          ><i class="fa-brands fa-instagram"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
+      <!--section end-->
+    </div>
+    <!--column-wrap end-->
+    <!--footer  -->
+    <div class="height-emulator fl-wrap"></div>
+    <footer class="main-footer column_footer">
+      <div class="main-footer_content fl-wrap">
+        <div class="container small-container">
+          <div class="footer-top">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="footer-social">
+                  <div class="footer-social-title">Follow us:</div>
+                  <ul>
+                    <li>
+                      <a href="#" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    </li>
+                    <li>
+                      <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
-            <div class="footer-inner">
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="footer-widget">
-                    <div class="footer-widget-title">About Us</div>
-                    <div class="footer-widget-content">
-                      <div class="footer-box">
-                        <p>
-                          Numerous commentators have also referred to the
-                          supposed restaurant owner's eccentric habit of touting
-                          for custom outside his establishment, dressed in
-                          aristocratic fashion and brandishing a sword.
-                        </p>
-                      </div>
-                      <!-- <a href="about.html" class="footer-widget-content-link">Read more</a>                                                    	 -->
+          </div>
+          <div class="footer-inner">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="footer-widget">
+                  <div class="footer-widget-title">About Us</div>
+                  <div class="footer-widget-content">
+                    <div class="footer-box">
+                      <p>
+                        Numerous commentators have also referred to the
+                        supposed restaurant owner's eccentric habit of touting
+                        for custom outside his establishment, dressed in
+                        aristocratic fashion and brandishing a sword.
+                      </p>
                     </div>
+                    <!-- <a href="about.html" class="footer-widget-content-link">Read more</a>                                                    	 -->
                   </div>
                 </div>
-                <!--footer social links-->
-                <!--subscribe form-->
-                <div class="col-md-4">
-                  <div class="footer-widget">
-                    <div class="footer-widget-title">Contact Info</div>
-                    <div class="footer-widget-content">
-                      <div class="footer-contacts footer-box">
-                        <ul>
-                          <li>
-                            <span>Call :</span><a href="#">+489756412322</a> ,
-                            <a href="#">+56897456123</a>
-                          </li>
-                          <li>
-                            <span>Write :</span
-                            ><a href="#">yourmail@domain.com</a>
-                          </li>
-                          <li>
-                            <span>Find us : </span
-                            ><a href="#"> 27TH Brooklyn NY</a>
-                          </li>
-                        </ul>
-                      </div>
-                      <!-- <a href="contacts.html" class="footer-widget-content-link">Get in Touch</a>                                                    	 -->
+              </div>
+              <!--footer social links-->
+              <!--subscribe form-->
+              <div class="col-md-4">
+                <div class="footer-widget">
+                  <div class="footer-widget-title">Contact Info</div>
+                  <div class="footer-widget-content">
+                    <div class="footer-contacts footer-box">
+                      <ul>
+                        <li>
+                          <span>Call :</span><a href="#">+489756412322</a> ,
+                          <a href="#">+56897456123</a>
+                        </li>
+                        <li>
+                          <span>Write :</span><a href="#">yourmail@domain.com</a>
+                        </li>
+                        <li>
+                          <span>Find us : </span><a href="#"> 27TH Brooklyn NY</a>
+                        </li>
+                      </ul>
                     </div>
+                    <!-- <a href="contacts.html" class="footer-widget-content-link">Get in Touch</a>                                                    	 -->
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="footer-widget">
-                    <div class="footer-widget-title">Opening Hours</div>
-                    <div class="footer-widget-content">
-                      <div class="footer-work-time_widget footer-box">
-                        <div class="row">
-                          <div class="col-md-6">
-                            <h6>Monday to Thurseday</h6>
-                            <div class="footer-work-time">
-                              10:00 AM<br />
-                              10:00 PM
-                            </div>
+              </div>
+              <div class="col-md-3">
+                <div class="footer-widget">
+                  <div class="footer-widget-title">Opening Hours</div>
+                  <div class="footer-widget-content">
+                    <div class="footer-work-time_widget footer-box">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h6>Monday to Thurseday</h6>
+                          <div class="footer-work-time">
+                            10:00 AM<br />
+                            10:00 PM
                           </div>
-                          <div class="col-md-6">
-                            <h6>Friday to Sunday</h6>
-                            <div class="footer-work-time">
-                              10:00 AM<br />
-                              11:00 PM
-                            </div>
+                        </div>
+                        <div class="col-md-6">
+                          <h6>Friday to Sunday</h6>
+                          <div class="footer-work-time">
+                            10:00 AM<br />
+                            11:00 PM
                           </div>
                         </div>
                       </div>
-                      <!-- <a href="#" class="footer-widget-content-link show-rb">Reserve Table</a>                                                    	 -->
                     </div>
+                    <!-- <a href="#" class="footer-widget-content-link show-rb">Reserve Table</a>                                                    	 -->
                   </div>
                 </div>
               </div>
             </div>
-            <!-- subbfooter -->
-            <div class="subbfooter">
-              <div class="policy-box">
-                <span> &#169; Wanteat Restaurant 2024 </span> / All rights
-                reserved.
-              </div>
-              <div class="pay_list">
-                <ul>
-                  <li><i class="fa-brands fa-cc-visa"></i></li>
-                  <li><i class="fa-brands fa-cc-mastercard"></i></li>
-                  <li><i class="fa-brands fa-cc-paypal"></i></li>
-                </ul>
-              </div>
-              <div class="to-top-btn to-top">
-                <i class="fa-solid fa-chevrons-up"></i>
-              </div>
-            </div>
-            <!-- subbfooter end -->
           </div>
-          <div class="footer-bg"></div>
+          <!-- subbfooter -->
+          <div class="subbfooter">
+            <div class="policy-box">
+              <span> &#169; Wanteat Restaurant 2024 </span> / All rights
+              reserved.
+            </div>
+            <div class="pay_list">
+              <ul>
+                <li><i class="fa-brands fa-cc-visa"></i></li>
+                <li><i class="fa-brands fa-cc-mastercard"></i></li>
+                <li><i class="fa-brands fa-cc-paypal"></i></li>
+              </ul>
+            </div>
+            <div class="to-top-btn to-top">
+              <i class="fa-solid fa-chevrons-up"></i>
+            </div>
+          </div>
+          <!-- subbfooter end -->
         </div>
-      </footer>
-      <!--footer end-->
-    </div>
-    <!-- Main end -->
-    <!--=============== scripts  ===============-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/scripts.js"></script>
-    <script>
-      function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
-        // Make a POST request to the backend endpoint to generate the invoice
-        fetch("https://resturantapp.azurewebsites.net/api/v1/generate-invoice", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            orderId: orderId,
-            // orderDetails,
-            tableNumber: tableNumber,
-            totalAmount: totalAmountOfOrder
-          })
+        <div class="footer-bg"></div>
+      </div>
+    </footer>
+    <!--footer end-->
+  </div>
+  <!-- Main end -->
+  <!--=============== scripts  ===============-->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/scripts.js"></script>
+  <script>
+    function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
+      // Make a POST request to the backend endpoint to generate the invoice
+      fetch("https://resturantapp.azurewebsites.net/api/v1/generate-invoice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          // orderDetails,
+          tableNumber: tableNumber,
+          totalAmount: totalAmountOfOrder
         })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data.invoiceData, "==========invoiceData");
-            // Open a new window for the invoice
-            const invoiceWindow = window.open('', '_blank');
-            invoiceWindow.document.write('<html><head><title>Invoice</title></head><body>');
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.invoiceData, "==========invoiceData");
+          // Open a new window for the invoice
+          const invoiceWindow = window.open('', '_blank');
+          invoiceWindow.document.write('<html><head><title>Invoice</title></head><body>');
 
-            // Create table element
-            const table = invoiceWindow.document.createElement("table");
-            table.classList.add("invoice-table");
+          // Create table element
+          const table = invoiceWindow.document.createElement("table");
+          table.classList.add("invoice-table");
 
-            // Create header row
-            const headerRow = table.insertRow();
-            const billOfTableNumberHeader = invoiceWindow.document.createElement("th");
-            billOfTableNumberHeader.textContent = `Bill of Table Number: ${tableNumber}`;
-            billOfTableNumberHeader.setAttribute("colspan", "3");
-            headerRow.appendChild(billOfTableNumberHeader);
+          // Create header row
+          const headerRow = table.insertRow();
+          const billOfTableNumberHeader = invoiceWindow.document.createElement("th");
+          billOfTableNumberHeader.textContent = `Bill of Table Number: ${tableNumber}`;
+          billOfTableNumberHeader.setAttribute("colspan", "3");
+          headerRow.appendChild(billOfTableNumberHeader);
 
-            // Create table header
-            const headerRow2 = table.insertRow();
-            const headerCell1 = headerRow2.insertCell(0);
-            headerCell1.textContent = "Item";
-            const headerCell2 = headerRow2.insertCell(1);
-            headerCell2.textContent = "Quantity";
-            const headerCell3 = headerRow2.insertCell(2);
-            headerCell3.textContent = "Price";
+          // Create table header
+          const headerRow2 = table.insertRow();
+          const headerCell1 = headerRow2.insertCell(0);
+          headerCell1.textContent = "Item";
+          const headerCell2 = headerRow2.insertCell(1);
+          headerCell2.textContent = "Quantity";
+          const headerCell3 = headerRow2.insertCell(2);
+          headerCell3.textContent = "Price";
 
-            // Loop through order details to populate the table
-            data.invoiceData.orderDetails.forEach((item) => {
-              const row = table.insertRow();
-              const cell1 = row.insertCell(0);
-              cell1.textContent = item.name;
-              const cell2 = row.insertCell(1);
-              cell2.textContent = item.quantity;
-              const cell3 = row.insertCell(2);
-              cell3.textContent = `${item.price} /-`;
-            });
+          // Loop through order details to populate the table
+          data.invoiceData.orderDetails.forEach((item) => {
+            const row = table.insertRow();
+            const cell1 = row.insertCell(0);
+            cell1.textContent = item.name;
+            const cell2 = row.insertCell(1);
+            cell2.textContent = item.quantity;
+            const cell3 = row.insertCell(2);
+            cell3.textContent = `${item.price} /-`;
+          });
 
-            // Add total row
-            const totalRow = table.insertRow();
-            const totalCell = totalRow.insertCell(0);
-            totalCell.colSpan = 2;
-            totalCell.textContent = "Total Amount:";
-            const totalAmountCell = totalRow.insertCell(1);
-            totalAmountCell.textContent = `${data.invoiceData.totalAmountOfOrder} /-`;
+          // Add total row
+          const totalRow = table.insertRow();
+          const totalCell = totalRow.insertCell(0);
+          totalCell.colSpan = 2;
+          totalCell.textContent = "Total Amount:";
+          const totalAmountCell = totalRow.insertCell(1);
+          totalAmountCell.textContent = `${data.invoiceData.totalAmountOfOrder} /-`;
 
-            // Append the table to the invoice content
-            invoiceWindow.document.body.appendChild(table);
+          // Append the table to the invoice content
+          invoiceWindow.document.body.appendChild(table);
 
-            // Delay for a short time to ensure content is fully loaded
-            setTimeout(() => {
-              // Print the invoice
-              invoiceWindow.print();
-              // Close the invoice window after printing
-              invoiceWindow.close();
-              // Redirect back to order.html with tableNumber and order id
-             var refetchUrl = 'order.html?tableNumber=' + data.invoiceData.tableNumber + '&orderId=' + data.invoiceData.orderId;
-             window.location.href = refetchUrl;
+          // Delay for a short time to ensure content is fully loaded
+          setTimeout(() => {
+            // Print the invoice
+            invoiceWindow.print();
+            // Close the invoice window after printing
+            invoiceWindow.close();
+            // Redirect back to order.html with tableNumber and order id
+            var refetchUrl = 'order.html?tableNumber=' + data.invoiceData.tableNumber + '&orderId=' + data.invoiceData.orderId;
+            window.location.href = refetchUrl;
             // Redirect back to order.html with tableNumber and orderId
             // window.location.href = `order.html?tableNumber=${tableNumber}&orderId=${orderId}`;
 
-            }, 1000); // Adjust the delay as needed
-          })
-          .catch(error => {
-            console.error("Error generating invoice:", error);
-          });
-      }
-
-
-      //payment button___________________________________
-
-      function paymentForOrder(orderId, onlinePayment) {
-        // Make a POST request to the backend endpoint to generate the invoice
-        fetch("https://resturantapp.azurewebsites.net/api/v1/payBill", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            orderId: orderId,
-            onlinePayment: onlinePayment
-          })
+          }, 1000); // Adjust the delay as needed
         })
-          .then(response => response.json())
-          .then(data => {
-            console.log("Payment response: ", data.message);
-            alert(data.message);
-            //refresh the page 
-            window.location.reload();
-          })
-          .catch(error => {
-            console.error("Error making payment:", error);
-            alert(error.message);
-          });
+        .catch(error => {
+          console.error("Error generating invoice:", error);
+        });
+    }
+
+
+    //payment button___________________________________
+
+    function paymentForOrder(orderId, onlinePayment) {
+      // Make a POST request to the backend endpoint to generate the invoice
+      fetch("https://resturantapp.azurewebsites.net/api/v1/payBill", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          onlinePayment: onlinePayment
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Payment response: ", data.message);
+          alert(data.message);
+          // Clear the cart items from localStorage
+          localStorage.removeItem('cartItems');
+          //refresh the page 
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error("Error making payment:", error);
+          alert(error.message);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // Clear the cart items from localStorage
+      localStorage.removeItem('cartItems');
+      // Function to get the tableNumber parameter from the URL
+      function getTableNumberFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('tableNumber');
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-       // Function to get the tableNumber parameter from the URL
-    function getTableNumberFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('tableNumber');
-        }
+      // Function to get the orderId parameter from the URL
+      function getOrderIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('orderId');
+      }
 
-// Function to get the orderId parameter from the URL
-function getOrderIdFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('orderId');
-}
+      // Get the tableNumber and orderId from the URL
+      const tableNumber = getTableNumberFromURL();
+      const orderIdFromUrl = getOrderIdFromURL();
 
-// Get the tableNumber and orderId from the URL
-const tableNumber = getTableNumberFromURL();
-const orderIdFromUrl = getOrderIdFromURL();
+      // Now you can use the tableNumber and orderId as needed in your code
+      console.log("=============Table Number:", tableNumber);
+      console.log("=============Order ID:", orderIdFromUrl);
 
-// Now you can use the tableNumber and orderId as needed in your code
-console.log("=============Table Number:", tableNumber);
-console.log("=============Order ID:", orderIdFromUrl);
+      // Retrieve user role from localStorage
+      const userRole = localStorage.getItem('userRole');
 
-        // Retrieve user role from localStorage
-        const userRole = localStorage.getItem('userRole');
+      const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+      const makePaymentBtn = document.getElementById("make-payment-btn");
+      if (userRole === "Admin") {
+        generateInvoiceBtn.style.display = "block";
+        makePaymentBtn.style.display = "block";
+      } else {
+        generateInvoiceBtn.style.display = 'none';
+        makePaymentBtn.style.display = 'none';
 
-        const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
-        const makePaymentBtn = document.getElementById("make-payment-btn");
-        if (userRole === "Admin") {
-          generateInvoiceBtn.style.display = "block";
-          makePaymentBtn.style.display = "block";
-        } else {
-          generateInvoiceBtn.style.display = 'none';
-          makePaymentBtn.style.display = 'none';
+      }
 
-        }
-
-        fetch(`https://resturantapp.azurewebsites.net/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
+      fetch(`https://resturantapp.azurewebsites.net/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
         .then((response) => response.json())
         .then((cartItems) => {
-      console.log("order items for paid or not ======>",cartItems);
-        // Retrieve user role from localStorage
-        const userRoleInApi = localStorage.getItem('userRole');
-         console.log("userRoleInApi====>",userRoleInApi);
-         if (cartItems.message === "Bill already paid" && ["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
-         window.location.href = 'alltables.html';
-               } else if (cartItems.message === "Bill already paid") {
-                window.alert("Thank you for visit !")
-            // Function to close the current window
-                function closeWindow() {
-                    window.close();
-              }
+          console.log("order items for paid or not ======>", cartItems);
+          // Retrieve user role from localStorage
+          const userRoleInApi = localStorage.getItem('userRole');
+          console.log("userRoleInApi====>", userRoleInApi);
+          if (cartItems.message === "Bill already paid" && ["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
+            window.location.href = 'alltables.html';
+            // Redirect to shop.html and prevent back navigation
+            //  window.location.replace('shop.html');
+          } else if (cartItems.message === "Bill already paid") {
+            // Redirect to shop.html and prevent back navigation
+            window.location.replace('shop.html');
+          }
 
-    // Set a timeout to close the window after 5 minutes
-    setTimeout(closeWindow, 1 * 60 * 1000);
-}
-
-
-        if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
+          //refresh the page 
+          // window.location.reload();
+          if (!cartItems || !cartItems.success || !cartItems.orderData || !cartItems.orderData.orderDetails) {
             // Hide buttons if any of the conditions are met
             const generateInvoiceBtnInApi = document.getElementById("generate-invoice-btn");
             const makePaymentBtnInApi = document.getElementById("make-payment-btn");
             generateInvoiceBtnInApi.style.display = 'none';
             makePaymentBtnInApi.style.display = 'none';
             throw new Error("Invalid menu data format");
-        }
-            // Extract order details from the API response
-            const orderDetails = cartItems.orderData.orderDetails;
-            console.log("orderDetails=========>", cartItems.orderData);
-            // Extract total amount from the API response
-            const totalAmountOfOrder = cartItems.orderData.totalAmount;
-            //extract order id
-            const orderId = cartItems.orderData._id
-            // Extract table number from the API response
-            const tableNumber = cartItems.orderData.tableNumber;
+          }
+          // Extract order details from the API response
+          const orderDetails = cartItems.orderData.orderDetails;
+          console.log("orderDetails=========>", cartItems.orderData);
+          // Extract total amount from the API response
+          const totalAmountOfOrder = cartItems.orderData.totalAmount;
+          //extract order id
+          const orderId = cartItems.orderData._id
+          // Extract table number from the API response
+          const tableNumber = cartItems.orderData.tableNumber;
 
-            // Generate table rows for cart items
-            generateCartRows(orderDetails);
+          // Generate table rows for cart items
+          generateCartRows(orderDetails);
 
-            // Update total price in the UI
-            updateTotalPrice(totalAmountOfOrder);
+          // Update total price in the UI
+          updateTotalPrice(totalAmountOfOrder);
 
-            // Add event listener to the "Generate Invoice" button
-            const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
-            generateInvoiceBtn.addEventListener("click", function () {
-              // Generate and print the invoice
-              generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
-            });
-
-            function showPaymentDialog() {
-              const paymentDialog = document.getElementById("payment-dialog");
-              paymentDialog.style.display = "block";
-
-              const cashBtn = document.getElementById("cash-btn");
-              cashBtn.addEventListener("click", function () {
-                paymentDialog.style.display = "none";
-                paymentForOrder(orderId, false); // Payment with cash
-              });
-
-              const onlineBtn = document.getElementById("online-btn");
-              onlineBtn.addEventListener("click", function () {
-                paymentDialog.style.display = "none";
-                paymentForOrder(orderId, true); // Payment online
-              });
-            }
-
-            const payBillBtn = document.getElementById("make-payment-btn");
-            payBillBtn.addEventListener("click", showPaymentDialog);
-
-          })
-          .catch((error) => {
-            console.error("Error fetching order data:", error);
+          // Add event listener to the "Generate Invoice" button
+          const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
+          generateInvoiceBtn.addEventListener("click", function () {
+            // Generate and print the invoice
+            generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
           });
 
-        // Function to dynamically generate table rows for cart items
-        function generateCartRows(orderDetails) {
-          const tableBody = document.querySelector(".checkout-table tbody");
-          let totalPrice = 0;
+          function showPaymentDialog() {
+            const paymentDialog = document.getElementById("payment-dialog");
+            paymentDialog.style.display = "block";
 
-          // Clear existing table rows
-          tableBody.innerHTML = "";
+            const cashBtn = document.getElementById("cash-btn");
+            cashBtn.addEventListener("click", function () {
+              paymentDialog.style.display = "none";
+              paymentForOrder(orderId, false); // Payment with cash
+            });
 
-          // Create header row
-          const headerRow = document.createElement("tr");
-          headerRow.innerHTML = `
+            const onlineBtn = document.getElementById("online-btn");
+            onlineBtn.addEventListener("click", function () {
+              paymentDialog.style.display = "none";
+              paymentForOrder(orderId, true); // Payment online
+            });
+          }
+
+          const payBillBtn = document.getElementById("make-payment-btn");
+          payBillBtn.addEventListener("click", showPaymentDialog);
+
+        })
+        .catch((error) => {
+          console.error("Error fetching order data:", error);
+        });
+
+      // Function to dynamically generate table rows for cart items
+      function generateCartRows(orderDetails) {
+        const tableBody = document.querySelector(".checkout-table tbody");
+        let totalPrice = 0;
+
+        // Clear existing table rows
+        tableBody.innerHTML = "";
+
+        // Create header row
+        const headerRow = document.createElement("tr");
+        headerRow.innerHTML = `
                         <th class="hidden-xs">Item</th>
                         <th>Description</th>
                         <th>Quantity</th>
                         <th class="hidden-xs">Price</th>
                     `;
-          tableBody.appendChild(headerRow);
+        tableBody.appendChild(headerRow);
 
-          // Loop through cart items and generate table rows
-          orderDetails.forEach((item, index) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
+        // Loop through cart items and generate table rows
+        orderDetails.forEach((item, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
                             <td class="hidden-xs">
                                 <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
                             </td>
@@ -588,23 +571,24 @@ console.log("=============Order ID:", orderIdFromUrl);
                             </td>
                         `;
 
-            // Update total price
-            totalPrice += item.price * item.quantity;
-            tableBody.appendChild(row);
-          });
-        }
+          // Update total price
+          totalPrice += item.price * item.quantity;
+          tableBody.appendChild(row);
+        });
+      }
 
-        // Function to update total price in the UI
-        function updateTotalPrice(totalAmount) {
-          const totalPriceElement = document.getElementById("total-price");
-          totalPriceElement.textContent = `Total: ${totalAmount} /-`;
-        };
+      // Function to update total price in the UI
+      function updateTotalPrice(totalAmount) {
+        const totalPriceElement = document.getElementById("total-price");
+        totalPriceElement.textContent = `Total: ${totalAmount} /-`;
+      };
 
-      });
-    </script>
-    
-    
-  </body>
+    });
+  </script>
 
-  <!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
+
+</body>
+
+<!-- Mirrored from wanteat.kwst.net/site/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Feb 2024 08:24:32 GMT -->
+
 </html>
