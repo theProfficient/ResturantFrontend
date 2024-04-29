@@ -45,11 +45,19 @@
     </div>
 </div>
 <script>
-    // Prevent navigation via back button
-    history.pushState(null, null, document.URL);
-    window.addEventListener('popstate', function () {
-        history.pushState(null, null, document.URL);
+      // Clear the cart items from localStorage
+      localStorage.removeItem('cartItems');
+    // Replace the current entry in the session history with shop.html
+    history.replaceState(null, '', 'shop.html');
+
+    // Handle navigation attempts
+    window.addEventListener('beforeunload', function (event) {
+        // Cancel the event
+        event.preventDefault();
+        // Chrome requires returnValue to be set
+        event.returnValue = '';
     });
 </script>
+
 </body>
 </html>
