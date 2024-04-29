@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <head>
         <!--=============== basic  ===============-->
         <meta charset="UTF-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Sign Up</title>
-        <!--=============== css  ===============-->	
+        <!--=============== css  ===============-->
         <link rel="stylesheet" href="css/signup.css">
         <!--=============== favicons ===============-->
         <link rel="shortcut icon" href="images/favicon.ico">
-</head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                background-image: url('./images/bg/2.jpg');
+                background-size: cover;
+                background-position: center;
+            }
+        </style>
+    </head>
+
 <body>
     <div class="reserv_modal-container">
         <div class="reserv_modal-inner">
@@ -30,13 +47,16 @@
                                     <input type="text" name="lastName" placeholder="Last Name *" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="email" name="email" placeholder="Email Address *" required>
+                                    <input type="email" name="email" placeholder="Email Address *" required
+                                        autocomplete="off">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="password" name="password" placeholder="Password *" required>
+                                    <input type="password" name="password" placeholder="Password *" required
+                                        autocomplete="new-password">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="tel" name="contactNumber" placeholder="Contact Number *" required>
+                                    <input type="tel" name="contactNumber" placeholder="Contact Number *" required
+                                        autocomplete="new-number">
                                 </div>
                                 <div class="col-md-6">
                                     <select name="role" class="chosen-select no-search-select" required>
@@ -56,47 +76,48 @@
         <div class="reserv_modal_overlay fs-wrapper close-rf"></div>
     </div>
 
-    <script >
-        document.getElementById("signup-form").addEventListener("submit", function(event) {
-        event.preventDefault();
+    <script>
+        document.getElementById("signup-form").addEventListener("submit", function (event) {
+            event.preventDefault();
 
-    // Collect form data
-    const formData = new FormData(event.target);
-    const userData = Object.fromEntries(formData.entries());
-    console.log("=============>",userData);
-    // Send the user data to your backend
-    // Example using fetch API
-    fetch("https://resturantapp.azurewebsites.net/api/v1/signup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(userData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data); // Handle successful response from backend
-        alert("Signup successfully");
+            // Collect form data
+            const formData = new FormData(event.target);
+            const userData = Object.fromEntries(formData.entries());
+            console.log("=============>", userData);
+            // Send the user data to your backend
+            // Example using fetch API
+            fetch("https://resturantapp.azurewebsites.net/api/v1/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data); // Handle successful response from backend
+                    alert("Signup successfully");
 
-         // Reset form fields
-         event.target.reset();
+                    // Reset form fields
+                    event.target.reset();
 
-        //redirect to login page
-        window.location.href ='login-page.html';
-    })
-    .catch(error => {
-         // Reset form fields
-         event.target.reset();
+                    //redirect to login page
+                    window.location.href = 'login-page.html';
+                })
+                .catch(error => {
+                    // Reset form fields
+                    event.target.reset();
 
-        console.error("There was a problem with your fetch operation:", error);
-    });
-});
+                    console.error("There was a problem with your fetch operation:", error);
+                });
+        });
 
     </script>
 </body>
+
 </html>

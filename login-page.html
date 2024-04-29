@@ -5,7 +5,7 @@
     <!--=============== basic  ===============-->
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Login </title>
+    <title>Login</title>
     <!--=============== favicons ===============-->
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
@@ -17,7 +17,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-image: url('/images/bg/11.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+            background-image: url('./images/bg/11.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -65,55 +65,66 @@
 </head>
 
 <body>
-  <form action="https://snakeladder1.azurewebsites.net/login" method="get" onsubmit="handleLogin(event)">
-      <label for="email">Email:</label>
-      <input type="text" name="email" required>
-      <br>
-      <label for="password">Password:</label>
-      <input type="password" name="password" required>
-      <br>
-      <button type="submit">Login</button>
-  </form>
-  <script>
-      function handleLogin(event) {
-          event.preventDefault();
+    <form action="https://snakeladder1.azurewebsites.net/login" method="get" onsubmit="handleLogin(event)">
+        <label for="email">Email:</label>
+        <input type="text" name="email" required autocomplete="off" required autocomplete="off">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" required autocomplete="new-password">
+        <br>
+        <button type="submit">Login</button>
+        <!-- <button href="signup.html">Signup</button> -->
+    </form>
 
-          const email = document.querySelector('input[name="email"]').value;
-          const password = document.querySelector('input[name="password"]').value;
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
 
-          fetch(`https://resturantapp.azurewebsites.net/api/v1/login?email=${email}&password=${password}`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-          })
-              .then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                    console.log("loggedin successfully====>",data);
-                      // Store login status and user role locally
-                      localStorage.setItem('isLoggedIn', 'true');
-                      localStorage.setItem('userRole', data.data.role); 
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
 
-                       // Reset form fields
-                       event.target.reset();
-                       window.location.href = 'index.html';
+            fetch(`https://resturantapp.azurewebsites.net/api/v1/login?email=${email}&password=${password}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log("loggedin successfully====>", data);
+                        // Store login status and user role locally
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('userRole', data.data.role);
+
+                        // Reset form fields
+                        event.target.reset();
+                        window.location.href = 'index.html';
                     } else {
-                         // Reset form fields
-                         event.target.reset();
+                        // Reset form fields
+                        event.target.reset();
 
-                      console.log("Login failed:", data.message);
-                      if (data.message === "User is not registered, Please signUp first") {
-                    // Redirect to signup page with error message
-                    window.location.href = 'signup.html?error=User is not registered, Please sign up first';
-                }
-            }
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-              });
-      }
-  </script>
+                        console.log("Login failed:", data.message);
+                        if (data.message === "User is not registered, Please signUp first") {
+                            // Redirect to signup page with error message
+                            window.location.href = 'signup.html?error=User is not registered, Please sign up first';
+                            // Disable autofill for password field on redirection to signup page
+                            document.querySelector('input[name="password"]').setAttribute('autocomplete', 'new-password');
+                        }
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Clear input fields when the page is loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector('input[name="email"]').value = "";
+            document.querySelector('input[name="password"]').value = "";
+        });
+    </script>
 </body>
 
 </html>
