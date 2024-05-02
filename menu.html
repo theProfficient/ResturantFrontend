@@ -367,7 +367,7 @@
                                 </a>
                                 <div class="hero-menu-item-title">
                                     <h6><a href="#">${item.name}</a></h6>
-                                    <span class="hero-menu-item-price">${item.price} /-</span>
+                                    <span class="hero-menu-item-price">₹ ${item.price} /-</span>
                                     <div class="add_cart" onclick="addToCart('${item.name}', '${item.dishImage}', ${item.price},${tableNumber})">Add To Cart</div>
                                 </div>
                                 <div class="hero-menu-item-details">
@@ -403,49 +403,88 @@
     </script>
 
 <script>
-  let cart = []; // Initialize an empty array to store cart items
+  // Define cart variable in the global scope
+  let cart = [];
 
   function addToCart(name, image, price, tableNumber) {
-      // Check if the item already exists in the cart
-      const existingItemIndex = cart.findIndex(item => item.name === name);
-      if (existingItemIndex !== -1) {
-          // If the item already exists, increment its quantity
-          cart[existingItemIndex].quantity++;
-      } else {
-          // If the item doesn't exist, add it to the cart with quantity 1
-          const item = {
-              name: name,
-              image: image,
-              price: price,
-              quantity: 1,
-              tableNumber:tableNumber
-          };
-          cart.push(item);
-      }
+     // Check if the cart item exists in sessionStorage
+     cart = sessionStorage.getItem('cart') ? JSON.parse(sessionStorage.getItem('cart')) : [];
+     
+     // Check if the item already exists in the cart
+     const existingItemIndex = cart.findIndex(item => item.name === name);
+     if (existingItemIndex !== -1) {
+         // If the item already exists, increment its quantity
+         cart[existingItemIndex].quantity++;
+         cart[existingItemIndex].totalPrice += price;
+     } else {
+         // If the item doesn't exist, add it to the cart with quantity 1
+         const item = {
+             name: name,
+             image: image,
+             price: price,
+             totalPrice:price,
+             quantity: 1,
+             tableNumber: tableNumber
+         };
+         cart.push(item);
+     }
 
-      console.log("Item added to cart:", name);
-      console.log("Total items in cart:", cart);
-      
-      // Update cart icon and count
-      // const itemQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-      const itemQuantity = cart.length ;
-      updateCartUI(itemQuantity);
-  }
+     console.log("Item added to cart:", name);
+     console.log("Total items in cart:", cart);
 
-  // Update cart icon and count
+     // Update cart icon and count
+     const itemQuantity = cart.length;
+     updateCartUI(itemQuantity);
+
+     // Save the updated cart to sessionStorage
+     sessionStorage.setItem('cart', JSON.stringify(cart));
+ }
+
+  // Function to update cart icon and count
   function updateCartUI(itemQuantity) {
-      const cartItemCount = document.getElementById('cart-item-count');
-      cartItemCount.textContent = itemQuantity ;
-  }
-
-  function openCart() {
+     const cartItemCount = document.getElementById('cart-item-count');
+     cartItemCount.textContent = itemQuantity;
+ }
+ function openCart() {
+     // Redirect to the cart page or implement your desired functionality
       // Construct the URL with query parameters
-      const cartItemsQuery = cart.map(item => `items=${encodeURIComponent(JSON.stringify(item))}`).join('&');
-      const cartPageURL = `cart.html?${cartItemsQuery}`;
-      
-      // Navigate to the cart page
-      window.location.href = cartPageURL;
-  }
+        //  const cartItemsQuery = cart.map(item => `items=${encodeURIComponent(JSON.stringify(item))}`).join('&');
+        //  const cartPageURL = `cart.html?${cartItemsQuery}`;
+         // Construct the URL with both tableNumber and orderId parameters
+         var cartPageURL = 'cart.html' ;
+
+// Redirect to the order.html page with the tableNumber parameter
+window.location.href = cartPageURL;
+     console.log("Open cart clicked");
+ }
+document.addEventListener("DOMContentLoaded", function () {
+   // Check if the cart item exists in sessionStorage
+   if (sessionStorage.getItem('cart')) {
+       // If it exists, parse it and assign it to the cart variable
+       cart = JSON.parse(sessionStorage.getItem('cart'));
+       
+       // Now you can work with the cart variable
+       console.log("Cart exists:", cart);
+       
+       // Call a function to update the UI based on the cart
+       updateCartUI(cart.length);
+   } else {
+       // If the cart item does not exist in sessionStorage, initialize an empty cart array
+       cart = [];
+       
+       // Optionally, you can store the empty cart array in sessionStorage
+       sessionStorage.setItem('cart', JSON.stringify(cart));
+       
+       console.log("Cart does not exist. Initializing empty cart.");
+       
+       // Update the UI with the empty cart count
+       updateCartUI(cart.length);
+   }
+
+  //  // Attach event listener to cart button
+  //  const cartButton = document.getElementById('cart-button');
+  //  cartButton.addEventListener('click', openCart);
+});
 </script>
 
     <script src="js/jquery.min.js"></script>

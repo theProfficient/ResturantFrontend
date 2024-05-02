@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="col-md-5">
                                     <div class="total-box">
-                                        <span class="total-item" id="total-price">Total: $0</span>
+                                        <span class="total-item" id="total-price">Total: ₹ 0 /-</span>
                                         <!-- <a href="checkout.html" class="sb-det_btn">Proceed to Checkout</a>     -->
                                         <a class="sb-det_btn" onclick="placeOrder()"> Place Order</a>
                                     </div>
@@ -259,14 +259,16 @@
         // Other JavaScript code
 
         // Function to place the order
-        function placeOrder(flattenedCartItems, generateCartRows, updateCartUI, updateURLParams) {
+        function placeOrder(flattenedCartItems, generateCartRows, updateCartUI) {
             console.log("order======>", flattenedCartItems);
             const orderDetails = flattenedCartItems.map(item => ({
                 name: item.name,
                 quantity: item.quantity,
                 price: item.price,
+                totalPrice:item.totalPrice,
                 imageLink: item.image
             }));
+            console.log("orderDetails for backend====>",orderDetails);
             // const tableNumber = 2; // You can set the table number dynamically if needed
             const tableNumber = flattenedCartItems[0].tableNumber;
             console.log("tableNumber===========>", tableNumber);
@@ -278,7 +280,7 @@
             };
 
             // Make an AJAX request to place the order
-            fetch('https://resturantapp.azurewebsites.net/api/v1/placeOrder', {
+            fetch('http://localhost:4000/api/v1/placeOrder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -305,7 +307,10 @@
                     // Update the cart item count UI
                     updateCartUI(0);
                     //update stored data 
-                    updateURLParams(flattenedCartItems);
+                    // updateURLParams(flattenedCartItems);
+
+                      // Clear the cart items from sessionStorage
+                      sessionStorage.removeItem('cart');
 
                     // Clear the cart items from localStorage
                     localStorage.removeItem('cartItems');
@@ -324,188 +329,128 @@
         }
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Your JavaScript code here
-            // Parse the query parameters from the URL
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
+<script>
+    let cartItems = []; // Define cartItems in the global scope
 
-            // Initialize an empty array to store cart items
-            const cartItems = [];
+    // Function to update cart icon and count
+    function updateCartUI(itemQuantity) {
+        const cartItemCount = document.getElementById('cart-item-count');
+        cartItemCount.textContent = itemQuantity;
+    }
 
-            // Loop through each parameter in the URL
-            for (const [key, value] of urlParams.entries()) {
-                if (key === 'items') {
-                    // Parse the 'items' parameter as JSON and push it to the cartItems array
-                    const itemsArray = JSON.parse(decodeURIComponent(value));
-                    cartItems.push(itemsArray);
-                }
-            }
-            updateCartUI(cartItems.length);
-            console.log("cartItems====>", cartItems);
-            // Update cart icon and count
-            function updateCartUI(itemQuantity) {
-                const cartItemCount = document.getElementById('cart-item-count');
-                cartItemCount.textContent = itemQuantity;
-            }
+   // Function to remove an item from the cart and update the UI
+   function removeCartItem(itemIndex) {
+        cartItems.splice(itemIndex, 1); // Remove the item from the cartItems array
+        // Update sessionStorage with the modified cart
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        // Regenerate table rows
+        generateCartRows(cartItems);
+        // Update cart item count
+        updateCartUI(cartItems.length);
+    }
 
-            // Flatten the cartItems array if necessary
-            const flattenedCartItems = cartItems.flat();
-            //total amount 
+    // Function to update quantity when changed manually
+    function updateQuantity(index, newQuantity) {
+        cartItems[index].quantity = parseInt(newQuantity);
+        cartItems[index].totalPrice = cartItems[index].price * parseInt(newQuantity); // Update total price for the item
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        generateCartRows(cartItems);
+    }
 
-            let totalAmout;
-            // Function to dynamically generate table rows for cart items
-            function generateCartRows(cartItems) {
-                const tableBody = document.querySelector('.checkout-table tbody');
-                const totalPriceElement = document.getElementById('total-price');
-                let totalPrice = 0;
+    // Function to increment quantity
+    function incrementQuantity(index) {
+        cartItems[index].quantity++;
+        cartItems[index].totalPrice = cartItems[index].price * cartItems[index].quantity; // Update total price for the item
+        sessionStorage.setItem('cart', JSON.stringify(cartItems));
+        generateCartRows(cartItems);
+    }
 
-                // Clear existing table rows
-                tableBody.innerHTML = '';
+    // Function to decrement quantity
+    function decrementQuantity(index) {
+        if (cartItems[index].quantity > 1) {
+            cartItems[index].quantity--;
+            cartItems[index].totalPrice = cartItems[index].price * cartItems[index].quantity; // Update total price for the item
+            sessionStorage.setItem('cart', JSON.stringify(cartItems));
+            generateCartRows(cartItems);
+        }
+    }
+ // Function to generate table rows for cart items
+ function generateCartRows(cartItems) {
+            const tableBody = document.querySelector('.checkout-table tbody');
+            const totalPriceElement = document.getElementById('total-price');
+            let totalPrice = 0;
 
-                // Create header row
-                const headerRow = document.createElement('tr');
-                headerRow.innerHTML = `
-                        <th class="hidden-xs">Item</th>
-                        <th>Description</th>
-                        <th class="hidden-xs">Price</th>
-                        <th>Count</th>
-                        <th>Total Price</th>
-                        <th></th>
-                    `;
-                tableBody.appendChild(headerRow);
+            // Clear existing table rows
+            tableBody.innerHTML = '';
 
-                // Loop through cart items and generate table rows
-                cartItems.forEach((item, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                            <td class="hidden-xs">
-                                <a href="#"><img src="${item.image}" alt="" class="respimg"></a>
-                            </td>
-                            <td>
-                                <h5 class="product-name"> <a href="#">${item.name}</a></h5>
-                            </td>
-                            <td class="hidden-xs">
-                                <h5 class="order-money">$${item.price}</h5>
-                            </td>
-                            <td style="text-align: center;">
-                                <div class="count-control" style="display: flex; align-items: center; justify-content: center;">
-                                <button class="count-btn decrement" style="margin-right: 3px; margin-left: 5px;">-</button>
-                                <input type="number" name="cartin" value="${item.quantity}" max="50" min="1" class="order-count">
-                                <button class="count-btn increment" style="margin-left: 3px; margin-right: 5px;">+</button>
-                               </div>
-                            </td>
-                            <td class="total-price">
-                                <h5 class="order-money">$${item.price * item.quantity}</h5>
-                            </td>
-                            <td class="pr-remove">
-                                <a href="#" title="Remove" data-index="${index}"><i class="fas fa-times"></i></a>
-                            </td>
-                        `;
+            // Create header row
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = `
+              <th class="hidden-xs">Item</th>
+              <th>Description</th>
+              <th class="hidden-xs">Price</th>
+              <th>Count</th>
+              <th>Total Price</th>
+              <th></th>
+            `;
+            tableBody.appendChild(headerRow);
 
-                    // Update total price
-                    totalPrice += item.price * item.quantity;
-                    totalPriceElement.textContent = `Total: $${totalPrice}`;
+            // Loop through cart items and generate table rows
+            cartItems.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                  <td class="hidden-xs">
+                    <a href="#"><img src="${item.image}" alt="" class="respimg"></a>
+                  </td>
+                  <td>
+                    <h5 class="product-name"> <a href="#">${item.name}</a></h5>
+                  </td>
+                  <td class="hidden-xs">
+                    <h5 class="order-money">₹ ${item.price} /-</h5>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="count-control" style="display: flex; align-items: center; justify-content: center;">
+                      <button class="count-btn decrement" style="margin-right: 3px; margin-left: 5px;" onclick="decrementQuantity(${index})">-</button>
+                      <input type="number" name="cartin" value="${item.quantity}" max="50" min="1" class="order-count" onchange="updateQuantity(${index}, this.value)">
+                      <button class="count-btn increment" style="margin-left: 3px; margin-right: 5px;" onclick="incrementQuantity(${index})">+</button>
+                    </div>
+                  </td>
+                  <td class="total-price">
+                    <h5 class="order-money">₹ ${item.price * item.quantity} /-</h5>
+                  </td>
+                  <td class="pr-remove">
+                    <a href="#" title="Remove" data-index="${index}" onclick="removeCartItem(${index})"><i class="fas fa-times"></i></a>
+                  </td>
+                `;
 
-                    tableBody.appendChild(row);
-                });
+                // Update total price
+                totalPrice += item.price * item.quantity;
+                totalPriceElement.textContent = `Total: ₹ ${totalPrice} /-`;
 
-                totalAmout = function updateTotalPrice() {
-                    totalPrice = 0;
-                    countInputs.forEach((input, index) => {
-                        const itemTotal = input.value * flattenedCartItems[index].price;
-                        totalPrice += itemTotal;
-                        document.querySelectorAll('.total-price h5')[index].textContent = `$${itemTotal}`;
-                    });
-                    totalPriceElement.textContent = `Total: $${totalPrice}`;
-                }
-
-                // Add event listeners for count increment and decrement
-                const countInputs = document.querySelectorAll('.order-count');
-                countInputs.forEach(input => {
-                    input.addEventListener('change', totalAmout);
-                });
-
-                // Add event listeners for increment and decrement buttons
-                const decrementBtns = document.querySelectorAll('.count-btn.decrement');
-                const incrementBtns = document.querySelectorAll('.count-btn.increment');
-
-                decrementBtns.forEach((btn, index) => {
-                    btn.addEventListener('click', () => {
-                        if (countInputs[index].value > 1) {
-                            countInputs[index].value--;
-                            totalAmout();
-                        }
-                    });
-                });
-
-                incrementBtns.forEach((btn, index) => {
-                    btn.addEventListener('click', () => {
-                        countInputs[index].value++;
-                        totalAmout();
-                    });
-                });
-            }
-
-            // Generate table rows for cart items
-            generateCartRows(flattenedCartItems); // Pass the flattened array here
-
-            // Function to remove an item from the cart and update the UI
-            function removeCartItem(itemIndex) {
-                // Remove the item from the flattenedCartItems array
-                const removedItem = flattenedCartItems.splice(itemIndex, 1)[0];
-                console.log("removedItem====>", removedItem);
-
-                // Update the URL query parameters to reflect the changes
-                updateURLParams(flattenedCartItems);
-
-                // Regenerate table rows
-                generateCartRows(flattenedCartItems);
-
-                // Update cart item count
-                updateCartUI(flattenedCartItems.length);
-
-                //update total amount 
-                totalAmout();
-
-                // Reattach event listeners for remove buttons
-                attachRemoveButtonListeners();
-            }
-
-            // Function to attach event listeners for remove buttons
-            function attachRemoveButtonListeners() {
-                const removeButtons = document.querySelectorAll('.pr-remove a');
-                removeButtons.forEach(button => {
-                    button.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const itemIndex = parseInt(button.dataset.index); // Get the index of the clicked remove button from data-index attribute
-                        removeCartItem(itemIndex);
-                    });
-                });
-            }
-
-            // Attach initial event listeners for remove buttons
-            attachRemoveButtonListeners();
-
-            // Function to update the URL query parameters
-            function updateURLParams(cartItems) {
-                const newParams = cartItems.map(item => `items=${encodeURIComponent(JSON.stringify(item))}`).join('&');
-                const newURL = window.location.pathname + '?' + newParams;
-                window.history.replaceState({}, '', newURL);
-            }
-            // Add event listener to the "Place Order" button
-            const placeOrderButton = document.querySelector('.sb-det_btn');
+                tableBody.appendChild(row);
+            });
+        }
+  // Add event listener to the "Place Order" button
+  const placeOrderButton = document.querySelector('.sb-det_btn');
             placeOrderButton.addEventListener('click', function () {
-                placeOrder(flattenedCartItems, generateCartRows, updateCartUI, updateURLParams); // Call placeOrder function when the button is clicked
+                placeOrder(cartItems, generateCartRows, updateCartUI); // Call placeOrder function when the button is clicked
             });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        // Parse the stored cart items from sessionStorage
+        const storedCart = sessionStorage.getItem('cart');
+        cartItems = storedCart ? JSON.parse(storedCart) : [];
+
+        // Generate table rows for cart items
+        generateCartRows(cartItems);
+        // Update cart item count
+        updateCartUI(cartItems.length);
+        
+    });
+</script>
 
 
-
-        });
-        // });
-    </script>
+  
 
 </body>
 

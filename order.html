@@ -159,7 +159,7 @@
                 <div class="col-md-7"></div>
                 <div class="col-md-5">
                   <div class="total-box">
-                    <span class="total-item" id="total-price">Total: $0</span>
+                    <span class="total-item" id="total-price">Total: ₹ 0 /-</span>
                   </div>
                   <div id="invoice-content">
                     <button class="sb-det_btn" id="generate-invoice-btn">Generate Invoice</button>
@@ -378,7 +378,8 @@
             const cell2 = row.insertCell(1);
             cell2.textContent = item.quantity;
             const cell3 = row.insertCell(2);
-            cell3.textContent = `${item.price} /-`;
+            cell3.textContent = `₹ ${item.totalPrice} /-`;
+            cell3.textContent = `₹ ${item.totalPrice} /-`;
           });
 
           // Add total row
@@ -584,12 +585,12 @@
                                 <h5 class="product-quantity"> ${item.quantity}</h5>
                             </td>
                             <td class="hidden-xs">
-                                <h5 class="order-money">${item.price} /-</h5>
+                                <h5 class="order-money">₹ ${item.totalPrice} /-</h5>
                             </td>
                         `;
 
           // Update total price
-          totalPrice += item.price * item.quantity;
+          totalPrice = item.totalAmount;
           tableBody.appendChild(row);
         });
       }
@@ -597,7 +598,7 @@
       // Function to update total price in the UI
       function updateTotalPrice(totalAmount) {
         const totalPriceElement = document.getElementById("total-price");
-        totalPriceElement.textContent = `Total: ${totalAmount} /-`;
+        totalPriceElement.textContent = `Total:₹ ${totalAmount} /-`;
       };
 
     });
