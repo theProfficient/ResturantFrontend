@@ -378,8 +378,8 @@
             const cell2 = row.insertCell(1);
             cell2.textContent = item.quantity;
             const cell3 = row.insertCell(2);
-            cell3.textContent = `₹ ${item.totalPrice} /-`;
-            cell3.textContent = `₹ ${item.totalPrice} /-`;
+            cell3.textContent = `${item.totalPrice} /-`;
+            cell3.textContent = `${item.totalPrice} /-`;
           });
 
           // Add total row
@@ -486,7 +486,7 @@
           // Retrieve user role from localStorage
           const userRoleInApi = localStorage.getItem('userRole');
           console.log("userRoleInApi====>", userRoleInApi);
-          if (cartItems.message === "Bill already paid" && ["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
+          if ((cartItems.message === "Bill already paid" || cartItems.message === "No Pending Order Found" ) && ["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
             window.location.href = 'alltables.html';
             // Redirect to shop.html and prevent back navigation
             //  window.location.replace('shop.html');

@@ -1045,12 +1045,12 @@ blockquote p {
     transition: all .2s ease-in-out;
 }
 .hero-menu-item-price {
-     font-weight: 500;
-    font-size:1.7em;
+    font-weight: bold;
+    font-size: 2em; /* Increase font size */
     position: absolute;
-	right: 0;
+    right: 0;
     top: 30px;
-	color: var(--main-color);
+    color: #333; /* Darker color */
 }
 .add_cart {
     position: absolute;
@@ -1060,7 +1060,7 @@ blockquote p {
     font-weight: 700;
 	background: #111;
  	color: var(--main-color);
-    padding: 8px 12px;
+    padding: 12px 15px;
     cursor: pointer;
     opacity: 0;
     visibility: hidden;

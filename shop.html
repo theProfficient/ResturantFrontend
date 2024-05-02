@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>404 Not Found</title>
@@ -13,40 +13,45 @@
             font-family: 'Open Sans', sans-serif;
             margin: 0;
             padding: 0;
-            }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
         .error_code {
-            display: block;
             font-size: 92px;
             font-weight: 700;
             margin-top: -25px;
-            }
-        .error_brief {
-            display: block;
+        }
+        .error_description {
             font-size: 18px;
             font-weight: 700;
             margin-bottom: 15px;
-            }
+        }
+        .center-content {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-<div style="display: table; position: absolute; height: 100%; width: 100%;">
-    <div style="display: table-cell; vertical-align: middle; padding: 0 40px;">
-        <div style="margin-left: auto; margin-right: auto; width: 520px;">
-            <div style="float:left; width:200px; text-align: center; padding-right: 20px;">
-                <span class="error_code">404</span>
-                <span class="error_description">Page Not Found </span>
-            </div>
-            <!-- <div style="float:left; width:300px;">
-                <span class="error_brief">Рlease Scane the QR Code Again</span>
-            </div> -->
-            <div style="clear:both"></div>
+<div style="width: 520px;">
+    <div class="center-content">
+        <div style="padding-right: 20px;">
+            <span class="error_code">404</span><br>
+            <span class="error_description">Connection Timeout</span><br/>
+            <span> Please Visit Again !</span>
         </div>
     </div>
 </div>
+
 <script>
-      // Clear the cart items from localStorage
-      localStorage.removeItem('cartItems');
+    // Clear the cart items from localStorage
+    localStorage.removeItem('cartItems');
+      
+    // Clear the cart items from sessionStorage
+    sessionStorage.removeItem('cart');
+
     // Replace the current entry in the session history with shop.html
     history.replaceState(null, '', 'shop.html');
 
