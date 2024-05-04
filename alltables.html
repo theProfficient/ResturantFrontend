@@ -45,7 +45,7 @@
         <!--loader end-->
         <!--  main   -->
         <div id="main">
-            <a href="index.html" class="logo-holder"><img src="images/logo.png" alt=""></a>
+            <a class="logo-holder"><img src="images/logo.png" alt=""></a>
             <!--  header  -->
             <header class="header_half">
                 <div class="header-inner">
@@ -319,6 +319,8 @@
                 tableRow.append(tableStatus);
         var viewButtonColumn = $('<td>');
         var viewButton = $('<button>').text('View').addClass('view-btn');
+        //     var editButtonColumn = $('<td>');
+        // var editButton = $('<button>').text('Edit').addClass('edit-btn');
         // Construct the URL with the tableNumber parameter
         var orderPageUrl = 'order.html?tableNumber=' + table.tableNumber;
         viewButton.click(function() {
@@ -327,6 +329,8 @@
         });
         viewButtonColumn.append(viewButton);
         tableRow.append(viewButtonColumn);
+        // editButtonColumn.append(editButton);
+        // tableRow.append(editButtonColumn);
         tableBody.append(tableRow);
     });
 }

@@ -13,6 +13,7 @@
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <!--=============== favicons ===============-->
     <link rel="shortcut icon" href="images/favicon.ico">
+    
 </head>
 
 <body>
@@ -25,13 +26,17 @@
     <!--loader end-->
     <!--  main   -->
     <div id="main">
-        <a href="index.html" class="logo-holder"><img src="images/logo.png" alt=""></a>
+        <a class="logo-holder"><img src="images/logo.png" alt=""></a>
         <!--  header  -->
         <header class="header_half">
             <div class="header-inner">
                 <div class="header-top_contacts"><a href="#"><span>Call now:</span> +489756412322</a><a
                         href="#"><span>Write :</span> yourmail@domain.com</a></div>
                 <div class="share-btn show-share isShare"></div>
+                <a href="order.html">
+                    <div class="cart-btn sc_btn"><strong>Your Order</strong><i
+                      class="fas fa-shopping-bag"></i><span id="order-item-count" class="cart-btn_counter">0</span>
+                    </div>
                 <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
                 <div class="cart-btn sc_btn"><strong> Your Cart</strong><i
                         class="fa-thin fa-basket-shopping-simple"></i><span id="cart-item-count"
@@ -62,7 +67,7 @@
                         <!-- nav -->
                         <nav class="nav-inner" id="menu_init">
                             <ul>
-                                <li>
+                                <li id="home_icon">
                                     <a href="index.html">Home </a>
                                 </li>
                                 <li><a href="menu.html" class="act-link"> Menu</a></li>
@@ -92,8 +97,10 @@
             <div class="content-section column-wrap-section   white-bg" data-scrollax-parent="true" id="sec2">
                 <div class="container small-container">
                     <div class="section-title">
+                        <button id="backButton" class="back_half-reser_btn_mob">Back</button>
                         <h4>Your wish list</h4>
                         <h2>Your Cart</h2>
+                        <h4 id="table-number" style="color:black ; font:bold">Table Number :</h4>
                         <div class="section-title-separator_wrap">
                             <div class="section-title-separator"><span></span></div>
                         </div>
@@ -240,20 +247,22 @@
     <script src="js/scripts.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Retrieve user role from localStorage
-            const userRole = localStorage.getItem('userRole');
-            console.log("userRole========>", userRole);
-            // const userRole = "User"; //testing perpose
-            const menuIcon = document.getElementById("home_menu_opt");
-            if (userRole.includes(["Admin", "Cheif", "Captein"])) {
-              menuIcon.style.display = "block";
-            } else {
-              menuIcon.style.display = 'none';
-  
-            }
-  
+          const userRole = localStorage.getItem('userRole');
+                console.log("userRole========>", userRole);
+          // const userRole = "User"; //testing perpose
+          const homeIcon = document.getElementById('home_icon');
+          if(userRole == null || userRole == undefined){
+            homeIcon.style.display = 'none';
+          }
+         else if (userRole.includes(["Admin", "Cheif", "Captein"])) {
+            homeIcon.style.display = "block";
+          } else {
+            homeIcon.style.display = 'none';
+    
+          }
+    
         });
-    </script>
+      </script>
     <script>
         // document.addEventListener("DOMContentLoaded", function() {
         // Other JavaScript code
@@ -312,6 +321,12 @@
                       // Clear the cart items from sessionStorage
                       sessionStorage.removeItem('cart');
 
+                      //update unPaidQnt of session storage 
+
+                      sessionStorage.setItem('unPaidItemsQnt', data.data.orderDetails.length);
+
+                      updateOrdertUI(data.data.orderDetails.length);
+
                     // Clear the cart items from localStorage
                     localStorage.removeItem('cartItems');
                     // Construct the URL with both tableNumber and orderId parameters
@@ -331,7 +346,11 @@
 
 <script>
     let cartItems = []; // Define cartItems in the global scope
-
+    
+    function updateOrdertUI(itemQuantity) {
+      const orderItemCount = document.getElementById('order-item-count');
+      orderItemCount.textContent = itemQuantity;
+    }
     // Function to update cart icon and count
     function updateCartUI(itemQuantity) {
         const cartItemCount = document.getElementById('cart-item-count');
@@ -432,15 +451,44 @@
         }
   // Add event listener to the "Place Order" button
   const placeOrderButton = document.querySelector('.sb-det_btn');
-            placeOrderButton.addEventListener('click', function () {
-                placeOrder(cartItems, generateCartRows, updateCartUI); // Call placeOrder function when the button is clicked
-            });
+placeOrderButton.addEventListener('click', function () {
+    // Show confirmation dialog
+    const confirmation = confirm("Are you sure you want to place the order?");
+    if (confirmation) {
+        // If user clicks "OK", call the placeOrder function
+        placeOrder(cartItems, generateCartRows, updateCartUI);
+    } else {
+        // If user clicks "Cancel", do nothing
+        console.log("Order cancelled");
+    }
+});
 
     document.addEventListener("DOMContentLoaded", function () {
+
+        const backButton = document.getElementById("backButton");
+        console.log("clicking back button====");
+         // Check if the back button element is found
+           if (backButton) {
+             // Add event listener to the back button
+             backButton.addEventListener('click', function() {
+            console.log("calling the back button");
+            //  const cartPageURL  = order.html ;
+            //    window.location.href = cartPageURL;
+      window.history.back();
+    });
+}else{
+    console.log("no history found for back button");
+}
         // Parse the stored cart items from sessionStorage
         const storedCart = sessionStorage.getItem('cart');
         cartItems = storedCart ? JSON.parse(storedCart) : [];
-
+       const TableNumber = sessionStorage.getItem('tableNumber');
+       const unPaidQnt = sessionStorage.getItem('unPaidItemsQnt');
+        // Update the DOM to display the table number
+    const tableNumberElement = document.getElementById('table-number');
+    tableNumberElement.textContent = "Table Number : " + TableNumber;
+    updateOrdertUI(unPaidQnt);
+     
         // Generate table rows for cart items
         generateCartRows(cartItems);
         // Update cart item count

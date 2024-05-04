@@ -110,7 +110,7 @@
             <!-- nav -->
             <nav class="nav-inner" id="menu_init">
               <ul>
-                <li>
+                <li id="home_icon">
                   <a href="index.html">Home </a>
                 </li>
                 <li><a href="menu.html" class="act-link"> Menu</a></li>
@@ -140,8 +140,10 @@
       <div class="content-section column-wrap-section white-bg" data-scrollax-parent="true" id="sec2">
         <div class="container small-container">
           <div class="section-title">
+            <button id="backButton" class="back_half-reser_btn_mob">Back</button>
             <h4>Your Ordered list</h4>
             <h2>Your Order</h2>
+            <h2 id="table-number">Table Number : tableNumber</h2>
             <div class="section-title-separator_wrap">
               <div class="section-title-separator"><span></span></div>
             </div>
@@ -313,20 +315,22 @@
   <script src="js/scripts.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Retrieve user role from localStorage
-        const userRole = localStorage.getItem('userRole');
-        console.log("userRole========>", userRole);
-        // const userRole = "User"; //testing perpose
-        const menuIcon = document.getElementById("home_menu_opt");
-        if (userRole.includes(["Admin", "Cheif", "Captein"])) {
-          menuIcon.style.display = "block";
-        } else {
-          menuIcon.style.display = 'none';
+      const userRole = localStorage.getItem('userRole');
+            console.log("userRole========>", userRole);
+      // const userRole = "User"; //testing perpose
+      const homeIcon = document.getElementById('home_icon');
+      if(userRole == null || userRole == undefined){
+        homeIcon.style.display = 'none';
+      }
+     else if (userRole.includes(["Admin", "Cheif", "Captein"])) {
+        homeIcon.style.display = "block";
+      } else {
+        homeIcon.style.display = 'none';
 
-        }
+      }
 
     });
-</script>
+  </script>
   <script>
     
     function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
@@ -430,6 +434,8 @@
         .then(response => response.json())
         .then(data => {
           console.log("Payment response: ", data.message);
+          //update unPaidItemsQnt of sessionstorage
+          sessionStorage.setItem('unPaidItemsQnt', 0);
           alert(data.message);
           // Clear the cart items from localStorage
           localStorage.removeItem('cartItems');
@@ -443,6 +449,19 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+
+      const backButton = document.getElementById("backButton");
+  console.log("clicking back button====");
+  // Check if the back button element is found
+  if (backButton) {
+    // Add event listener to the back button
+    backButton.addEventListener('click', function() {
+      console.log("calling the back button");
+      window.history.back();
+    });
+  } else {
+    console.error("Back button element not found.");
+  }
       // Clear the cart items from localStorage
       localStorage.removeItem('cartItems');
       // Function to get the tableNumber parameter from the URL
@@ -458,7 +477,8 @@
       }
 
       // Get the tableNumber and orderId from the URL
-      const tableNumber = getTableNumberFromURL();
+      // const tableNumber = getTableNumberFromURL();
+      const tableNumber = sessionStorage.getItem('tableNumber')
       const orderIdFromUrl = getOrderIdFromURL();
 
       // Now you can use the tableNumber and orderId as needed in your code
@@ -507,7 +527,8 @@
           }
           // Extract order details from the API response
           const orderDetails = cartItems.orderData.orderDetails;
-          console.log("orderDetails=========>", cartItems.orderData);
+          // const orderTime = cartItems.orderData.orderTime;
+          // console.log("orderDetails=========>", cartItems.orderData);
           // Extract total amount from the API response
           const totalAmountOfOrder = cartItems.orderData.totalAmount;
           //extract order id
@@ -565,34 +586,47 @@
         const headerRow = document.createElement("tr");
         headerRow.innerHTML = `
                         <th class="hidden-xs">Item</th>
-                        <th>Description</th>
+                        <th>Name</th>
                         <th>Quantity</th>
-                        <th class="hidden-xs">Price</th>
+                        <th>Price</th>
+                        <th>Time</th>
+                        <th>Edit</th>
                     `;
         tableBody.appendChild(headerRow);
+// Loop through cart items and generate table rows
+orderDetails.forEach((item, index) => {
+  const row = document.createElement("tr");
+  // console.log("orderTime====",orderTime);
+  const orderTimeUTC = new Date(item.placedTime); // Parse as UTC date
+  const localOrderTime = orderTimeUTC.toLocaleString(); // Convert UTC to local time
+  row.innerHTML = `
+                    <td class="hidden-xs">
+                        <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
+                    </td>
+                    <td>
+                        <h5 class="product-name"> <a href="#">${item.name}</a></h5>
+                    </td>
+                    <td>
+                        <h5 class="product-quantity"> ${item.quantity}</h5>
+                    </td>
+                    <td>
+                        <h5 class="order-money">₹ ${item.totalPrice} /-</h5>
+                    </td>
+                    <td>
+                        <h5 class="order-money">${localOrderTime}</h5>
+                    </td>
+                    <td class="hidden-xs">
+                      <h5 class="edit-button"> <a href="#">Cancel</a></h5>
+                    </td>
+                    
+                `;
 
-        // Loop through cart items and generate table rows
-        orderDetails.forEach((item, index) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-                            <td class="hidden-xs">
-                                <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
-                            </td>
-                            <td>
-                                <h5 class="product-name"> <a href="#">${item.name}</a></h5>
-                            </td>
-                            <td>
-                                <h5 class="product-quantity"> ${item.quantity}</h5>
-                            </td>
-                            <td class="hidden-xs">
-                                <h5 class="order-money">₹ ${item.totalPrice} /-</h5>
-                            </td>
-                        `;
+  // Update total price
+  totalPrice = item.totalAmount;
+  tableBody.appendChild(row);
+});
 
-          // Update total price
-          totalPrice = item.totalAmount;
-          tableBody.appendChild(row);
-        });
+
       }
 
       // Function to update total price in the UI
@@ -602,6 +636,10 @@
       };
 
     });
+    const TableNumberForUI = sessionStorage.getItem('tableNumber');
+        // Update the DOM to display the table number
+    const tableNumberElement = document.getElementById('table-number');
+    tableNumberElement.textContent = "Table Number : " + TableNumberForUI;
   </script>
 
 

@@ -51,6 +51,10 @@
       
     // Clear the cart items from sessionStorage
     sessionStorage.removeItem('cart');
+    sessionStorage.removeItem('tableNumber');
+    
+//update unPaidItemsQnt of sessionstorage
+sessionStorage.setItem('unPaidItemsQnt', 0);
 
     // Replace the current entry in the session history with shop.html
     history.replaceState(null, '', 'shop.html');

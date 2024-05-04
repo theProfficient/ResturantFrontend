@@ -408,6 +408,40 @@ blockquote p {
 .header_half-reser_btn i {
 	display: none
 }
+.back_half-reser_btn {
+    float: right;
+    position: relative;
+    padding: 0 50px;
+    border-radius: 6px;
+    background: #ffcc00;
+    height: 40px;
+    width: 5%;
+    /* margin: 0 25px 0 40px; */
+    top: 14px;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: black;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Added to vertically center the text */
+}
+
+.back_half-reser_btn_mob{
+    float: right;
+    position: relative;
+    padding: 0 50px;
+    border-radius: 6px;
+    background: #ffcc00;
+    height: 40px;
+    margin-top: -80px;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: black;
+    cursor: pointer;
+    
+}
 .header_half-reser_btn:hover {
 	background: var(--main-color);
 	color:#fff;
@@ -1046,7 +1080,7 @@ blockquote p {
 }
 .hero-menu-item-price {
     font-weight: bold;
-    font-size: 2em; /* Increase font size */
+    font-size: 1.2em; /* Increase font size */
     position: absolute;
     right: 0;
     top: 30px;

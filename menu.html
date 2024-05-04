@@ -12,6 +12,40 @@
   <link type="text/css" rel="stylesheet" href="css/style.css" />
   <!--=============== favicons ===============-->
   <link rel="shortcut icon" href="images/favicon.ico" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-Bs8jhsLNUVffwq7Lv6ZsJGqmKuPDkfdpY9c5FZsz6xti9KmdgO4z9F7tQ3aJfF13aM3FU9OY4/C1CKPH55j8Zw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style> 
+  .header_half-reser_btn {
+    background-color: #ffcc00; /* Change the background color */
+    color: #fff; /* Change the text color */   
+} 
+
+.header_half-reser_btn:hover {
+    background-color: #ffa500; /* Change the background color on hover */
+    color: #fff; /* Change the text color on hover */
+}
+.cart-header {
+    columns: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Add cursor pointer */
+}
+
+#cart_items:hover #cart-text strong {
+    color: red; /* Change color on hover */
+}
+
+.cart-arrow {
+    margin-left: 5px;
+}
+
+#cart_items:hover .cart-arrow i {
+    color: red; /* Change color on hover */
+}
+
+
+</style>
 </head>
 
 <body>
@@ -24,13 +58,21 @@
   <!--loader end-->
   <!--  main   -->
   <div id="main">
-    <a href="index.html" class="logo-holder"><img src="images/logo.png" alt="" /></a>
+    <a class="logo-holder"><img src="images/logo.png" alt="" /></a>
     <!--  header  -->
     <header class="header_half">
       <div class="header-inner">
         <div class="share-btn show-share isShare"></div>
-        <div class="cart-btn sc_btn" onclick="openCart()"><strong>Your Cart</strong><i
-            class="fa-thin fa-basket-shopping-simple"></i><span id="cart-item-count" class="cart-btn_counter">0</span>
+        <!-- <a href="alltables.html"> -->
+        <!-- <div class="back_half-reser_btn " id="backButton"><span style="color: black;">Back</span></div> -->
+        <!-- </a> -->
+        <a href="order.html">
+        <div class="cart-btn sc_btn"><strong>Your Order</strong><i
+          class="fas fa-shopping-bag"></i><span id="order-item-count" class="cart-btn_counter">0</span>
+        </div>
+      </a>
+        <div class="cart-btn sc_btn" style="margin-right: 20px;"><strong>Your Cart</strong><i onclick="openCart()"
+          class="fa-thin fa-basket-shopping-simple"></i><span id="cart-item-count" class="cart-btn_counter">0</span>
         </div>
         <!-- <div class="header_half-reser_btn" id="table-number"><span>Table Number:</span></div> -->
         <div class="nav-button_wrap isvis_hid_menu" id="home_menu_opt">
@@ -53,10 +95,10 @@
             <!-- nav -->
             <nav class="nav-inner" id="menu_init">
               <ul>
-                <li>
+                <li id="home_icon">
                   <a href="index.html" class="act-link">Home </a>
                 </li>
-                <li><a href="menu.html" class="act-link"> Menu</a></li>
+                <li ><a href="menu.html" class="act-link"> Menu</a></li>
                 <!-- <li><a href="contacts.html">Contacts</a></li> -->
                 <!-- <li><a href="blog.html">Blog</a></li> -->
               </ul>
@@ -80,20 +122,25 @@
       </div>
       <div class="body-ovelay fs-wrapper"></div>
     </div>
+    
     <!--  navigation  end-->
     <!--column-image-->
     <div class="column-image">
       <div class="border-bg">
         <div class="bg" data-bg="images/bg/long/1.jpg"></div>
         <div class="overlay"></div>
+        <!-- <div class="back_half-reser_btn " id="backButton"><span style="color: black;">Back</span></div> -->
+        <!-- <button id="backButton" class="back_half-reser_btn">Back</button> -->
       </div>
-      <div class="column-image-title">
+      <div class="column-image-title" style="margin-top: -150px;">
+        <!-- <button id="backButton" class="back_half-reser_btn_mob"style="margin-top:50px;>Back</button> -->
         <h2>Discover Our Menu</h2>
         <p>
           Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
           quam nihil molestiae consequatur.
         </p>
-        <p id="table-number"><span>Table Number:</span></p>
+        <h2 id="table-number"><span>Table Number:</span></h2><br>
+        <button id="backButton" class="back_half-reser_btn">Back</button>
       </div>
     </div>
     <!--column-image end-->
@@ -110,20 +157,29 @@
         <div class="container small-container">
           <!-- Dynamic menu sections will be appended here -->
         </div>
-        <div class="dishes-nav-container scroll-fixed-column-content">
+        <div class="dishes-nav-container scroll-fixed-column-content" id="cart_items">
           <div class="container small-container">
             <div class="dishes-nav-content">
-              <div class="dishes-nav_title">
-                Categories <i class="fa-thin fa-chevron-up"></i>
-              </div>
+              <!-- <div class="dishes-nav_title">
+                Added Itemes <i class="fa-thin fa-chevron-up"></i>
+              </div> -->
               <div class="dishes-nav">
                 <nav class="dishes-nav_init">
                   <ul id="menu-sections-nav">
-                    <!-- Links for dynamic menu sections will be appended here -->
+                    Links for dynamic menu sections will be appended here
                   </ul>
                 </nav>
               </div>
-              <a href="#" download class="dwonload_btn">Download PDF Menu</a>
+              <!-- <a href="#" download class="dwonload_btn">Download </a> -->
+              <div class="cart-header" id="cart-header" style="font-weight: 100; font-size: large; color: #fff" onclick="openCart()">
+                <span id="cart-text"  style="margin-top: 30px;"><strong>Your Cart items</strong></span>
+                <!-- <span id="cart-item-count" class="cart-btn_counter">0</span> -->
+                <span class="cart-arrow" style="margin-top: 30px;">
+                    <i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i>
+                </span>
+            </div>
+            
+            
             </div>
           </div>
         </div>
@@ -267,18 +323,22 @@
     <!--footer end-->
   </div>
   <!-- Main end -->
+  
   <!--=============== scripts  ===============-->
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Retrieve user role from localStorage
       const userRole = localStorage.getItem('userRole');
-      console.log("userRole========>", userRole);
+            console.log("userRole========>", userRole);
       // const userRole = "User"; //testing perpose
-      const menuIcon = document.getElementById("home_menu_opt");
-      if (userRole.includes(["Admin", "Cheif", "Captein"])) {
-        menuIcon.style.display = "block";
+      const homeIcon = document.getElementById('home_icon');
+      if(userRole == null || userRole == undefined){
+        homeIcon.style.display = 'none';
+      }
+     else if (userRole.includes(["Admin", "Cheif", "Captein"])) {
+        homeIcon.style.display = "block";
       } else {
-        menuIcon.style.display = 'none';
+        homeIcon.style.display = 'none';
 
       }
 
@@ -298,8 +358,8 @@
     }
 
     // Get the tableNumber from the URL query parameter
-    const tableNumber = getParameterByName('tableNumber');
-    // const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
+    // const tableNumber = getParameterByName('tableNumber');
+    const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
     console.log("tableNumber=====>", tableNumber);
 
     // Update the DOM to display the table number
@@ -318,10 +378,11 @@
         const navList = document.getElementById("menu-sections-nav");
 
         for (const sectionName in menuData.data) {
+          console.log(" menuData.data===>", menuData.data);
           if (menuData.data.hasOwnProperty(sectionName)) {
             const menuSection = menuData.data[sectionName];
             const sectionId = sectionName.toLowerCase().replace(/\s/g, "-"); // Generate section ID
-
+           
             // Create menu container
             const menuContainer = document.createElement("div");
             menuContainer.classList.add("menu-container");
@@ -388,6 +449,25 @@
       .catch((error) => {
         console.error("Error fetching menu data:", error);
       });
+
+      fetch(`https://resturantapp.azurewebsites.net/api/v1/getLastUnpaidOrderDetails/${tableNumber}`)
+       .then((response) => response.json())
+       .then((unPaidOrderData) => {
+        console.log("unPaidOrderData=====>",unPaidOrderData);
+        // Update cart icon and count
+      const orderQuantity = unPaidOrderData.data;
+      updateOrdertUI(orderQuantity);
+       sessionStorage.setItem('unPaidItemsQnt',orderQuantity);
+    // Function to update cart icon and count
+    function updateOrdertUI(itemQuantity) {
+      const orderItemCount = document.getElementById('order-item-count');
+      orderItemCount.textContent = orderQuantity;
+    }
+
+      })
+      .catch((error) => {
+        console.error("Error fetching unPaidOrderData data:", error);
+      });
   </script>
 
   <script>
@@ -426,6 +506,8 @@
 
       // Save the updated cart to sessionStorage
       sessionStorage.setItem('cart', JSON.stringify(cart));
+      // Save the updated table number to sessionStorage
+      sessionStorage.setItem('tableNumber', tableNumber);
     }
 
     // Function to update cart icon and count
@@ -442,6 +524,21 @@
       console.log("Open cart clicked");
     }
     document.addEventListener("DOMContentLoaded", function () {
+
+      const backButton = document.getElementById("backButton");
+  console.log("clicking back button====");
+  // Check if the back button element is found
+  if (backButton) {
+    // Add event listener to the back button
+    backButton.addEventListener('click', function() {
+      console.log("calling the back button");
+      // const cartPageURL  = cart.html ;
+      // window.location.href = cartPageURL;
+      window.history.back();
+    });
+  } else {
+    console.error("Back button element not found.");
+  }
       // Check if the cart item exists in sessionStorage
       if (sessionStorage.getItem('cart')) {
         // If it exists, parse it and assign it to the cart variable
@@ -458,7 +555,8 @@
 
         // Optionally, you can store the empty cart array in sessionStorage
         sessionStorage.setItem('cart', JSON.stringify(cart));
-
+        // Save the updated table number to sessionStorage
+      sessionStorage.setItem('tableNumber', tableNumber);
         console.log("Cart does not exist. Initializing empty cart.");
 
         // Update the UI with the empty cart count
