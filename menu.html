@@ -66,8 +66,8 @@
         <!-- <a href="alltables.html"> -->
         <!-- <div class="back_half-reser_btn " id="backButton"><span style="color: black;">Back</span></div> -->
         <!-- </a> -->
-        <a href="order.html">
-        <div class="cart-btn sc_btn"><strong>Your Order</strong><i
+        <a>
+        <div class="cart-btn sc_btn" onclick="openOrder()"><strong>Your Order</strong><i
           class="fas fa-shopping-bag"></i><span id="order-item-count" class="cart-btn_counter">0</span>
         </div>
       </a>
@@ -450,14 +450,14 @@
         console.error("Error fetching menu data:", error);
       });
 
-      fetch(`https://resturantapp.azurewebsites.net/api/v1/getLastUnpaidOrderDetails/${tableNumber}`)
+      fetch(`http://localhost:4000/api/v1/getLastUnpaidOrderDetails/${tableNumber}`)
        .then((response) => response.json())
        .then((unPaidOrderData) => {
         console.log("unPaidOrderData=====>",unPaidOrderData);
         // Update cart icon and count
       const orderQuantity = unPaidOrderData.data;
+      sessionStorage.setItem('unPaidItemsQnt',orderQuantity);
       updateOrdertUI(orderQuantity);
-       sessionStorage.setItem('unPaidItemsQnt',orderQuantity);
     // Function to update cart icon and count
     function updateOrdertUI(itemQuantity) {
       const orderItemCount = document.getElementById('order-item-count');
@@ -522,6 +522,15 @@
       // Redirect to the order.html page with the tableNumber parameter
       window.location.href = cartPageURL;
       console.log("Open cart clicked");
+    }
+
+    function openOrder() {
+      // Redirect to the menu page with atblkeNumber 
+      var orderPageURL = 'order.html?tableNumber=' + tableNumber ;
+
+      // Redirect to the order.html page with the tableNumber parameter
+      window.location.href = orderPageURL;
+      console.log("Open order clicked");
     }
     document.addEventListener("DOMContentLoaded", function () {
 

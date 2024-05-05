@@ -33,8 +33,8 @@
                 <div class="header-top_contacts"><a href="#"><span>Call now:</span> +489756412322</a><a
                         href="#"><span>Write :</span> yourmail@domain.com</a></div>
                 <div class="share-btn show-share isShare"></div>
-                <a href="order.html">
-                    <div class="cart-btn sc_btn"><strong>Your Order</strong><i
+                <a>
+                    <div class="cart-btn sc_btn" onclick="openOrder()"><strong>Your Order</strong><i
                       class="fas fa-shopping-bag"></i><span id="order-item-count" class="cart-btn_counter">0</span>
                     </div>
                 <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
@@ -289,7 +289,7 @@
             };
 
             // Make an AJAX request to place the order
-            fetch('https://resturantapp.azurewebsites.net/api/v1/placeOrder', {
+            fetch('http://localhost:4000/api/v1/placeOrder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -331,6 +331,7 @@
                     localStorage.removeItem('cartItems');
                     // Construct the URL with both tableNumber and orderId parameters
                     var orderPageUrl = 'order.html?tableNumber=' + tableNumber + '&orderId=' + data.data._id;
+                    console.log("orderPageUrl====", orderPageUrl);
 
                     // Redirect to the order.html page with the tableNumber parameter
                     window.location.href = orderPageUrl;
@@ -393,6 +394,17 @@
             generateCartRows(cartItems);
         }
     }
+
+    function openOrder() {
+        console.log(cartItems[0].tableNumber ,"=================table number form cart");
+      // Redirect to the menu page with atblkeNumber 
+      var orderPageURL = 'order.html?tableNumber=' + cartItems[0].tableNumber;
+
+      // Redirect to the order.html page with the tableNumber parameter
+      window.location.href = orderPageURL;
+      console.log("Open order clicked");
+    }
+        
  // Function to generate table rows for cart items
  function generateCartRows(cartItems) {
             const tableBody = document.querySelector('.checkout-table tbody');
@@ -493,7 +505,6 @@ placeOrderButton.addEventListener('click', function () {
         generateCartRows(cartItems);
         // Update cart item count
         updateCartUI(cartItems.length);
-        
     });
 </script>
 
