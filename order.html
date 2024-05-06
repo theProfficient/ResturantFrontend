@@ -61,6 +61,14 @@
     .red-x {
     color: red; /* Set the color to red */
 }
+.button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sb-det_btn {
+    margin-right: 10px; /* Adjust as needed */
+}
 
   </style>
 </head>
@@ -170,18 +178,21 @@
                     <span class="total-item" id="total-price">Total: ₹ 0 /-</span>
                   </div>
                   <div id="invoice-content">
-                    <button class="sb-det_btn" id="generate-invoice-btn">Generate Invoice</button>
-                    <button class="sb-det_btn" id="make-payment-btn">Make Payment</button>
-                    <a>
-                    <button class="sb-det_btn" id="add-foods-btn" onclick="openMenu()">Add Foods</button>
-                  </a>
+                    <div class="button-container">
+                        <button class="sb-det_btn" id="generate-invoice-btn">Invoice</button>
+                        <button class="sb-det_btn" id="make-payment-btn">Payment</button>
+                        <a>
+                            <button class="sb-det_btn" id="add-foods-btn" onclick="openMenu()">Add Foods</button>
+                        </a>
+                    </div>
                     <div id="invoice-content" style="display: none;"></div>
                     <div id="payment-dialog" class="payment-dialog">
-                      <p>Choose payment method:</p>
-                      <button id="cash-btn">Cash</button>
-                      <button id="online-btn">Online</button>
+                        <p>Choose payment method:</p>
+                        <button id="cash-btn">Cash</button>
+                        <button id="online-btn">Online</button>
                     </div>
-                  </div>
+                </div>
+                
                 </div>
               </div>
             </div>
@@ -364,7 +375,7 @@ if (!cartItemsForUI || cartItemsForUI.length === 0) {
     // sessionStorage.setItem('cartInOrder', JSON.stringify(orderDetails));
 
     // Call your backend API to mark the item as canceled
-    fetch('http://localhost:4000/api/v1/updateOrder', {
+    fetch('https://resturantapp.azurewebsites.net/api/v1/updateOrder', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -417,7 +428,7 @@ function decrementQuantity(index, tableNumber, userRoleForUpdate) {
 }
 
 function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
-    fetch('http://localhost:4000/api/v1/updateOrder', {
+    fetch('https://resturantapp.azurewebsites.net/api/v1/updateOrder', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -458,6 +469,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
 
     
         function showPaymentDialog(orderId, tableNumber) {
+          console.log("online or offline payment===>", tableNumber);
             const paymentDialog = document.getElementById("payment-dialog");
             paymentDialog.style.display = "block";
 
@@ -565,7 +577,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
 
     function paymentForOrder(orderId, onlinePayment) {
       // Make a POST request to the backend endpoint to generate the invoice
-      fetch("http://localhost:4000/api/v1/payBill", {
+      fetch("https://resturantapp.azurewebsites.net/api/v1/payBill", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -645,7 +657,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
 
       }
 
-      fetch(`http://localhost:4000/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
+      fetch(`https://resturantapp.azurewebsites.net/api/v1/getOrder?tableNumber=${tableNumber}&orderId=${orderIdFromUrl}`)
     .then((response) => response.json())
     .then((cartItems) => {
         console.log("order items for paid or not ======>", cartItems);
@@ -727,9 +739,32 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
 
         // Add a class to the "x" icon based on the item's action
         const cancelClass = item.action === "cancel" ? "red-x" : "";
-
-        row.innerHTML = `
-            <td class="hidden-xs">
+        let uidesign ;
+if(userRoleInApi == null || userRoleInApi == undefined){
+  uidesign =
+  `
+                    <td class="hidden-xs">
+                        <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
+                    </td>
+                    <td>
+                        <h5 class="product-name"> <a href="#">${item.name}</a></h5>
+                    </td>
+                    <td>
+                        <h5 class="product-quantity"> ${item.quantity}</h5>
+                    </td>
+                    <td>
+                        <h5 class="order-money">₹ ${item.totalPrice} /-</h5>
+                    </td>
+                    <td>
+                        <h5 class="order-money">${localOrderTime}</h5>
+                    </td>
+                    <td class="hidden-xs">
+                      <h5 class="edit-button"> <a href="#">Cancel</a></h5>
+                    </td>
+                    
+                `;
+}else{
+  uidesign = ` <td class="hidden-xs">
                 <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
             </td>
             <td>
@@ -750,8 +785,9 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
             </td>
             <td class="pr-remove">
               <a href="#" title="Remove" data-index="${index}" onclick="removeCartItem(${index}, ${tableNumber}, '${userRoleInApi}')"><i class="fas fa-times ${cancelClass}"></i></a>
-            </td>
-        `;
+            </td>`
+}
+        row.innerHTML = uidesign;
 
         totalPrice += item.totalAmount;
         tableBody.appendChild(row);

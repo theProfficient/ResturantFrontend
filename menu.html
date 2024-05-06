@@ -172,14 +172,13 @@
               </div>
               <!-- <a href="#" download class="dwonload_btn">Download </a> -->
               <div class="cart-header" id="cart-header" style="font-weight: 100; font-size: large; color: #fff" onclick="openCart()">
-                <span id="cart-text"  style="margin-top: 30px;"><strong>Your Cart items</strong></span>
+                <span id="cart-text" style="margin-top: 30px;"><strong><span id="cart-count" style="color: #ff6600; font-weight: bold; font-size: 24px;margin-right: 10px;">0</span>
+                  Items are added </strong></span>
                 <!-- <span id="cart-item-count" class="cart-btn_counter">0</span> -->
                 <span class="cart-arrow" style="margin-top: 30px;">
                     <i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i>
                 </span>
             </div>
-            
-            
             </div>
           </div>
         </div>
@@ -358,8 +357,8 @@
     }
 
     // Get the tableNumber from the URL query parameter
-    // const tableNumber = getParameterByName('tableNumber');
-    const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
+    const tableNumber = getParameterByName('tableNumber');
+    // const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
     console.log("tableNumber=====>", tableNumber);
 
     // Update the DOM to display the table number
@@ -450,7 +449,7 @@
         console.error("Error fetching menu data:", error);
       });
 
-      fetch(`http://localhost:4000/api/v1/getLastUnpaidOrderDetails/${tableNumber}`)
+      fetch(`https://resturantapp.azurewebsites.net/api/v1/getLastUnpaidOrderDetails/${tableNumber}`)
        .then((response) => response.json())
        .then((unPaidOrderData) => {
         console.log("unPaidOrderData=====>",unPaidOrderData);
@@ -503,13 +502,16 @@
       // Update cart icon and count
       const itemQuantity = cart.length;
       updateCartUI(itemQuantity);
+      updateCartCount(itemQuantity);
 
       // Save the updated cart to sessionStorage
       sessionStorage.setItem('cart', JSON.stringify(cart));
       // Save the updated table number to sessionStorage
       sessionStorage.setItem('tableNumber', tableNumber);
     }
-
+    function updateCartCount(count) {
+        document.getElementById('cart-count').innerText = count;
+    }
     // Function to update cart icon and count
     function updateCartUI(itemQuantity) {
       const cartItemCount = document.getElementById('cart-item-count');
@@ -558,6 +560,7 @@
 
         // Call a function to update the UI based on the cart
         updateCartUI(cart.length);
+        updateCartCount(cart.length);
       } else {
         // If the cart item does not exist in sessionStorage, initialize an empty cart array
         cart = [];
@@ -570,6 +573,7 @@
 
         // Update the UI with the empty cart count
         updateCartUI(cart.length);
+        updateCartCount(cart.length);
       }
 
       //  // Attach event listener to cart button
