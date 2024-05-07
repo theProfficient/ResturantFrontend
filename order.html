@@ -361,7 +361,7 @@ if (!cartItemsForUI || cartItemsForUI.length === 0) {
     cartItemCount.textContent = cartItemsForUI.length;
 }
 
-    // userRoleInApi = localStorage.getItem('userRole');
+    const userRoleInLocalStorage = localStorage.getItem('userRole');
    //Retrieve stored cart from sessionStorage
 // let cartItems = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
     function updateTotalPrice(totalAmount) {
@@ -369,19 +369,20 @@ if (!cartItemsForUI || cartItemsForUI.length === 0) {
             totalPriceElement.textContent = `Total: ₹ ${totalAmount} /-`;
         };
 
-        function removeCartItem(index, tableNumber, userRoleForUpdate) {
+        function removeCartItem(index, tableNumber, userRoleForUpdate, removedItem) {
+          console.log("removedItem======>", removedItem);
     // const orderDetails = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
-    const removedItem = orderDetails.splice(index, 1)[0];
+    // const removedItem = orderDetails.splice(index, 1)[0];
     // sessionStorage.setItem('cartInOrder', JSON.stringify(orderDetails));
 
     // Call your backend API to mark the item as canceled
-    fetch('https://resturantapp.azurewebsites.net/api/v1/updateOrder', {
+    fetch('http://localhost:4000/api/v1/updateOrder', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            orderDetails: [{ name: removedItem.name, action: 'cancel' }],
+            orderDetails: [{ name: removedItem, action: 'cancel' }],
             tableNumber: tableNumber,
             role: userRoleForUpdate
         }),
@@ -398,37 +399,38 @@ if (!cartItemsForUI || cartItemsForUI.length === 0) {
         // Update the UI
         // const updatedOrderDetails = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
         const updatedOrderDetails = data.data.orderDetails ;
-        sessionStorage.setItem('unPaidItemsQnt', updatedOrderDetails.length);0
-        generateCartRows(updatedOrderDetails);
+        sessionStorage.setItem('unPaidItemsQnt', updatedOrderDetails.length);
+        generateCartRows(updatedOrderDetails, data.data.tableNumber, userRoleInLocalStorage );
+        //orderDetails, tableNumber, userRoleInApi
         updateTotalPrice(updatedOrderDetails.reduce((total, item) => total + item.totalPrice, 0));
     })
     .catch(error => console.error('Error removing item:', error));
 }
 
-function incrementQuantity(index, tableNumber, userRoleForUpdate) {
-    // const orderDetails = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
-    orderDetails[index].quantity++;
-    orderDetails[index].totalPrice = orderDetails[index].price * orderDetails[index].quantity;
-    // sessionStorage.setItem('cartInOrder', JSON.stringify(orderDetails));
-
-    // Call your backend API to update the order details
-    updateOrder([{ name: orderDetails[index].name, action: 'increase', quantity: 1 }], userRoleForUpdate, tableNumber);
+function incrementQuantity(index, tableNumber, userRoleForUpdate, orderDetails) {
+  console.log("orderDetails in increment===>", orderDetails);
+  orderDetails[index].quantity++;
+  orderDetails[index].totalPrice = orderDetails[index].price * orderDetails[index].quantity;
+  updateOrder([{ name: orderDetails, action: 'increase', quantity: 1 }], userRoleForUpdate, tableNumber);
 }
 
-function decrementQuantity(index, tableNumber, userRoleForUpdate) {
+
+function decrementQuantity(index, tableNumber, userRoleForUpdate, orderDetails, quantity) {
+  console.log("orderDetails in decrement ===>", orderDetails, "====quantity",quantity) ;
     // const orderDetails = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
-    if (orderDetails[index].quantity > 1) {
-        orderDetails[index].quantity--;
-        orderDetails[index].totalPrice = orderDetails[index].price * orderDetails[index].quantity;
+    if (quantity > 1) {
+       quantity--;
+        // orderDetails[index].totalPrice = orderDetails[index].price * orderDetails[index].quantity;
         // sessionStorage.setItem('cartInOrder', JSON.stringify(orderDetails));
 
         // Call your backend API to update the order details
-        updateOrder([{ name: orderDetails[index].name, action: 'decrease', quantity: 1 }],userRoleForUpdate, tableNumber);
+        updateOrder([{ name: orderDetails, action: 'decrease', quantity: 1 }],userRoleForUpdate, tableNumber);
     }
 }
 
 function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
-    fetch('https://resturantapp.azurewebsites.net/api/v1/updateOrder', {
+  console.log("orderDetails in update ===>", orderDetails);
+    fetch('http://localhost:4000/api/v1/updateOrder', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -451,7 +453,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
         // Update the UI
         // const updatedOrderDetails = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
         const updatedOrderDetails = data.data.orderDetails ;
-        generateCartRows(updatedOrderDetails);
+        generateCartRows(updatedOrderDetails, data.data.tableNumber, userRoleInLocalStorage);
         updateTotalPrice(updatedOrderDetails.reduce((total, item) => total + item.totalPrice, 0));
     })
     .catch(error => console.error('Error updating order:', error));
@@ -467,29 +469,11 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
             generateCartRows(cartItems);
         }
 
-    
-        function showPaymentDialog(orderId, tableNumber) {
-          console.log("online or offline payment===>", tableNumber);
-            const paymentDialog = document.getElementById("payment-dialog");
-            paymentDialog.style.display = "block";
-
-            const cashBtn = document.getElementById("cash-btn");
-            cashBtn.addEventListener("click", function () {
-                paymentDialog.style.display = "none";
-                paymentForOrder(orderId, false); // Payment with cash
-            });
-
-            const onlineBtn = document.getElementById("online-btn");
-            onlineBtn.addEventListener("click", function () {
-                paymentDialog.style.display = "none";
-                paymentForOrder(orderId, true); // Payment online
-            });
-        }
-
         // const payBillBtn = document.getElementById("make-payment-btn");
         // payBillBtn.addEventListener("click", showPaymentDialog);
 
     function generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder) {
+      console.log("orderId in invoice", orderId);
       // Make a POST request to the backend endpoint to generate the invoice
       fetch("https://resturantapp.azurewebsites.net/api/v1/generate-invoice", {
         method: "POST",
@@ -576,6 +560,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
     //payment button___________________________________
 
     function paymentForOrder(orderId, onlinePayment) {
+      console.log("payment donefor :--", orderId);
       // Make a POST request to the backend endpoint to generate the invoice
       fetch("https://resturantapp.azurewebsites.net/api/v1/payBill", {
         method: "POST",
@@ -682,6 +667,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
         const totalAmountOfOrder = cartItems.orderData.totalAmount;
         const orderId = cartItems.orderData._id;
         const tableNumber = cartItems.orderData.tableNumber;
+        console.log("tableNumber after geting order===>", tableNumber);
       // Retrieve stored cart from sessionStorage
       // const storedCart = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
 // console.log();
@@ -689,19 +675,38 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
 // const mergedCart = [...storedCart, ...orderDetails];
 // Update the cart items in sessionStorage
 // sessionStorage.setItem('cartInOrder', JSON.stringify(orderDetails));
+  // Generate table rows for cart items
         generateCartRows(orderDetails, tableNumber, userRoleInApi);
+         // Update total price in the UI
         updateTotalPrice(totalAmountOfOrder);
-
+        const tableNumberElement = document.getElementById('table-number');
+       tableNumberElement.textContent = "Table Number : " + tableNumber;
         const generateInvoiceBtn = document.getElementById("generate-invoice-btn");
         generateInvoiceBtn.addEventListener("click", function () {
             generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
+        });
+        
+        function showPaymentDialog() {
+            const paymentDialog = document.getElementById("payment-dialog");
+            paymentDialog.style.display = "block";
 
-            const paymentBtn = document.getElementById("make-payment-btn");
-        generateInvoiceBtn.addEventListener("click", function () {
-          showPaymentDialog(orderId, tableNumber);
-        });
-        });
-    })
+            const cashBtn = document.getElementById("cash-btn");
+            cashBtn.addEventListener("click", function () {
+              paymentDialog.style.display = "none";
+              paymentForOrder(orderId, false); // Payment with cash
+            });
+
+            const onlineBtn = document.getElementById("online-btn");
+            onlineBtn.addEventListener("click", function () {
+              paymentDialog.style.display = "none";
+              paymentForOrder(orderId, true); // Payment online
+            });
+          }
+
+          const payBillBtn = document.getElementById("make-payment-btn");
+          payBillBtn.addEventListener("click", showPaymentDialog);
+
+        })
     .catch((error) => {
         console.error("Error fetching order data:", error);
     });
@@ -716,6 +721,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
     });
 
     function generateCartRows(orderDetails, tableNumber, userRoleInApi) {
+      console.log("orderDetails in generate row ===>", orderDetails);
             const tableBody = document.querySelector(".checkout-table tbody");
             let totalPrice = 0;
 
@@ -733,6 +739,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
             tableBody.appendChild(headerRow);
 
             orderDetails.forEach((item, index) => {
+              // console.log("after foreach ==>", item);
         const row = document.createElement("tr");
         const orderTimeUTC = new Date(item.placedTime);
         const localOrderTime = orderTimeUTC.toLocaleString();
@@ -741,6 +748,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
         const cancelClass = item.action === "cancel" ? "red-x" : "";
         let uidesign ;
 if(userRoleInApi == null || userRoleInApi == undefined){
+  console.log("for customer=====");
   uidesign =
   `
                     <td class="hidden-xs">
@@ -764,6 +772,7 @@ if(userRoleInApi == null || userRoleInApi == undefined){
                     
                 `;
 }else{
+  console.log("for restaurant====");
   uidesign = ` <td class="hidden-xs">
                 <a href="#"><img src="${item.imageLink}" alt="" class="respimg"></a>
             </td>
@@ -772,9 +781,9 @@ if(userRoleInApi == null || userRoleInApi == undefined){
             </td>
             <td style="text-align: center;">
                 <div class="count-control" style="display: flex; align-items: center; justify-content: center;">
-                    <button class="count-btn decrement" style="margin-right: 3px; margin-left: 5px;" onclick="decrementQuantity(${index}, ${tableNumber}, '${userRoleInApi}')">-</button>
+                    <button class="count-btn decrement" style="margin-right: 3px; margin-left: 5px;" onclick="decrementQuantity(${index}, ${tableNumber}, '${userRoleInApi}', '${item.name}', ${item.quantity})">-</button>
                     <input type="number" name="cartin" value="${item.quantity}" max="50" min="1" class="order-count" onchange="updateQuantity(${index}, this.value)">
-                    <button class="count-btn increment" style="margin-left: 3px; margin-right: 5px;" onclick="incrementQuantity(${index}, ${tableNumber},'${userRoleInApi}')">+</button>
+                    <button class="count-btn increment" style="margin-left: 3px; margin-right: 5px;" onclick="incrementQuantity(${index}, ${tableNumber},'${userRoleInApi}', '${item.name}')">+</button>
                 </div>
             </td>
             <td>
@@ -784,7 +793,7 @@ if(userRoleInApi == null || userRoleInApi == undefined){
                 <h5 class="order-money">${localOrderTime}</h5>
             </td>
             <td class="pr-remove">
-              <a href="#" title="Remove" data-index="${index}" onclick="removeCartItem(${index}, ${tableNumber}, '${userRoleInApi}')"><i class="fas fa-times ${cancelClass}"></i></a>
+              <a href="#" title="Remove" data-index="${index}" onclick="removeCartItem(${index}, ${tableNumber}, '${userRoleInApi}', '${item.name}')"><i class="fas fa-times ${cancelClass}"></i></a>
             </td>`
 }
         row.innerHTML = uidesign;
@@ -793,10 +802,10 @@ if(userRoleInApi == null || userRoleInApi == undefined){
         tableBody.appendChild(row);
     });
 }
-    const TableNumberForUI = sessionStorage.getItem('tableNumber');
+    // const TableNumberForUI = sessionStorage.getItem('tableNumber');
         // Update the DOM to display the table number
-    const tableNumberElement = document.getElementById('table-number');
-    tableNumberElement.textContent = "Table Number : " + TableNumberForUI;
+    // const tableNumberElement = document.getElementById('table-number');
+    // tableNumberElement.textContent = "Table Number : " + TableNumberForUI;
     function openMenu() {
       // Redirect to the menu page with atblkeNumber 
       var menuPageURL = 'menu.html?tableNumber=' + TableNumberForUI ;

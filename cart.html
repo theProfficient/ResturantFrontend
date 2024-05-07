@@ -496,10 +496,16 @@ placeOrderButton.addEventListener('click', function () {
         cartItems = storedCart ? JSON.parse(storedCart) : [];
        const TableNumber = sessionStorage.getItem('tableNumber');
        const unPaidQnt = sessionStorage.getItem('unPaidItemsQnt');
+       let unpaidOrderQnty = 0 ;
+       if(unPaidQnt == undefined || unPaidQnt == null){
+        unpaidOrderQnty = unPaidQnt ;
+
+       }
+       console.log("unpaidOrderQnty===>", unpaidOrderQnty);
         // Update the DOM to display the table number
     const tableNumberElement = document.getElementById('table-number');
     tableNumberElement.textContent = "Table Number : " + TableNumber;
-    updateOrdertUI(unPaidQnt);
+    updateOrdertUI(unpaidOrderQnty);
      
         // Generate table rows for cart items
         generateCartRows(cartItems);

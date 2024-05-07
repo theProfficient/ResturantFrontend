@@ -334,7 +334,7 @@
       if(userRole == null || userRole == undefined){
         homeIcon.style.display = 'none';
       }
-     else if (userRole.includes(["Admin", "Cheif", "Captein"])) {
+     else if (userRole === "Admin" || userRole === "Cheif" || userRole === "Captein") {
         homeIcon.style.display = "block";
       } else {
         homeIcon.style.display = 'none';
@@ -457,16 +457,17 @@
       const orderQuantity = unPaidOrderData.data;
       sessionStorage.setItem('unPaidItemsQnt',orderQuantity);
       updateOrdertUI(orderQuantity);
-    // Function to update cart icon and count
+      })
+      .catch((error) => {
+        console.error("Error fetching unPaidOrderData data:", error);
+      });
+      let itemQuantity = 0
+       // Function to update cart icon and count
     function updateOrdertUI(itemQuantity) {
       const orderItemCount = document.getElementById('order-item-count');
       orderItemCount.textContent = orderQuantity;
     }
 
-      })
-      .catch((error) => {
-        console.error("Error fetching unPaidOrderData data:", error);
-      });
   </script>
 
   <script>
