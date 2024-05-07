@@ -121,7 +121,7 @@
                                     <div class="total-box">
                                         <span class="total-item" id="total-price">Total: ₹ 0 /-</span>
                                         <!-- <a href="checkout.html" class="sb-det_btn">Proceed to Checkout</a>     -->
-                                        <a class="sb-det_btn" onclick="placeOrder()"> Place Order</a>
+                                        <a class="sb-det_btn" onclick="placeOrder()" id="place_ord_btn"> Place Order</a>
                                     </div>
                                 </div>
                             </div>
@@ -248,6 +248,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
           const userRole = localStorage.getItem('userRole');
+        //   const storegItems = sessionStorage.getItem('cart');
+        //   console.log("storegItems===>",);
+          
                 console.log("userRole========>", userRole);
           // const userRole = "User"; //testing perpose
           const homeIcon = document.getElementById('home_icon');
@@ -266,7 +269,19 @@
     <script>
         // document.addEventListener("DOMContentLoaded", function() {
         // Other JavaScript code
+ // Function to parse query parameters from URL
+ function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return "";
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
+    // Get the tableNumber from the URL query parameter
+     const tableNumber = getParameterByName('tableNumber');
         // Function to place the order
         function placeOrder(flattenedCartItems, generateCartRows, updateCartUI) {
             console.log("order======>", flattenedCartItems);
@@ -346,8 +361,7 @@
     </script>
 
 <script>
-    let cartItems = []; // Define cartItems in the global scope
-    
+    let cartItems = []; // Define cartItems in the global scope  
     function updateOrdertUI(itemQuantity) {
       const orderItemCount = document.getElementById('order-item-count');
       orderItemCount.textContent = itemQuantity;
@@ -396,9 +410,9 @@
     }
 
     function openOrder() {
-        console.log(cartItems[0].tableNumber ,"=================table number form cart");
+        // console.log(cartItems[0].tableNumber ,"=================table number form cart");
       // Redirect to the menu page with atblkeNumber 
-      var orderPageURL = 'order.html?tableNumber=' + cartItems[0].tableNumber;
+      var orderPageURL = 'order.html?tableNumber=' + tableNumber;
 
       // Redirect to the order.html page with the tableNumber parameter
       window.location.href = orderPageURL;
@@ -410,7 +424,9 @@
             const tableBody = document.querySelector('.checkout-table tbody');
             const totalPriceElement = document.getElementById('total-price');
             let totalPrice = 0;
-
+if(cartItems.length === 0){
+    totalPriceElement.textContent = `Total: ₹ 0 /-`;
+}
             // Clear existing table rows
             tableBody.innerHTML = '';
 
@@ -464,6 +480,11 @@
   // Add event listener to the "Place Order" button
   const placeOrderButton = document.querySelector('.sb-det_btn');
 placeOrderButton.addEventListener('click', function () {
+    console.log("placeOrderButton===", cartItems);
+    if (cartItems.length === 0) {
+        alert("Nothing to order, please select items.");
+        return; // Added return statement to exit the function
+    }
     // Show confirmation dialog
     const confirmation = confirm("Are you sure you want to place the order?");
     if (confirmation) {
@@ -495,17 +516,18 @@ placeOrderButton.addEventListener('click', function () {
         const storedCart = sessionStorage.getItem('cart');
         cartItems = storedCart ? JSON.parse(storedCart) : [];
        const TableNumber = sessionStorage.getItem('tableNumber');
-       const unPaidQnt = sessionStorage.getItem('unPaidItemsQnt');
-       let unpaidOrderQnty = 0 ;
+       let unPaidQnt = sessionStorage.getItem('unPaidItemsQnt');
+
+    //    let unpaidOrderQnty = 0 ;
        if(unPaidQnt == undefined || unPaidQnt == null){
-        unpaidOrderQnty = unPaidQnt ;
+        unPaidQnt = 0  ;
 
        }
-       console.log("unpaidOrderQnty===>", unpaidOrderQnty);
+       console.log("unpaidOrderQnty===>", unPaidQnt);
         // Update the DOM to display the table number
     const tableNumberElement = document.getElementById('table-number');
     tableNumberElement.textContent = "Table Number : " + TableNumber;
-    updateOrdertUI(unpaidOrderQnty);
+    updateOrdertUI(unPaidQnt);
      
         // Generate table rows for cart items
         generateCartRows(cartItems);

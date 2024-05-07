@@ -357,10 +357,10 @@
     }
 
     // Get the tableNumber from the URL query parameter
-    const tableNumber = getParameterByName('tableNumber');
-    // const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
+    // const tableNumber = getParameterByName('tableNumber');
+    const tableNumber = getParameterByName('tableNumber','https://theprofficient.github.io/ResturantFrontend/menu.html?tableNumber=2'); //testing purpose
     console.log("tableNumber=====>", tableNumber);
-
+  
     // Update the DOM to display the table number
     const tableNumberElement = document.getElementById('table-number');
     tableNumberElement.textContent = "Table Number : " + tableNumber;
@@ -416,7 +416,7 @@
                                 <div class="hero-menu-item-title">
                                     <h6><a href="#">${item.name}</a></h6>
                                     <span class="hero-menu-item-price">₹ ${item.price} /-</span>
-                                    <div class="add_cart" onclick="addToCart('${item.name}', '${item.dishImage}', ${item.price},${tableNumber})">Add To Cart</div>
+                                    <div class="add_cart" onclick="addToCart('${item.name}', '${item.dishImage}', ${item.price},${tableNumber})" id="add_to_cart_btn">Add To Cart</div>
                                 </div>
                                 <div class="hero-menu-item-details">
                                     <p>${truncateDescription(item.desc)}</p>
@@ -461,11 +461,11 @@
       .catch((error) => {
         console.error("Error fetching unPaidOrderData data:", error);
       });
-      let itemQuantity = 0
+      // let itemQuantity = 0
        // Function to update cart icon and count
     function updateOrdertUI(itemQuantity) {
       const orderItemCount = document.getElementById('order-item-count');
-      orderItemCount.textContent = orderQuantity;
+      orderItemCount.textContent = itemQuantity;
     }
 
   </script>
@@ -473,8 +473,10 @@
   <script>
     // Define cart variable in the global scope
     let cart = [];
+    let tableNumForCart ;
 
     function addToCart(name, image, price, tableNumber) {
+      tableNumForCart = tableNumber ;
       // Check if the cart item exists in sessionStorage
       cart = sessionStorage.getItem('cart') ? JSON.parse(sessionStorage.getItem('cart')) : [];
 
@@ -520,7 +522,7 @@
     }
     function openCart() {
       // Redirect to the cart page or implement your desired functionality
-      var cartPageURL = 'cart.html';
+      var cartPageURL = 'cart.html?tableNumber=' + tableNumber;
 
       // Redirect to the order.html page with the tableNumber parameter
       window.location.href = cartPageURL;
@@ -536,7 +538,14 @@
       console.log("Open order clicked");
     }
     document.addEventListener("DOMContentLoaded", function () {
-
+      // console.log("tablenuber for hide ===>", typeof(tableNumber));
+      // const addBtnHide = document.getElementById('add_to_cart_btn');     
+      //   if (!tableNumber || tableNumber == null || tableNumber == undefined) {
+      //     console.log("condition satisfied===");
+      //       addBtnHide.style.display = 'none';
+      //   } else {
+      //       addBtnHide.style.display = 'block';
+      //   }
       const backButton = document.getElementById("backButton");
   console.log("clicking back button====");
   // Check if the back button element is found

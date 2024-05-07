@@ -92,8 +92,8 @@
         </div>
         <div class="share-btn show-share isShare"></div>
         <!-- <div class="header_half-reser_btn show-rb"><span>Book Table</span><i class="fa-thin fa-bookmark"></i></div> -->
-        <a href="cart.html">
-        <div class="cart-btn sc_btn">
+        <a>
+        <div class="cart-btn sc_btn"  onclick="openCart()">
           <strong> Your Cart</strong><i class="fa-thin fa-basket-shopping-simple"></i><span id="cart-item-count"
             class="cart-btn_counter">0</span>
         </div>
@@ -352,6 +352,7 @@
     });
   </script>
   <script>
+    let tablenUMForMenu ;
    let cartItemsForUI = JSON.parse(sessionStorage.getItem('cart'));
 const cartItemCount = document.getElementById('cart-item-count');
 
@@ -668,6 +669,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
         const orderId = cartItems.orderData._id;
         const tableNumber = cartItems.orderData.tableNumber;
         console.log("tableNumber after geting order===>", tableNumber);
+        tablenUMForMenu = tableNumber ;
       // Retrieve stored cart from sessionStorage
       // const storedCart = JSON.parse(sessionStorage.getItem('cartInOrder')) || [];
 // console.log();
@@ -685,7 +687,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
         generateInvoiceBtn.addEventListener("click", function () {
             generateInvoice(orderId, orderDetails, tableNumber, totalAmountOfOrder);
         });
-        
+
         function showPaymentDialog() {
             const paymentDialog = document.getElementById("payment-dialog");
             paymentDialog.style.display = "block";
@@ -734,7 +736,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Time</th>
-                <th>Cancel</th>
+                ${userRoleInApi ? '<th id="cancel_btn">Cancel</th>' : ''}
             `;
             tableBody.appendChild(headerRow);
 
@@ -765,11 +767,7 @@ if(userRoleInApi == null || userRoleInApi == undefined){
                     </td>
                     <td>
                         <h5 class="order-money">${localOrderTime}</h5>
-                    </td>
-                    <td class="hidden-xs">
-                      <h5 class="edit-button"> <a href="#">Cancel</a></h5>
-                    </td>
-                    
+                    </td>       
                 `;
 }else{
   console.log("for restaurant====");
@@ -808,12 +806,23 @@ if(userRoleInApi == null || userRoleInApi == undefined){
     // tableNumberElement.textContent = "Table Number : " + TableNumberForUI;
     function openMenu() {
       // Redirect to the menu page with atblkeNumber 
-      var menuPageURL = 'menu.html?tableNumber=' + TableNumberForUI ;
+      var menuPageURL = 'menu.html?tableNumber=' + tablenUMForMenu ;
 
       // Redirect to the order.html page with the tableNumber parameter
       window.location.href = menuPageURL;
       console.log("Open menu clicked");
     }
+
+    function openCart() {
+        // console.log(cartItems[0].tableNumber ,"=================table number form cart");
+      // Redirect to the menu page with atblkeNumber 
+      var orderPageURL = 'cart.html?tableNumber=' + tablenUMForMenu;
+
+      // Redirect to the order.html page with the tableNumber parameter
+      window.location.href = orderPageURL;
+      console.log("Open cart clicked");
+    }
+        
   </script>
 
 
