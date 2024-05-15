@@ -327,21 +327,20 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const userRole = localStorage.getItem('userRole');
-            console.log("userRole========>", userRole);
-      // const userRole = "User"; //testing perpose
-      const homeIcon = document.getElementById('home_icon');
-      if(userRole == null || userRole == undefined){
-        homeIcon.style.display = 'none';
-      }
-     else if (userRole === "Admin" || userRole === "Cheif" || userRole === "Captein") {
-        homeIcon.style.display = "block";
-      } else {
-        homeIcon.style.display = 'none';
+    const userRole = localStorage.getItem('userRole');
+    console.log("userRole========>", userRole);
 
-      }
+    // Remove extra spaces and convert to lowercase for consistent comparison
+    const cleanedUserRole = userRole ? userRole.trim().toLowerCase() : '';
 
-    });
+    const homeIcon = document.getElementById('home_icon');
+    if (!cleanedUserRole || cleanedUserRole === 'user') {
+        homeIcon.style.display = 'none';
+    } else {
+        homeIcon.style.display = 'block';
+    }
+});
+
   </script>
   <script>
 
@@ -414,10 +413,10 @@
                                     <img src="${item.dishImage}" alt="">
                                 </a>
                                 <div class="hero-menu-item-title">
-                                    <h6><a href="#">${item.name}</a></h6>
-                                    <span class="hero-menu-item-price">₹ ${item.price} /-</span>
-                                    <div class="add_cart" onclick="addToCart('${item.name}', '${item.dishImage}', ${item.price},${tableNumber})" id="add_to_cart_btn">Add To Cart</div>
-                                </div>
+                            <h6><a href="#">${item.name}</a></h6>
+                            <span class="hero-menu-item-price">₹ ${item.price} /-</span>
+                            ${tableNumber ? `<div class="add_cart" onclick="addToCart('${item.name}', '${item.dishImage}', ${item.price},${tableNumber})" id="add_to_cart_btn">Add To Cart</div>` : ''}
+                        </div>
                                 <div class="hero-menu-item-details">
                                     <p>${truncateDescription(item.desc)}</p>
                                 </div>
@@ -465,7 +464,12 @@
        // Function to update cart icon and count
     function updateOrdertUI(itemQuantity) {
       const orderItemCount = document.getElementById('order-item-count');
-      orderItemCount.textContent = itemQuantity;
+      if(itemQuantity ){
+
+        orderItemCount.textContent = itemQuantity;
+      }else{
+        orderItemCount.textContent = 0 ;
+      }
     }
 
   </script>

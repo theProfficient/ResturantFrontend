@@ -66,9 +66,9 @@
                 <div class="header-top_contacts"><a href="#"><span>Call now:</span> +489756412322</a><a
                         href="#"><span>Write :</span> Create Menu</a></div>
                 <div class="share-btn show-share isShare"></div>
-                <a href="alltables.html">
+                <!-- <a href="alltables.html">
                 <div class="header_half-reser_btn " id="get_all_tables"><span style="color: black;">Get All
-                            Tables</span></div></a>
+                            Tables</span></div></a> -->
                             <a href="create-dish.html">
                 <div class="header_half-reser_btn " id="create_new_dish"><span style="color: black;">Introduce New
                             Dish</span></div></a>
@@ -104,6 +104,9 @@
                                 </li>
                                 <li><a href="menu.html"> Menu</a></li>
                                 <li id="creatingMenuType"><a href="create_menu.html"> Create Menu</a></li>
+                                <li id="get_all_tables"><a href="alltables.html"> Get All Tables</a></li>
+                                <li id="create_member"><a href="signup.html"> Create Employee</a></li>
+                                <li id="sign_our" onclick="signOut()"><a>Sign Out</a></li>
                             </ul>
                         </nav>
                         <!-- nav end-->
@@ -489,22 +492,22 @@
         </footer>
         <!--footer end-->
         <!--reservation modal-->
-        <div class="reserv_modal-container">
-            <div class="reserv_modal-inner">
-                <div class="reserv_modal-inner-box fl-wrap">
-                    <div class="close-reservation-modal close-rf radius_btn "><i class="fa-light fa-xmark"></i></div>
-                    <div class="reserv_modal-wrapper">
-                        <div class="reservation-content">
-                            <div class="reserv-modal-title">
+        <!-- <div class="reserv_modal-container"> -->
+            <!-- <div class="reserv_modal-inner"> -->
+                <!-- <div class="reserv_modal-inner-box fl-wrap"> -->
+                    <!-- <div class="close-reservation-modal close-rf radius_btn "><i class="fa-light fa-xmark"></i></div> -->
+                    <!-- <div class="reserv_modal-wrapper"> -->
+                        <!-- <div class="reservation-content"> -->
+                            <!-- <div class="reserv-modal-title">
                                 <h4>Don't forget to book a table</h4>
                                 <h3>Table Reservations</h3>
                                 <div class="section-title-separator_wrap fl-wrap">
                                     <div class="section-title-separator"><span></span></div>
                                 </div>
-                            </div>
-                            <div class="reserv-modal_bg"></div>
-                            <div id="reserv-message"></div>
-                            <form class="custom-form" action="https://wanteat.kwst.net/site/php/reservation.php"
+                            </div> -->
+                            <!-- <div class="reserv-modal_bg"></div> -->
+                            <!-- <div id="reserv-message"></div> -->
+                            <!-- <form class="custom-form" action="https://wanteat.kwst.net/site/php/reservation.php"
                                 name="reservationform" id="reservationform">
                                 <fieldset>
                                     <div class="row">
@@ -563,11 +566,11 @@
                                     <button class="reservation_btn radius_btn" id="reservation-submit">Book
                                         Table</button>
                                 </fieldset>
-                            </form>
-                        </div>
+                            </form> -->
+                        <!-- </div> -->
                         <!-- reservation-wrap end-->
-                    </div>
-                    <div class="reserv_modal-bg-wrap">
+                    <!-- </div> -->
+                    <!-- <div class="reserv_modal-bg-wrap">
                         <div class="bg" data-bg="images/bg/11.jpg"></div>
                         <div class="overlay"></div>
                         <div class="reservation-modal_hours">
@@ -598,11 +601,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="reserv_modal_overlay fs-wrapper close-rf"></div>
-        </div>
+                    </div> -->
+                <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="reserv_modal_overlay fs-wrapper close-rf"></div> -->
+        <!-- </div> -->
         <!--reservation modal end-->
     </div>
     <!-- Main end -->
@@ -631,16 +634,26 @@
             // const userRole = "User"; //testing perpose
             const introduceNewDishBtn = document.getElementById("create_new_dish");
             const introduceMenu = document.getElementById("creatingMenuType");
+            const createEmployee = document.getElementById("create_member")
             if (userRole === "Admin") {
                 introduceNewDishBtn.style.display = "block";
                 introduceMenu.style.display = "block";
+                createEmployee.style.display = "block";
             } else {
                 introduceNewDishBtn.style.display = 'none';
-                introduceMenu.style.display = "block";
+                introduceMenu.style.display = "none";
+                createEmployee.style.display = "none";
 
             }
-
         });
+        function signOut(){
+    //remove login and role
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userRole');
+    //redirect to login page 
+    var loginPageURL = 'login-page.html';
+    window.location.href = loginPageURL ;
+ }
     </script>
 </body>
 

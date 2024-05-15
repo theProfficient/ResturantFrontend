@@ -335,21 +335,20 @@
   <script src="js/scripts.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const userRole = localStorage.getItem('userRole');
-            console.log("userRole========>", userRole);
-      // const userRole = "User"; //testing perpose
-      const homeIcon = document.getElementById('home_icon');
-      if(userRole == null || userRole == undefined){
-        homeIcon.style.display = 'none';
-      }
-     else if (userRole.includes(["Admin", "Cheif", "Captein"])) {
-        homeIcon.style.display = "block";
-      } else {
-        homeIcon.style.display = 'none';
+    const userRole = localStorage.getItem('userRole');
+    console.log("userRole========>", userRole);
 
-      }
+    // Remove extra spaces and convert to lowercase for consistent comparison
+    const cleanedUserRole = userRole ? userRole.trim().toLowerCase() : '';
 
-    });
+    const homeIcon = document.getElementById('home_icon');
+    if (!cleanedUserRole || cleanedUserRole === 'user') {
+        homeIcon.style.display = 'none';
+    } else {
+        homeIcon.style.display = 'block';
+    }
+});
+
   </script>
   <script>
     let tablenUMForMenu ;
@@ -650,7 +649,7 @@ function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
         // Retrieve user role from localStorage
         const userRoleInApi = localStorage.getItem('userRole');
         console.log("userRoleInApi====>", userRoleInApi);
-        if ((cartItems.message === "Bill already paid" || cartItems.message === "No Pending Order Found") && ["Admin", "Cheif", "Captein"].includes(userRoleInApi)) {
+        if ((cartItems.message === "Bill already paid" || cartItems.message === "No Pending Order Found") &&  ["Admin", "Chef", "Captain"].includes(userRoleInApi)) {
             window.location.href = 'alltables.html';
         } else if (cartItems.message === "Bill already paid") {
             window.location.replace('shop.html');

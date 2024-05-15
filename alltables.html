@@ -33,6 +33,24 @@
 .reserved {
     color: blue;
 }
+.qr-code-image {
+    width: 80px;
+    height: 80px; 
+}
+.view-btn {
+            background-color: #007bff; 
+            color: #ffffff;
+            border: none; 
+            padding: 8px 16px; 
+            border-radius: 10px;
+            cursor: pointer; /* Change cursor on hover */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        .view-btn:hover {
+            background-color: #0056b3; 
+        }
+
         </style>
     </head>
     <body>
@@ -292,13 +310,13 @@
             }
     
             function populateTable(tableData) {
-                console.log("tabledata ====>", tableData);
+    console.log("tabledata ====>", tableData);
     var tableBody = $('#cart-items-body');
     tableBody.empty();
     tableData.forEach(function(table) {
         var tableRow = $('<tr>');
 
-            // Add status class based on the status received
+        // Add status class based on the status received
         var statusClass = '';
         switch(table.status) {
             case 'Vacant':
@@ -313,31 +331,84 @@
             default:
                 statusClass = ''; // Handle any other status accordingly
         }
+
+        // Create an img element for the QR code image
+        var tableQRCode = $('<img>').attr('src', table.qrImage).addClass('qr-code-image');
+
+        // Append the QR code image to the table cell
+        var tableQRCodeCell = $('<td>').append(tableQRCode);
+        tableQRCodeCell.click(function() {
+            // Create a popup asking if the user wants to download the QR code
+            var downloadConfirmation = confirm("Do you want to download this QR code?");
+            if (downloadConfirmation) {
+                downloadQRCode(table.qrImage, table.tableNumber);
+            }
+        });
+        tableRow.append(tableQRCodeCell);
+
         var tableNumberColumn = $('<td>').text('Table Number: ' + table.tableNumber);
-            tableRow.append(tableNumberColumn);
-            var tableStatus = $('<td>').text(table.status).addClass(statusClass);;
-                tableRow.append(tableStatus);
+        tableRow.append(tableNumberColumn);
+
+        var tableStatus = $('<td>').text(table.status).addClass(statusClass);
+        tableRow.append(tableStatus);
+
         var viewButtonColumn = $('<td>');
         var viewButton = $('<button>').text('View').addClass('view-btn');
-        //     var editButtonColumn = $('<td>');
-        // var editButton = $('<button>').text('Edit').addClass('edit-btn');
-        // Construct the URL with the tableNumber parameter
         var orderPageUrl = 'order.html?tableNumber=' + table.tableNumber;
         viewButton.click(function() {
-            // Redirect to the order.html page with the tableNumber parameter
             window.location.href = orderPageUrl;
         });
         viewButtonColumn.append(viewButton);
         tableRow.append(viewButtonColumn);
-        // editButtonColumn.append(editButton);
-        // tableRow.append(editButtonColumn);
+
         tableBody.append(tableRow);
     });
 }
 
-            $(document).ready(function() {
-                fetchTableData();
-            });
+function downloadQRCode(imageSrc, tableNumber) {
+    // Create a temporary canvas element
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+
+    // Load the QR code image onto the canvas
+    var qrCodeImg = new Image();
+    qrCodeImg.onload = function() {
+        canvas.width = qrCodeImg.width;
+        canvas.height = qrCodeImg.height + 50; // Increase canvas height to accommodate table number
+
+        // Draw the QR code image onto the canvas
+        ctx.drawImage(qrCodeImg, 0, 0);
+
+        // Set font styles for the table number text
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+
+        // Draw the table number text below the QR code
+        ctx.fillText('Table Number: ' + tableNumber, canvas.width / 2, qrCodeImg.height + 30);
+
+        // Convert the canvas to a data URL
+        var dataURL = canvas.toDataURL('image/png');
+
+        // Create a temporary anchor element with the data URL as href and download attribute
+        var anchor = document.createElement('a');
+        anchor.href = dataURL;
+        anchor.download = 'QR_Code_Table_' + tableNumber + '.png';
+
+        // Programmatically trigger the download
+        anchor.click();
+
+        // Clean up: remove the temporary canvas
+        document.body.removeChild(canvas);
+    };
+    qrCodeImg.src = imageSrc;
+}
+
+
+$(document).ready(function() {
+    fetchTableData();
+});
+
         </script>
     </body>
 

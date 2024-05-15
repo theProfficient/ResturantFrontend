@@ -364,7 +364,11 @@
     let cartItems = []; // Define cartItems in the global scope  
     function updateOrdertUI(itemQuantity) {
       const orderItemCount = document.getElementById('order-item-count');
+      if(itemQuantity ){
       orderItemCount.textContent = itemQuantity;
+      }else{
+      orderItemCount.textContent = 0 ;
+      }
     }
     // Function to update cart icon and count
     function updateCartUI(itemQuantity) {

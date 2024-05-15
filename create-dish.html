@@ -210,16 +210,19 @@
                     </div>
                 </div>
                 <br>
-                <input type="text" name="name" placeholder="Dish Name" required><br>
+                <input type="text" name="name" placeholder="Dish Name" autoComplete= "off" required ><br>
                 <input type="number" name="price" placeholder="Price" required><br>
                 <textarea name="desc" placeholder="Description"></textarea><br>
                 <div class="radio-buttons">
                     <label><input type="radio" name="veg" value="true"> Veg</label>
                     <label><input type="radio" name="veg" value="false"> Non-Veg</label>
-                    <input type="file" name="dishImage" accept="image/*" required>
+                    <input type="file" name="dishImage"  accept="image/*" required>
                 </div>
                 <button type="submit">Add Dish</button>
             </form>
+            <div id="imagePreviewContainer" style="display: none;">
+                <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 300px; max-height: 500px;">
+            </div>
         </div>        
         </div>
         <!--  navigation  end-->                                
@@ -281,35 +284,53 @@
         </script>
         
         <script>
-            $(document).ready(function() {
-                // Handle form submission
-                $('#addDishForm').submit(function(event) {
-                    event.preventDefault();
-                    var formData = new FormData($(this)[0]);
-                    $.ajax({
-                        url: 'https://resturantapp.azurewebsites.net/api/v1/createDish',
-                        type: 'POST',
-                        data: formData,
-                        async: false,
-                        success: function (response) {
-                            console.log(response);
-                            $('#addDishForm')[0].reset(); //reset input field
-                            // Handle success response
-                            window.alert("New Dish Introduced Successfully")
-                        },
-                        error: function (xhr, status, error) {
-                            console.log(xhr.responseText);
-                            // Handle error response
-                            alert("Error: " + xhr.responseText); // Show error message
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    });
-                    return false;
-                });
-            });
-        </script>
+       $(document).ready(function() {
+    // Handle form submission
+    $('#addDishForm').submit(function(event) {
+        event.preventDefault();
+        var formData = new FormData($(this)[0]);
+        $.ajax({
+            url: 'https://resturantapp.azurewebsites.net/api/v1/createDish',
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function (response) {
+                console.log(response);
+                $('#addDishForm')[0].reset(); //reset input field
+                // Handle success response
+                window.alert("New Dish Introduced Successfully")
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                // Handle error response
+                alert("Error: " + xhr.responseText); // Show error message
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+        return false;
+    });
+
+    // Handle change event of file input
+    $('input[name="dishImage"]').change(function() {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // Display the image in a preview container
+                $('#imagePreview').attr('src', e.target.result);
+                $('#imagePreviewContainer').show(); // Show the image preview container
+            }
+            reader.readAsDataURL(file);
+        } else {
+            // If no file is selected, hide the image preview container
+            $('#imagePreviewContainer').hide();
+        }
+    });
+});
+
+ </script>
         
     </body>
 </html>

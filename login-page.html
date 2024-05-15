@@ -61,27 +61,33 @@
         button:hover {
             background-color: #45a049;
         }
+        #errorMessage {
+    color: red;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
     </style>
 </head>
 
 <body>
-    <form action="https://snakeladder1.azurewebsites.net/login" method="get" onsubmit="handleLogin(event)">
+    <form id="loginForm">
         <label for="email">Email:</label>
-        <input type="text" name="email" required autocomplete="off" required autocomplete="off">
+        <input type="text" id="email" name="email" required autocomplete="off" required autocomplete="off">
         <br>
         <label for="password">Password:</label>
-        <input type="password" name="password" required autocomplete="new-password">
+        <input type="password" id="password" name="password" required autocomplete="new-password">
         <br>
         <button type="submit">Login</button>
         <!-- <button href="signup.html">Signup</button> -->
+        <div id="errorMessage" style="color: red;"></div>
     </form>
-
     <script>
         function handleLogin(event) {
             event.preventDefault();
 
-            const email = document.querySelector('input[name="email"]').value;
-            const password = document.querySelector('input[name="password"]').value;
+            const email = document.querySelector('#email').value;
+            const password = document.querySelector('#password').value;
 
             fetch(`https://resturantapp.azurewebsites.net/api/v1/login?email=${email}&password=${password}`, {
                 method: 'POST',
@@ -89,41 +95,31 @@
                     'Content-Type': 'application/json'
                 },
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log("loggedin successfully====>", data);
-                        // Store login status and user role locally
-                        localStorage.setItem('isLoggedIn', 'true');
-                        localStorage.setItem('userRole', data.data.role);
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("loggedin successfully====>", data);
+                    // Store login status and user role locally
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('userRole', data.data.role);
 
-                        // Reset form fields
-                        event.target.reset();
-                        window.location.href = 'index.html';
-                    } else {
-                        // Reset form fields
-                        event.target.reset();
+                    // Reset form fields
+                    event.target.reset();
+                    window.location.href = 'index.html';
+                } else {
+                    // Reset form fields
+                    event.target.reset();
 
-                        console.log("Login failed:", data.message);
-                        if (data.message === "User is not registered, Please signUp first") {
-                            // Redirect to signup page with error message
-                            window.location.href = 'signup.html?error=User is not registered, Please sign up first';
-                            // Disable autofill for password field on redirection to signup page
-                            document.querySelector('input[name="password"]').setAttribute('autocomplete', 'new-password');
-                        }
-
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                    console.log("Login failed:", data.message);
+                    document.getElementById('errorMessage').innerText = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
 
-        // Clear input fields when the page is loaded
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelector('input[name="email"]').value = "";
-            document.querySelector('input[name="password"]').value = "";
-        });
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
     </script>
 </body>
 
