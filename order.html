@@ -376,7 +376,7 @@ if (!cartItemsForUI || cartItemsForUI.length === 0) {
     // sessionStorage.setItem('cartInOrder', JSON.stringify(orderDetails));
 
     // Call your backend API to mark the item as canceled
-    fetch('http://localhost:4000/api/v1/updateOrder', {
+    fetch('https://resturantapp.azurewebsites.net/api/v1/updateOrder', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -430,7 +430,7 @@ function decrementQuantity(index, tableNumber, userRoleForUpdate, orderDetails, 
 
 function updateOrder(orderDetails, userRoleForUpdate, tableNumber) {
   console.log("orderDetails in update ===>", orderDetails);
-    fetch('http://localhost:4000/api/v1/updateOrder', {
+    fetch('https://resturantapp.azurewebsites.net/api/v1/updateOrder', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

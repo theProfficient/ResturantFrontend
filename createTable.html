@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <!--=============== basic  ===============-->
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>WantEat - Responsive Restaurant / Cafe / Pub Template</title>
+    <!--=============== css  ===============-->
+    <link type="text/css" rel="stylesheet" href="css/plugins.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <!--=============== favicons ===============-->
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .add-table-form {
+            max-width: 400px;
+            margin: 200px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .add-table-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .add-table-form input[type="text"],
+        .add-table-form input[type="number"],
+        .add-table-form textarea,
+        .add-table-form input[type="file"],
+        .add-table-form button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .add-table-form input[type="file"] {
+            margin-top: 10px;
+            /* Separate file input from radio buttons */
+        }
+
+        .add-table-form .radio-buttons input[type="file"] {
+            flex: 1;
+            /* Allow file input to take remaining space */
+            margin-left: 10px;
+            /* Add space between radio buttons and file input */
+        }
+
+        .add-table-form button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-table-form button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .menu-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .menu-dropdown input[name="menuName"] {
+            width: calc(100% - 20px);
+            /* Adjust according to your design */
+            padding-right: 40px;
+            /* Adjust according to your design */
+        }
+
+        .dropdown-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            /* Adjust according to your design */
+            height: 100%;
+            background-color: #f4f4f4;
+            /* Adjust according to your design */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .menu-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            display: none;
+        }
+
+        .menu-options.active {
+            display: block;
+        }
+
+        .menu-options ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-options li {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .menu-options li:hover {
+            background-color: #f4f4f4;
+        }
+
+        .header_half-reser_btn {
+            background-color: #ffcc00;
+            color: #fff;
+        }
+
+        .header_half-reser_btn:hover {
+            background-color: #ffa500;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!--loader-->
+    <div class="main-loader">
+        <div class="loader-wrap">
+            <span class="loader"></span>
+        </div>
+    </div>
+    <!--loader end-->
+    <!--  main   -->
+    <div id="main">
+        <a class="logo-holder"><img src="images/logo.png" alt=""></a>
+        <!--  header  -->
+        <header class="header_half">
+            <div class="header-inner">
+                <div class="header-top_contacts"><a href="#"><span>Call now:</span> +489756412322</a><a
+                        href="#"><span>Write :</span> yourmail@domain.com</a></div>
+                <div class="share-btn show-share isShare"></div>
+                <a href="alltables.html">
+                    <div class="header_half-reser_btn " id="get_all_tables"><span style="color: black;">Get All
+                            Tables</span></div>
+                </a>
+                <div class="nav-button_wrap isvis_hid_menu">
+                    <div class="nav-button"><span></span></div>
+                </div>
+                <!-- share-wrapper-->
+                <div class="share-wrapper share-wrapper_half">
+                    <div class="share-inner">
+                        <div class="share-container"></div>
+                    </div>
+                </div>
+                <!-- share-wrapper end -->
+            </div>
+        </header>
+        <!--  header end  -->
+        <!--  header end  -->
+        <!--  navigation -->
+        <div class="hidden_menu-container">
+            <div class="nav-wrapper isvis_menu hiddenmenu">
+                <div class="nav-separator"><span></span></div>
+                <div class="nav-wrap">
+                    <div class="fl-wrap">
+                        <div class="nav_dec"><span></span></div>
+                    </div>
+                    <div class="nav-container fl-wrap">
+                        <!-- nav -->
+                        <nav class="nav-inner" id="menu_init">
+                            <ul>
+                                <li>
+                                    <a href="index.html" class="act-link">Home </a>
+                                </li>
+                                <li><a href="menu.html"> Menu</a></li>
+                                <!-- <li><a href="about.html">About Us</a></li> -->
+                                <!-- <li><a href="contacts.html">Contacts</a></li> -->
+                                <!-- <li><a href="blog.html">Blog</a></li> -->
+                            </ul>
+                        </nav>
+                        <!-- nav end-->
+                    </div>
+                    <div class="fl-wrap">
+                        <div class="nav_dec nd_bottom"><span></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="body-ovelay  fs-wrapper"></div>
+        </div>
+
+        <!-- Add dish form -->
+        <div class="add-table-form">
+            <h2>Create a New Table</h2>
+            <form id="createMenuForm">
+                <input type="number" min="1" name="tableNumber" placeholder="Table Number" required autocomplete="off"><br>
+                <button type="submit">Create Table</button>
+            </form>
+        </div>
+
+    </div>
+    <!--  navigation  end-->
+
+    <!-- Main end -->
+    <!--=============== scripts  ===============-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            //check if the user is logged in 
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+            if (!isLoggedIn) {
+                //if not redirect to login page
+                window.location.href = 'login-page.html'
+            }
+        })
+    </script>
+    <script>
+        document.getElementById("createMenuForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Collect form data
+            const formData = new FormData(event.target);
+            const tableData = Object.fromEntries(formData.entries());
+            console.log("=============>", tableData);
+            // Send the user data to your backend
+            // Example using fetch API
+            fetch("https://resturantapp.azurewebsites.net/api/v1/createTableNumber", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(tableData)
+            })
+                .then(response => {
+                    // console.log("response====>", response);
+                    if (!response.ok) {
+                        alert('please enter a valid number')
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // console.log(data); // Handle successful response from backend
+                    if (!data.success) {
+                        // console.log("data if failed===>", data);
+                        alert(`${data.message}`);
+                        // Reset form fields
+                        event.target.reset();
+                    }
+                    alert(`${data.message}`);
+                    // Reset form fields
+                    event.target.reset();
+                })
+                .catch(error => {
+                    // Reset form fields
+                    event.target.reset();
+
+                    console.error("There was a problem with your fetch operation:", error);
+                });
+        });
+
+    </script>
+
+</body>
+
+</html>

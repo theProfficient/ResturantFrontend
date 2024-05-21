@@ -34,8 +34,8 @@
     color: blue;
 }
 .qr-code-image {
-    width: 80px;
-    height: 80px; 
+    width: 70px;
+    height: 70px; 
 }
 .view-btn {
             background-color: #007bff; 
@@ -346,7 +346,7 @@
         });
         tableRow.append(tableQRCodeCell);
 
-        var tableNumberColumn = $('<td>').text('Table Number: ' + table.tableNumber);
+        var tableNumberColumn = $('<td>').text('T No: ' + table.tableNumber);
         tableRow.append(tableNumberColumn);
 
         var tableStatus = $('<td>').text(table.status).addClass(statusClass);
