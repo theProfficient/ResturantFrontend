@@ -95,6 +95,7 @@
                                     <a href="index.html" class="act-link">Home </a>
                                 </li>
                                 <li><a href="menu.html"> Menu</a></li>
+                                <li id="create_table"><a href="createTable.html"> Create Table</a></li>
                                 <li id="creatingMenuType"><a href="create_menu.html"> Create Menu</a></li>
                                 <li id="get_all_tables"><a href="alltables.html"> Get All Tables</a></li>
                                 <li id="create_member"><a href="signup.html"> Create Employee</a></li>
@@ -626,15 +627,18 @@
             // const userRole = "User"; //testing perpose
             const introduceNewDishBtn = document.getElementById("create_new_dish");
             const introduceMenu = document.getElementById("creatingMenuType");
-            const createEmployee = document.getElementById("create_member")
+            const createEmployee = document.getElementById("create_member");
+            const createTable = document.getElementById("create_table");
             if (userRole === "Admin") {
                 introduceNewDishBtn.style.display = "block";
                 introduceMenu.style.display = "block";
                 createEmployee.style.display = "block";
+                createTable.style.display = "block"
             } else {
                 introduceNewDishBtn.style.display = 'none';
                 introduceMenu.style.display = "none";
                 createEmployee.style.display = "none";
+                createTable.style.display = "none";
 
             }
         });
